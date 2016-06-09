@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">UDPCommunication</string>
+
+    <string name="group_nodes">Group Nodes</string>
+    <string name="forming_group">Forming Group(s) </string>
+    <string name="completed_grouping">Completed Grouping</string>
+
+
+    <string name="obtain_hub_ip">Obtain HUB IP</string>
+    <string name="waiting_for_hub_ip">Retrieving HUB IP</string>
+    <string name="completed_receiving_hub_ip">Completed Receiving HUB IP</string>
+
+    <string name="manage_rooms">Manage rooms</string>
+
+    <string name="manage_bands">Manage bands</string>
+    <string name="add_band">Add a band</string>
+    <string name="remove_band">Remove a band</string>
+    <string name="track_band">Track a band</string>
+
+    <string name="triangulate">Triangulate</string>
+    <string name="synchronise">Synchronise Data</string>
+
+    <string name="countdown_timer">3 Seconds Remaining</string>
+    <string name="timeout">Timeout!</string>
+</resources>
