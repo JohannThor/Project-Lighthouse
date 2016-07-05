@@ -1,351 +1,468 @@
 % Author: M. Yahia Al Kahf, June 2016
 
-classdef Functionalities_V2
+% This is the coordiantor program for the UKFC/Cities Unlocked
+% indoor triangulation project.
+% It needs to be located in the same file as the Functionalities M-file
+
+% Get hub ip address
+% First line outputs the host name and ip address
+address = java.net.InetAddress.getLocalHost;
+% Only read ip address
+ipv4 = char(address.getHostAddress);
+
+% Temporary hardcoding node positions and grid dimentions
+% Once map of rooms is established then these distances should
+% become inputs
+nodesPos = [0 1.8 0;
+            0 0 4.1];
+% The room's diagonal distance
+maxTargetDist = 4.5;
+
+% Setup databases in shape of maps
+SensorMap = containers.Map('KeyType', 'double', 'ValueType', 'any');
+% SensorList entry:
+% <GroupName> / <Device> + <Device no> / <ip address>
+RoomMap = containers.Map('KeyType', 'double', 'ValueType', 'any');
+% RoomList entry:
+% <RoomName> / <Master ip address> / <Number of nodes in room>
+BandMap = containers.Map('KeyType', 'double', 'ValueType', 'any');
+% BandList entry:
+% <BandName> / <Device> + <Device no> / <ip address> / <LastPos>
+
+% number of masters in the system
+mcount = 0;
+% number of slaves in the system
+scount = 0;
+% number of devices (master + slaves) in the system
+devcount = 0;
+% number of bands in the system
+bcount = 0;
+% number of rooms in the system
+rcount = 0;
+
+% data array size
+size = 10640;
+
+% remote port which is going to be fixed for all communications
+rport = 8050;
+% local ports which are used for communication with various devices
+lport = 8050;
+mport = 8051;
+sport1 = 8052;
+sport2 = 8053;
+pport = 8054;
+baport = 8055;
+dport = 8056;
+brport = 8060;
+
+% Setup UDP connection and open it
+HubUDP = udp('0.0.0.0', rport, 'LocalPort', lport, 'Timeout', inf); 
+fopen(HubUDP);
+
+while 1
+    % continously read on the udp port
+    message = fscanf(HubUDP);
+    % retracts command word from rest of message
+    [command, rest] = strtok(message);
     
-    methods (Static)
+    % Compare command word with possible keywords 
+    discover = strcmp(command, 'Discover');
+    store = strcmp(command, 'Store');
+    group = strcmp(command, 'Group');
+    name = strcmp(command, 'Name');
+    state = strcmp(command, 'State');
+    triangulate = strcmp(command, 'Triangulate');
+    sync = strcmp(command, 'Sync');
+    ended = strcmp(command, 'End');
+   
+    % command Discover has been received
+    if(discover == 1)
+        % extract discover target device and compare with keyword "hub"
+        [device, rest] = strtok(rest);
+        hub = strcmp(device, 'Hub');
         
-        % This function will send "Store Hub <ip>" to the devices that 
-        % request the hub's ip address
-        function out = Store_Hub(dipv4, rport, lport, ipv4) 
-            cast = udp(dipv4, rport, 'LocalPort', lport);
-            fopen(cast);
-            pause(2);
-            message = ['Store Hub ' num2str(ipv4) ' '];
-            fprintf(cast, message);
-            out = 'Sent Store Hub';
-            fclose(cast);
+        if(hub == 1)
+            % if "Discover Hub" has been received then the hub must 
+            % respond with its own ip address
+            disp('Received Discover Hub');
+            [dipv4, trash] = strtok(rest);
+            sent = Functionalities.Store_Hub(dipv4, rport, dport, ipv4);
         end
         
-        % This function will check if the received device info has not 
-        % already been stored
-        % It outputs "1" if duplicate detected
-        function out = Dup_Check(dipv4, Map, count)
-            for c = 1:count
-                info = Map(c);
-                dup = strcmp(info(3), dipv4);
-                if (dup == 1)
-                    break
-                end
-            end
-            out = dup;
-        end
-        
-        % This function adds a master to SensorList
-        % It either stores the new master as the first element of the list
-        % or add it in between the last master and the first slave
-        function [SensorMap, mcount, devcount] = Add_Master(value, SensorMap, mcount, devcount)
-            % If list is empty
+    % command Store has been received
+    elseif(store == 1)
+        % extract sender's nature and compare with possible keywords
+        [param, rest] = strtok(rest);
+        master = strcmp(param, 'Master');
+        slave = strcmp(param, 'Slave');
+        band = strcmp(param, 'Band');
+        rname = strcmp(param, 'Room_Name');
+        bname = strcmp(param, 'Band_Name');
+
+        % message sent by a master
+        if(master == 1)
+            % extract master's ip address
+            [dipv4, trash] = strtok(rest);
+            disp('Received Store Master');
+            % Hub responds with its own ip address
+            sent = Functionalities.Store_Hub(dipv4, rport, mport, ipv4);
+            disp('Sent Store Hub to master');
+            
+                                    %%%%%% Update database with newly received device %%%%%%
+                                    
+            % preparing new list entry
+            value = {'GroupName' ['Master ' num2str(mcount + 1)] num2str(dipv4)};
+            
+            % If database is empty no need for duplicate check
             if(devcount == 0)
-                % increase device and master counters
-                devcount = devcount + 1;
-                mcount = mcount + 1;
-                % create a new device entry and use devcount as map key to
-                % that entry
-                SensorMap(devcount) = value;
-            % if list contains saved devices
-            else
-                % Shift down existing slaves to make space for new master
-                counter = 0;
-                for c = mcount+1:devcount
-                    q = devcount - counter;
-                    SensorMap(q+1) = SensorMap(q);
-                    counter = counter + 1;
-                end
-                % increase device and master counters
-                devcount = devcount + 1;
-                mcount = mcount + 1;
-                % create a new device entry and use new mcount as map key 
-                % to that entry
-                SensorMap(mcount) = value;
-            end
-        end
-        
-        % This function adds a slave to SensorList
-        % It stores the new slave as the last element of the list
-        function [SensorMap, scount, devcount] = Add_Slave(value, SensorMap, scount, devcount)
-            % increase device and slave counters
-            devcount = devcount + 1;
-            scount = scount + 1;
-            % create a new device entry and use new devcount as map key 
-            % to that entry
-            SensorMap(devcount) = value;
-        end
-        
-        % This function adds a band to BandList
-        % It stores the new band as the last element of the list
-        function [BandMap, bcount] = Add_Band(ipv4, value, BandMap, bcount)
-            % increase band counter
-            bcount = bcount + 1;
-            % create a new device entry and use new bcount as map key 
-            % to that entry
-            BandMap(ipv4) = value;
-        end
-        
-        % This function tells all slaves to listen to ultrasound
-        function out = Slaves_Us_Rx(SensorMap, mcount, devcount, rport, sport1)
-            % Go through all slaves
-            for p = mcount+1:devcount
-                % extract slave ip
-                sInfo = SensorMap(p);
-                sipv4 = sInfo{4};
-                % communicate to slave and close port when done
-                sUDP = udp(sipv4, rport, 'LocalPort', sport1); 
-                fopen(sUDP);
-                fprintf(sUDP, 'State Ultrasound_Rx ');
-                fclose(sUDP);
-                out = ('Sent State Ultrasound_Rx to slave');
-            end
-        end
-        
-        % This functions tells the selected master to transmit ultrasound
-        function out = Master_Us_Tx(mipv4, rport, mport)
-            mUDP = udp(mipv4, rport, 'LocalPort', mport);  
-            fopen(mUDP);
-            fprintf(mUDP, 'State Ultrasound_Tx ');
-            fclose(mUDP);
-            out = ['Sent State Ultrasound_Tx to master ', mipv4];
-        end
-        
-        % This function will look into SensorList for the slave that has
-        % responded to the master's ultrasound using the device's ip
-        % address and will group that device with the master once found
-        % within the list
-        function SensorList = Group_Slave(c, dipv4, SensorList, mcount, devcount)
-            % extract ip address of each slave
-            for o = mcount+1:devcount
-                info = SensorList(o);
-                sipv4 = info{4};
-                % compare extraced ip address with received one
-                comp = strcmp(dipv4, sipv4);
+                [SensorMap, mcount, devcount] = Functionalities.Add_Master(value, SensorMap, mcount, devcount);
                 
-                % matching slave's key in the list is saved
-                if(comp == 1)
-                    key = o;
-                    break
-                end
-            end
-            if (key ~= 0)
-                % Replace the group of matching slave with the group
-                % assigned to the master
-                info = SensorList(key);
-                info(1) = {['Group ' num2str(c)]};
-                SensorList(key) = info;
-            end
-        end
-        
-        % This function tells the phone via broadcast that node grouping
-        % hsa been completed
-        function out = Group_Formed(rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            fprintf(bcast, 'Group Formed');
-            fclose(bcast);
-            out = 'Sent Group Formed';
-        end
-        
-        % This function compares the ip of the nodes to the ip of the
-        % device that sent the state message. If a match is found then
-        % the key to the matching node in the list is saved and the 
-        % not grouped flag is off
-        function [key, ngroup] = Find_Node(dipv4, SensorList, devcount)
-            % set flags to initial values
-            key = 0;
-            ngroup = 1;
-            % go through all nodes in list, extract their ip addresses and
-            % compare these with sender's ip
-            for r = 1:devcount
-                info = SensorList(r);
-                ipv4 = info{4};
-                comp = strcmp(dipv4, ipv4);
-                % if match is found then save key to node
-                if(comp == 1)
-                    key = r;
-                    info = SensorList(key);
-                    % make sure that node belongs to previously formed
-                    % group
-                    ngroup = strcmp(info{1}, 'GroupName');
-                    % node found, no need to continue looking
-                    break
-                end
-            end
-        end
-        
-        % This function answer the phone with an expected reply fed from
-        % the main code Hub_Code
-        function out =  Phone_Reply(message, rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            fprintf(bcast, message);
-            out = ['Sent ', message, ' to phone'];
-        end
-        
-        % This function communicates, to the phone via broadcast, a name
-        % request if node status has been verified or a status report if
-        % status has not been verified
-        function out =  Phone_Reply1(key, ngrouped, rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            
-            % If node is found and is grouped
-            if (key ~= 0 && ngrouped == 0)
-                fprintf(bcast, 'Discover Room_Name');
-                out = 'Sent Discover Room_Name';
-            % If node is not grouped
-            elseif(key ~= 0 && ngrouped == 1)
-                fprintf(bcast, 'Node Not Grouped');
-                out = 'Sent Node Not Grouped';
-            % If node is not found
-            elseif(key == 0)
-                fprintf(bcast, 'Node Not Found');
-                out = 'Sent Node Not Found';
-            end
-            fclose(bcast);            
-        end
-        
-        % This function informs the phone that the group selected has been
-        % named
-        function out =  Phone_Reply2(rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            fprintf(bcast, 'Group Named');
-            fclose(bcast);
-            out = 'Sent Group Named';
-        end
-        
-        % This function either informs the phone that the band has been
-        % renamed or coomunicates its old name
-        function out =  Phone_Reply3(comp, rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            if (comp == 1)
-                fprintf(bcast, 'Band Named');
-                out = 'Sent Band Named';
             else
-                fprintf(bcast, ['Band_Name Failed', name]);
-                out = 'Sent Old Band Name';
+                % Check if device has already been stored
+                dup = Functionalities.Dup_Check(dipv4, SensorMap, devcount);
+                
+                % If duplicate check is passed then device is added to
+                % SensorList
+                if(dup == 0)
+                    [SensorMap, mcount, devcount] = Functionalities.Add_Master(value, SensorMap, mcount, devcount);
+                end
             end
-            fclose(bcast);
-        end
-        
-        function out =  Phone_Reply4(bname, rname, rport, brport)
-            bcast = udp('255.255.255.255', rport, 'LocalPort', brport);
-            fopen(bcast);
-            fprintf(bcast, ['Triangulate' bname, rname]);
-            out = 'Sent Band Location';
-            fclose(bcast);
-        end
-        
-        function [SensorList, RoomList] = Change_RName(key, SensorList, RoomList)
-            % extract group name of node that had its button pressed
-            info = SensorList(key);
-            curname = info{1};
+                                                            %%%%%%
             
-            % Change group name of nodes that adhere to same group as
-            % pressed node
+            % Display updated SensorList
             for q = 1:devcount
-                info = SensorList(q);
-                % compare group name of node to group name of pressed node
-                % and change name to given one if comparison checks out
-                if(strcmp(curname, info{1}))
-                    info{1} = name;
-                    SensorList(q) = info;
-                end
-            end 
+                disp(SensorMap(q));
+            end
             
-            % Update RoomList with new name
-            for q = 1:mcount
-                info = RoomList(q);
-                % change name of group once it has been found in the list
-                if(strcmp(curname, info{1}))
-                    info{1} = name;
-                    RoomList(q) = info;
+       % message sent by a slave   
+       elseif(slave == 1)
+           % extract slave's ip address
+           [dipv4, trash] = strtok(rest);
+           disp('Received Store Slave');
+           % Hub responds with its own ip address
+            sent = Functionalities.Store_Hub(dipv4, rport, sport1, ipv4);
+            disp('Sent Store Hub to slave');
+          
+                                    %%%%%% Update database with newly received device %%%%%%
+           % preparing new list entry                         
+           value = {'GroupName' ['Slave ' num2str(scount + 1)] num2str(dipv4)};
+           
+           % If database contains no slaves no need for duplicate check
+           if(scount == 0)
+               [SensorMap, scount, devcount] = Functionalities.Add_Slave(value, SensorMap, scount, devcount);
+               
+           else
+               % Check if device has already been stored
+               dup = Functionalities.Dup_Check(dipv4, SensorMap, devcount);
+               
+               % If duplicate check is passed then device is added to
+               % SensorList
+               if(dup == 0)
+                   [SensorMap, scount, devcount] = Functionalities.Add_Slave(value, SensorMap, scount, devcount);
+               end
+           end
+                                                            %%%%%%
+           
+           % Display updated SensorList    
+           for q = 1:devcount
+               disp(SensorMap(q));
+           end
+        
+        % message sent by a slave
+        elseif(band == 1)
+            % extract type of band info received
+            [type, rest] = strtok(rest);
+            [test, trash] = strtok(rest);
+            % if info was only to store band
+            if (isempty(trash))
+                dipv4 = type;
+                disp('Received Store Band');
+                
+                % Hub responds with its own ip address
+                sent = Functionalities.Store_Hub(dipv4, rport, baport, ipv4);
+                disp('Sent Store Hub to band');
+           
+                                    %%%%%% Update database with newly received device %%%%%%
+                % preparing new list entry                         
+                value = {'BandName' 'LastPos'};
+           
+                % If database contains no bands no need for duplicate check
+                if(bcount == 0)
+                    [BandMap, bcount] = Functionalities.Add_Band(dipv4, value, BandMap, bcount);
+           
+                else
+                    % Check if device has already been stored
+                    dup = Functionalities.Dup_Check(dipv4, BandMap);
+               
+                    % If duplicate check is passed then device is added to
+                    % BandList
+                    if(dup == 0)
+                        [BandMap, bcount] = Functionalities.Add_Band(dipv4, value, BandMap, bcount);
+                    end
                 end
+                
+            % if info was the name of the stored band
+            else
+                name = type;
+                dipv4 = test;
+                
+                disp('Received Band Name');
+                % Rename band to newly assigned name given by phone
+                [newname, BandMap] = Functionalities.Change_BName(dipv4, name, BandMap, bcount);
+            
+                % compare band name with name given by the phone
+                comp = strcmp(name, newname);
+                % send response on naming status of band to phone
+                sent =  Functionalities.Phone_Reply3(comp, rport, brport);
+            end
+                                                            %%%%%%
+                                                                       
+           % Display updated BandList    
+           for q = 1:bcount
+               disp(BandMap(q));
+           end
+        
+        % Room name sent by the phone
+        elseif(rname == 1)
+            % extract room's given name
+            [name, trash] = strtok(rest);
+            % Change name of node group to given room name
+            [SensorMap, RoomMap] = Functionalities.Change_RName(key, ripv4, SensorMap, RoomMap);
+            % Tell phone of process completion
+            sent = Functionalities.Phone_Reply2(rport, brport);
+            
+            % Display updated SensorList
+            for q = 1:devcount
+                disp(SensorMap(q));
             end
         end
+            
+    % command Group has been received
+    elseif(group == 1)
+        % extract message info and compare with keyword "Nodes"
+        [info, trash] = strtok(rest);
+        nodes = strcmp(info, 'Nodes');
         
-        % This function either renames the band of interest or outputs its
-        % current name
-        function [newname, BandList] = Change_BName(dipv4, name, BandList, bcount)
-            % Loops through bands
-            for q = 1:bcount
-                % extracts exisitng name
-                info = BandList(q);
-                % finds band of interest
-                if(strcmp(dipv4, info{3}))
-                    % sees whether band has already been named
-                    if(strcmp('BandName', info{1}))
-                        % if not then gives it a new name
-                        info{1} = name;
-                        % updates BandList
-                        BandList(q) = info;
-                        newname = name;
-                        break
-                    % if yes then outputs old name
+        % This command comming from the phone initiates the grouping of the
+        % devices
+        if(nodes == 1)
+            disp('Received Group Nodes');
+            % send ultrasound triggers to masters and slaves by asking
+            % masters to send one by one and slaves to listen and report
+            % back for each master transmission
+            for c = 1:mcount
+                % 1. retrieve master info from database 
+                % 2. extract master's ip address
+                % 3. change group name
+                % 4. update RoomList
+                mInfo = SensorMap(c);
+                mipv4 = mInfo{4};
+                mInfo(1) = {['Group ' num2str(c)]};
+                SensorMap(c) = mInfo;
+                rcount = rcount + 1;
+                entry = {mInfo(1) mInfo(4) ['Room ' num2str(rcount)]};
+                RoomMap(c) = entry;
+               
+                % Tell all slaves to send ultrasound 
+                sent = Functionalities.Slaves_Us_Rx(SensorMap, mcount, devcount, rport, sport1);
+                disp(sent);
+               
+                % Tell master to emmit ultrasound
+                sent = Functionalities.Master_Us_Tx(mipv4, rport, mport);
+                disp(sent);
+                
+                % Slaves will answer back very quickly so to capture all
+                % responses a timeout of 2 seconds will be used on the udp
+                % port.
+                % Once it is reached then it is safe to assume that all
+                % slaves that have heard the master have been grouped.
+                
+                % Create new udp port with timeout
+                fclose(HubUDP);
+                HubUDP2 = udp('0.0.0.0', rport, 'LocalPort', lport, 'Timeout', 2);
+                fopen(HubUDP2);
+                % Clear variable message
+                message = 0;
+                
+                % while timout has not been reached the while loop will
+                % continuously scan
+                while (message ~= '')
+                    message = fscanf(HubUDP2);
+                    % extract command from message and compare it to
+                    % keyword 'Group Heard'
+                    [command, rest1] = strtok(message);
+                    [info, rest2] = strtok(rest1);
+                    heard = strcmp([command, ' ', info], 'Group Heard');
+                    
+                    % Received 'Group Heard' from slave
+                    if(heard == 1)
+                        % Extract slave ip address
+                        [dipv4, trash] = strtok(rest2);
+                        % group master and slave
+                        SensorMap = Functionalities.Group_Slave(c, dipv4, SensorMap, mcount, devcount);
+                    end
+                end
+                % Remove timeout
+                fclose(HubUDP2);
+                fopen(HubUDP);
+            end
+            
+            % Infrom the phone that node grouping has been completed
+            sent = Functionalities.Group_Formed(rport, brport);
+            
+            % Display updated SensorList
+            for q = 1:devcount
+                disp(SensorMap(q));
+            end
+        end
+   
+    % Codeword State has been received
+    elseif(state == 1)
+        % extract interface of which the state is a concern and the
+        % sender's ip address
+        [interface, rest2] = strtok(rest1);
+        [ripv4, trash] = strtok(rest2);
+        % compare interface with keyword 'Button_Pressed'
+        button = strcmp(interface, 'Button_Pressed');
+        
+        % if grouping button on node has been pressed then it is time to
+        % name the group to which this node belongs
+        if(button == 1)
+            disp('Received State Button_Pressed');
+            [key, ngroup] = Functionalities.Find_Node(ripv4, SensorMap, devcount);
+            
+            % Inform phone of node status, ask for group name if status
+            % verified
+            sent = Functionalities.Phone_Reply1(key, ngrouped, rport, brport);
+        end
+        
+    % Codeword Triangulate has been received
+    elseif (triangulate == 1)
+        % found flag reset
+        found = 0;
+        % extracts device type and name
+        [info, rest] = strtok(rest);
+        
+        % received triangulate command from phone
+        if(strcmp(info, 'Band'))
+            [name, trash] = strtok(rest);
+        
+            % Look for targeted band in BandList
+            targetinfo = Functionalities.Identify_Target(name, BandMap, bcount);
+            dipv4 = targetinfo(3);
+        
+            % If band position has already been determined then best place to
+            % look for it again would be its last position
+            if(~strcmp('LastPos', targetinfo{4}))
+                % Find appropriate nodes to activate.
+                [mInfo, s1Info, s2Info] = Functionalities.Identify_Nodes(targetinfo, SensorMap, RoomMap, mcount, devcount);
+                % Activate found nodes and band to send or capture ultrasound
+                sent = Functionalities.Activate_Devices(mInfo, s1Info, s2Info, dipv4);
+                % Look for band response
+                bmessage = fscanf(HubUDP);
+                % Band has heard ultrasound and has sent ADC samples
+                if(~strcmp(bmessage, 'Group Not Heard'))
+                    % set found flag
+                    found = 1;
+                    % extract command, band ip and ADC data
+                    [command, rest] = strtok(bmessage);
+                    [bipv4, data] = strtok(rest);
+                    % split data into array of individual samples
+                    samples = strsplit(data, ';');
+                    % create an array of zeros that has the same size as
+                    % the data array
+                    numdata = zeros(1,size);
+                    % convert samples from string to doubles
+                    for o = 1:size
+                        numdata(o) = str2double(samples{o});
+                    end
+                    if(~max(numdata) >= 1.4)
+                        % Agree on how to acquire node positions
+                        % Agree on how to acquire grid dimensions
+                        % Call TDOA function
+                        [BandPos] = TDOA(rInfo(3), nodesPos, maxTargetDist, numdata);
+                        if(~isnan(BandPos))
+                            found = 1;
+                        end
+                    % Clipping has occured, Band has been found without
+                    % need for TDOA (because cross-corelation will not
+                    % return anything)
+                    % Inform phone of band position
                     else
-                        newname = info{1};
+                        found = 1;
                     end
                 end
             end
+            
+            for c = 1:mcount
+                % Stop looping if band position has been triangulated
+                if(found == 1)
+                    break
+                end
+                % If last position was already looked at then skip that
+                % room
+                rInfo = RoomMap(c);
+                if (strcmp(rInfo(1), targetinfo{4}))
+                    continue
+                end
+                % Find appropriate nodes to activate.
+                [mInfo, s1Info, s2Info] = Functionalities.Identify_Nodes(targetinfo, SensorMap, RoomMap, mcount, devcount);
+                % Activate found nodes and band to send or capture ultrasound
+                sent = Functionalities.Activate_Devices(mInfo, s1Info, s2Info, dipv4);
+                
+                data = [];
+                bmessage = fscanf(HubUDP); % collect data from band
+                for packetnum = 1:76 % deal with individual packets
+                    input = fscanf(HubUDP2); % acquire data array
+                    split = strsplit(input, ' '); % split array into array of individual samples
+                    command = split(1:2); % extract message
+                    samples = split(3:end); % get rid of commands
+                    sampleschar = char(samples); % transform to characters
+                    output = transpose(str2num(sampleschar)); % transform to numbers
+                    data = [data, output];
+                end
+                if(~max(data) >= 1.4)
+                    % Agree on how to acquire node positions
+                    % Agree on how to acquire grid dimensions
+                    % Call TDOA function
+                    [BandPos] = TDOA(rInfo(3), nodesPos, maxTargetDist, data);
+                    if(~isnan(BandPos))
+                        found = 1;
+                    end
+                % Clipping has occured, Band has been found without
+                % need for TDOA (because cross-corelation will not
+                % return anything)
+                % Inform phone of band position
+                else
+                    found = 1;
+                end
+            end
+        end
+        % Inform phone of band position
+        if (found == 1)
+            sent = Functionalities.Phone_Reply4(bInfo(1), rinfo(1), rport, brport);
         end
         
-        % This function looks for the targertted band and outputs its
-        % properties
-        function targetinfo = Identify_Target(name, BandList, bcount)
-            % Loops through list until target is found
+    % Phone requests syncing of the lists with the hub
+    % hub replies with list elements one by one
+    elseif(sync == 1)
+        [listname, trash] = strtok(rest);
+        if(strcmp(listname, 'Band_List'))
             for q = 1:bcount
-                info = BandList(q);
-                if(strcmp(name, info{1}))
-                    % target = q;
-                    % info of interest is stored
-                    targetinfo = info;
-                    % target found, no need to keep looking
-                    break
-                end
+                info = BandMap(q);
+                sent = Functionalities.Phone_Reply([BandMap(q), '; '], rport, brport);
             end
-        end
-            
-        % This function identifies the nodes present in the target room
-        function [mInfo, s1Info, s2Info] = Identify_Nodes(targetinfo, SensorList, mcount, devcount)
-            % Loop through masters until the one located in the target room
-            % is found
-            for c1 = 1:mcount
-                mInfo = SensorList(c1);
-                if(strcmp(targetinfo{4}, mInfo{1}))
-                    break
-                end
-            end
-            % Loop through slaves until one located in the target room is
-            % found
-            for c2 = mcount+1:devcount
-                s1Info = SensorList(c2);
-                if(strcmp(targetinfo{4}, s1Info{1}))
-                    break
-                end
-            end
-            % Loop through slaves until the second one in the target room
-            % is found
-            for c3 = c2+1:devcount
-                s2Info = SensorList(c3);
-                if(strcmp(targetinfo{4}, s2Info{1}))
-                    break
-                end
+        elseif(strcmp(listname, 'Room_List'))
+            for q = 1:rcount
+                info = RoomMap(q);
+                sent = Functionalities.Phone_Reply([RoomMap(q), '; '], rport, brport);
             end
         end
         
-        % This function tells the nodes to trasnmit ultrasound and the band
-        % to listen to their transmissions
-        function out = Activate_Devices(mInfo, s1Info, s2Info, dipv4)
-            mUDP = udp(mInfo(4), rport, 'LocalPort', mport);
-            s1UDP = udp(s1Info(4), rport, 'LocalPort', sport1);
-            s2UDP = udp(s2Info(4), rport, 'LocalPort', sport2);
-            baUDP = udp(dipv4, rport, 'LocalPort', baport);
-            
-            fprintf(baUDP, 'State Ultrasound_Rx '); 
-            fprintf(mUDP, 'State Ultrasound_Tx '); 
-            fprintf(s1UDP, 'State Ultrasound_Tx '); 
-            fprintf(s2UDP, 'State Ultrasound_Tx ');
-            
-            out = 'Sent Ultrasound Commands to Devices';
-        end
+    % If "End" is received then scanning of HubUDP is terminated and
+    % program exits while loop
+    elseif(ended == 1)
+        fclose(instrfind);
+        break
     end
 end
