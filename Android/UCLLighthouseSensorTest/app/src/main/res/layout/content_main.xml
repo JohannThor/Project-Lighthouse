@@ -26,7 +26,7 @@
         android:layout_below="@+id/feedback"
         android:text="hi" />
     <TextView
-        android:id="@+id/magnetic"      
+        android:id="@+id/magnetic"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gyro"
@@ -35,7 +35,7 @@
         android:id="@+id/accell"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/magnetic"
+        android:layout_below="@+id/magnetic" 
         android:text="123" />
     <TextView
         android:id="@+id/grav"
