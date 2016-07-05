@@ -25,6 +25,7 @@ import com.indooratlas.android.sdk.IALocationManager;
 import com.indooratlas.android.sdk.IALocationRequest;
 import com.indooratlas.android.sdk.IARegion;
 
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener,IALocationListener, IARegion.Listener {
     private final int CODE_PERMISSIONS = 0;
     private IALocationManager mIALocationManager;
