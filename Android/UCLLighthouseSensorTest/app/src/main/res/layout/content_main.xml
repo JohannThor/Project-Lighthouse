@@ -36,7 +36,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/magnetic" 
-        android:text="123" />
+        android:text="123"/>
     <TextView
         android:id="@+id/grav"
         android:layout_width="fill_parent"
