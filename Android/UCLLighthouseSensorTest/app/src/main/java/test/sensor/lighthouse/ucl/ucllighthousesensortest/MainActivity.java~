@@ -187,10 +187,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 stat.setText("onStatusChanged: Temporarily unavailable");
         }
     }
+
     @Override
     public void onEnterRegion(IARegion iaRegion) {
         stat.setText("Entered region: " + iaRegion.getId());
     }
+
     @Override
     public void onExitRegion(IARegion iaRegion) {
         stat.setText("Exited region: " + iaRegion.getId());
