@@ -35,8 +35,13 @@
         android:id="@+id/accell"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_below="@+id/magnetic"
         android:text="123" />
+=======
+        android:layout_below="@+id/magnetic" 
+        android:text="123"/>
+>>>>>>> 14246eee6ca3b1ad27c610209ee61dc2cc70ca5a
     <TextView
         android:id="@+id/grav"
         android:layout_width="fill_parent"
