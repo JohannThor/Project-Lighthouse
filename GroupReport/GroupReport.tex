@@ -122,32 +122,118 @@ This work was made in collaboration with Microsoft and the Guide Dogs associatio
 \maketitle
 
 \section{Introduction}
+% Discuss prior work and the Cities Unlocked project briefly
+We are working with Microsoft and the Guide Dogs Association to develop solutions for the visually impaired, to help them tackle the challenges of day to day tasks and empower them to participate in society in the same way as the non visually impaired.\\
+The project falls under the Cities Unlocked 
+%TODO: Citation
+umbrella, an initiative that was started to respond to the lack of available guide dogs in the UK.\\
+We aim to improve the experience of the members of the visually impaired population when entering specific indoor environments.
+We will focus on environments that are unfamiliar to the user and that are not equipped with any specific navigation infrastructure beforehand.
+We will do this by employing a range of wearable  sensors to build a dynamic map of the environment and give the user feedback on their surroundings.
+% Describe the initial expectation of using Ultrasound beacons
+% Explain why the project moved away from that and towards Sensor Fusion
+% Describe our project and thesis statement.
+% Describe our team and roles maybe?
+
+\section{Kickoff}
+\subsection{Initial assumptions}
+The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in pre-defined locations in the room. The armband, in conjunction with a computer and an Android device, would then triangulate the position of the armband in space.\\
+The use cases that we were to explore were centered around detecting gestures and possible indoor location possibilities.\\
+However, soon after we were presented with the hardware we identified major flaws in how they worked. We found that the location accuracy was conciderably less than what was initially described. The initial description we got of the project was that the accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
+This blocks the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
+%TODO: citation
+Another limitation of the hardware is that it only functions if 3 beacons are within a 130° cone infront of the receiver. This severly limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.
+%TODO: citation
+\subsection{Client vision}
+Our initial contact with the client was a brainstorming session where he expressed his vision for the project. We then bounced ideas around and found a subject area that was open for research and of value to our client.\\
+Microsoft Research have done some investigation into using Sensor Fusion
+%TODO: citation
+and wanted to see what applications for that technology exist to aid the visually impaired.
+After the meeting the team met several times to brainstorm and research possible applications and decided on a few possible project proposals.
+The was presented the proposals and expressed interest in continuing with one of them.\\
+\subsection{Final Project Proposal}
+For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+Using sensor fusion the team is to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in it's environment.
+The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
+%TODO: citation 
+\section{Literature review}
+%TODO: Boring, do this later
+
+\section{Requirements Analysis}
+
+\subsection{Stakeholders}
+% Dean and ultrasound
+% Jens and Emmanuel
+% Jarnail
+% CS students
+% The visually impaired
+\subsubsection{Microsoft}
+
+\subsubsection{Academic supervisors}
+
+\subsubsection{CS Masters Students}
+
+\subsubsection{The visually impaired}
+
+\subsection{Discovery}
+% Our process of removing our dependency on the ultrasound EEE beacons.
+% Describe the dialog with our client and the goals of Cities Unlocked
+
+\subsection{Goal modeling}
+% Describe the high level goals discovered, their structure and aim
+
+\subsection{Requirements}
+% Go over our requirements analysis process, breaking down goals into smaller and smaller parts.
+
+\section{Project Management}
+\subsection{Processes}
+% Describe tools and processes, Scrum, Kanban etc.
+
+\subsection{Tools}
+% Jira, Slack? Maybe not needed.
+
+\subsection{Communication}
+% Talk about our communication and meeting schedule.
+
+\subsection{Evaluation}
+% Our testing strategies, Continuous integration, Load and Unit testing
+
+\subsection{Challenges}
+% Is this the place to mention the challenges we faced with our client communication? 
+% With regards to the Lee Stott incident and our lack of use of Microsoft products.
 
 
-% Head 1
-\section{MMSN Protocol}
+\section{Architecture}
+% I am a bit unsure about how to approach this
 
-% Head 2
-\subsection{Frequency Assignment}
+\subsection{Challenges}
+% Discuss what challenges the architecture faces and what can be done to mitigate them
 
+\subsection{Implemented architecture}
+% Diagrams of our architecture
+% Explanations about what is what on the diagrams
+% Discussion of our decisions around the architecture
 
-% Head 3
-\subsubsection{Exclusive Frequency Assignment}
+\subsection{Evaluation and testing}
+% Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
 
+\section{Deliverables}
+\subsection{Current state}
+% Describe the current state of the project
+% Capabilities, how many of the Goals and Requirements have been fulfilled.
+% Quality requirements and the tests we used to evaluate them
 
-% Head 4
-\paragraph{Eavesdropping}
+\subsection{Evaluation}
+% Metrics and graphs showing the performance of certain parts of the project.
 
-
-\subsection{Basic Notations}
-
-
-\subsection{Problem Formulation}
+\section{Lifecycle and Future Work}
+\subsection{Maintenance and Scaling}
+% Describe how the project can be maintained and scaled in the event of deployment.
+% Talk about the migration plan to make Microsoft happy.
 
 
 \section{Conclusions}
 
-% Start of "Sample References" section
 
 % Appendix
 \appendix
