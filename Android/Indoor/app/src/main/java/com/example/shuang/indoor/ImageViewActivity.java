@@ -55,7 +55,11 @@ import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import ucl.LightHouse.LightHouseAPI;
+import ucl.LightHouse.UdpResponse;
 
 public class ImageViewActivity extends FragmentActivity implements SensorEventListener {
     private static final String TAG = "IndoorAtlasExample";
@@ -97,6 +101,20 @@ public class ImageViewActivity extends FragmentActivity implements SensorEventLi
                         + "Region:" + location.getRegion().toString() + "\n"
                         + "pointX:" + point.x + " | pointY:" + point.y + '\n'
                         + "bitmapWidth&Height:" + mFloorPlan.getBitmapWidth() + "*" + mFloorPlan.getBitmapHeight());
+
+
+                // Sending data when location changed
+                LightHouseAPI api = new LightHouseAPI();
+                HashMap<String, String> map = new HashMap<String, String>();
+
+                map.put("ID", String.valueOf(location.getRegion().getId()));
+                map.put("Longitude", String.valueOf(location.getLongitude()));
+                map.put("Latitude", String.valueOf(location.getLatitude()));
+                map.put("Accuracy", String.valueOf(location.getAccuracy()));
+
+
+                api.sendSensorDataAsync(map, new UdpResponse());
+
 
                 if (mImageView != null && mImageView.isReady()) {
                     mImageView.setDotCenter(point);
