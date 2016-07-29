@@ -7,8 +7,30 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * UdpPacketSender.java 
+ * Purpose: Send sensor data to Lighthouse platform. The server's IP and ports are stored in 
+ * config.properties file.
+ *
+ * @author Vesko
+ * @version 1.0 27.08.2016
+ */
+
 class UdpPacketSender {
-	
+
+	/**
+	 * Send array of bytes to the Lighthouse platform asynchronously.
+	 *  Since the data is sent asynchronously the
+	 * result is return as a callback function which should be overwritten by
+	 * extending the Response class.
+	 *
+	 * @param data
+	 *            json string represented as array of bytes
+	 * @param response
+	 *            class extending Response and implementing callback function
+	 * 
+	 * @return void
+	 */
 	public void sendPacketAsync(final byte[] data, final Response<Boolean> response) {
 
 		Thread t = new Thread(new Runnable() {
@@ -41,6 +63,14 @@ class UdpPacketSender {
 		t.start();
 	}
 	
+	/**
+	 * Send array of bytes to the Lighthouse platform synchronously.
+	 *
+	 * @param data
+	 *            json string represented as array of bytes
+	 * 
+	 * @return result of the sending as a boolean
+	 */
     public boolean sendPacketSync(final byte[] data) {
     	final AtomicBoolean result = new AtomicBoolean();
     	
