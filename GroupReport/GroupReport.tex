@@ -15,6 +15,8 @@
 
 % Package to generate and customize Algorithm as per ACM style
 \usepackage[ruled]{algorithm2e}
+\usepackage{textcomp}
+\usepackage{gensymb}
 \renewcommand{\algorithmcfname}{ALGORITHM}
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -48,7 +50,7 @@
 \begin{document}
 
 % Page heads
-\markboth{G. Zhou et al.}{A Multifrequency MAC Specially Designed for WSN Applications}
+\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
 
 % Title portion
 \title{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
@@ -69,7 +71,7 @@ Shuang Zhang
 %       currently affiliated with NASA.
 
 \begin{abstract}
-Multifrequency media access control has been well understood in
+Abstract goes here
 \end{abstract}
 
 
@@ -130,106 +132,77 @@ umbrella, an initiative that was started to respond to the lack of available gui
 We aim to improve the experience of the members of the visually impaired population when entering specific indoor environments.
 We will focus on environments that are unfamiliar to the user and that are not equipped with any specific navigation infrastructure beforehand.
 We will do this by employing a range of wearable  sensors to build a dynamic map of the environment and give the user feedback on their surroundings.
-% Describe the initial expectation of using Ultrasound beacons
-% Explain why the project moved away from that and towards Sensor Fusion
-% Describe our project and thesis statement.
-% Describe our team and roles maybe?
 
-\section{Kickoff}
-\subsection{Initial assumptions}
-The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in pre-defined locations in the room. The armband, in conjunction with a computer and an Android device, would then triangulate the position of the armband in space.\\
-The use cases that we were to explore were centered around detecting gestures and possible indoor location possibilities.\\
-However, soon after we were presented with the hardware we identified major flaws in how they worked. We found that the location accuracy was conciderably less than what was initially described. The initial description we got of the project was that the accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
-This blocks the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
-%TODO: citation
-Another limitation of the hardware is that it only functions if 3 beacons are within a 130° cone infront of the receiver. This severly limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.
-%TODO: citation
-\subsection{Client vision}
-Our initial contact with the client was a brainstorming session where he expressed his vision for the project. We then bounced ideas around and found a subject area that was open for research and of value to our client.\\
-Microsoft Research have done some investigation into using Sensor Fusion
-%TODO: citation
-and wanted to see what applications for that technology exist to aid the visually impaired.
-After the meeting the team met several times to brainstorm and research possible applications and decided on a few possible project proposals.
-The was presented the proposals and expressed interest in continuing with one of them.\\
-\subsection{Final Project Proposal}
-For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
-Using sensor fusion the team is to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in it's environment.
-The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
-%TODO: citation 
 \section{Literature review}
 %TODO: Boring, do this later
 
-\section{Requirements Analysis}
+\section{Proposed System}
+\subsection{Preliminary work}
+The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in pre-defined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.\\
+The use cases that were to be explore were centered around detecting gestures and possible indoor location possibilities.\\
+However, soon after the project was presented to the team the hardware was found to have several major flaws. The team found that the location accuracy was conciderably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
+This eliminates the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
+%TODO: citation
+Another limitation of the hardware is that it only functions if 3 beacons are within a 130\degree cone infront of the receiver. This severly limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.\\
+%TODO: citation
+Our initial contact with the client was a brainstorming session where he expressed his vision for the project. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\
+Microsoft Research have done some investigation into using Sensor Fusion
+%TODO: citation
+and wanted to see what applications for that technology in aiding the visually impaired.
+After the meeting the team met several times to brainstorm and research possible applications and decided on a few possible project proposals.
+These were presented to the client and he expressed interest in continuing with one of them.\\
+For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+Using sensor fusion the team was to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in it's environment.
+The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
+%TODO: citation 
 
-\subsection{Stakeholders}
-% Dean and ultrasound
-% Jens and Emmanuel
-% Jarnail
-% CS students
-% The visually impaired
-\subsubsection{Microsoft}
+\subsection{High level goals}
 
-\subsubsection{Academic supervisors}
-
-\subsubsection{CS Masters Students}
-
-\subsubsection{The visually impaired}
-
-\subsection{Discovery}
-% Our process of removing our dependency on the ultrasound EEE beacons.
-% Describe the dialog with our client and the goals of Cities Unlocked
-
-\subsection{Goal modeling}
-% Describe the high level goals discovered, their structure and aim
 
 \subsection{Requirements}
-% Go over our requirements analysis process, breaking down goals into smaller and smaller parts.
 
-\section{Project Management}
-\subsection{Processes}
-% Describe tools and processes, Scrum, Kanban etc.
+\subsection{System Architecture}
 
-\subsection{Tools}
-% Jira, Slack? Maybe not needed.
+\section{Implementation}
 
-\subsection{Communication}
-% Talk about our communication and meeting schedule.
 
-\subsection{Evaluation}
-% Our testing strategies, Continuous integration, Load and Unit testing
+\subsection{Technology}
+
+\subsection{Project Management}
+The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are 
+\subsubsection{Processes}
+Describe tools and processes, Scrum, Kanban etc.
+
+
+\subsubsection{Tools}
+Jira, Slack Maybe not needed.
+
+\subsubsection{Communication}
+Talk about our communication and meeting schedule.
+
+\subsubsection{Challenges}
+Is this the place to mention the challenges we faced with our client communication? 
+
+\subsection{Testing}
+Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
+
+\section{Evaluation}
+Metrics and graphs showing the performance of certain parts of the project.
 
 \subsection{Challenges}
-% Is this the place to mention the challenges we faced with our client communication? 
-% With regards to the Lee Stott incident and our lack of use of Microsoft products.
+Discuss what challenges the architecture faces and what can be done to mitigate them
 
-
-\section{Architecture}
-% I am a bit unsure about how to approach this
-
-\subsection{Challenges}
-% Discuss what challenges the architecture faces and what can be done to mitigate them
-
-\subsection{Implemented architecture}
-% Diagrams of our architecture
-% Explanations about what is what on the diagrams
-% Discussion of our decisions around the architecture
-
-\subsection{Evaluation and testing}
-% Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
-
-\section{Deliverables}
-\subsection{Current state}
-% Describe the current state of the project
-% Capabilities, how many of the Goals and Requirements have been fulfilled.
-% Quality requirements and the tests we used to evaluate them
-
-\subsection{Evaluation}
-% Metrics and graphs showing the performance of certain parts of the project.
+\section{Lessons Learnt}
 
 \section{Lifecycle and Future Work}
+\subsection{Current state}
+Describe the current state of the project\\
+Capabilities, how many of the Goals and Requirements have been fulfilled.\\
+Quality requirements and the tests we used to evaluate them\\
+
 \subsection{Maintenance and Scaling}
-% Describe how the project can be maintained and scaled in the event of deployment.
-% Talk about the migration plan to make Microsoft happy.
+Describe how the project can be maintained and scaled in the event of deployment.\\
+Talk about the migration plan to Azure.\\
 
 
 \section{Conclusions}
