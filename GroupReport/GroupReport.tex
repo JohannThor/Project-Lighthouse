@@ -15,6 +15,8 @@
 
 % Package to generate and customize Algorithm as per ACM style
 \usepackage[ruled]{algorithm2e}
+\usepackage{textcomp}
+\usepackage{gensymb}
 \renewcommand{\algorithmcfname}{ALGORITHM}
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -130,10 +132,6 @@ umbrella, an initiative that was started to respond to the lack of available gui
 We aim to improve the experience of the members of the visually impaired population when entering specific indoor environments.
 We will focus on environments that are unfamiliar to the user and that are not equipped with any specific navigation infrastructure beforehand.
 We will do this by employing a range of wearable  sensors to build a dynamic map of the environment and give the user feedback on their surroundings.
-% Describe the initial expectation of using Ultrasound beacons
-% Explain why the project moved away from that and towards Sensor Fusion
-% Describe our project and thesis statement.
-% Describe our team and roles maybe?
 
 \section{Literature review}
 %TODO: Boring, do this later
@@ -145,7 +143,7 @@ The use cases that were to be explore were centered around detecting gestures an
 However, soon after the project was presented to the team the hardware was found to have several major flaws. The team found that the location accuracy was conciderably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
 This eliminates the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
 %TODO: citation
-Another limitation of the hardware is that it only functions if 3 beacons are within a 130\circ cone infront of the receiver. This severly limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.\\
+Another limitation of the hardware is that it only functions if 3 beacons are within a 130\degree cone infront of the receiver. This severly limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.\\
 %TODO: citation
 Our initial contact with the client was a brainstorming session where he expressed his vision for the project. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\
 Microsoft Research have done some investigation into using Sensor Fusion
@@ -173,39 +171,38 @@ The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the s
 \subsection{Project Management}
 The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are 
 \subsubsection{Processes}
-% Describe tools and processes, Scrum, Kanban etc.
+Describe tools and processes, Scrum, Kanban etc.
 
 
 \subsubsection{Tools}
-% Jira, Slack? Maybe not needed.
+Jira, Slack Maybe not needed.
 
 \subsubsection{Communication}
-% Talk about our communication and meeting schedule.
+Talk about our communication and meeting schedule.
 
 \subsubsection{Challenges}
-% Is this the place to mention the challenges we faced with our client communication? 
-% With regards to the Lee Stott incident and our lack of use of Microsoft products.
+Is this the place to mention the challenges we faced with our client communication? 
 
 \subsection{Testing}
-% Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
+Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
 
 \section{Evaluation}
-% Metrics and graphs showing the performance of certain parts of the project.
+Metrics and graphs showing the performance of certain parts of the project.
 
 \subsection{Challenges}
-% Discuss what challenges the architecture faces and what can be done to mitigate them
+Discuss what challenges the architecture faces and what can be done to mitigate them
 
 \section{Lessons Learnt}
 
 \section{Lifecycle and Future Work}
 \subsection{Current state}
-% Describe the current state of the project
-% Capabilities, how many of the Goals and Requirements have been fulfilled.
-% Quality requirements and the tests we used to evaluate them
+Describe the current state of the project\\
+Capabilities, how many of the Goals and Requirements have been fulfilled.\\
+Quality requirements and the tests we used to evaluate them\\
 
 \subsection{Maintenance and Scaling}
-% Describe how the project can be maintained and scaled in the event of deployment.
-% Talk about the migration plan to make Microsoft happy.
+Describe how the project can be maintained and scaled in the event of deployment.\\
+Talk about the migration plan to Azure.\\
 
 
 \section{Conclusions}
