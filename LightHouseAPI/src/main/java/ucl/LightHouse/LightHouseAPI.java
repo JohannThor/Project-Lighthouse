@@ -1,5 +1,6 @@
 package ucl.LightHouse;
 
+import ucl.LightHouse.Interfaces.IPacketSender;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +17,17 @@ import java.util.HashMap;
  * @version 1.0 27.08.2016
  */
 public class LightHouseAPI {
+	
+	IPacketSender sender;
+	
+	public void LighthouseAPI(IPacketSender packetSender) {
+		sender = packetSender;
+	}
+	
+	public void LighthouseAPI() {
+		sender = new UdpPacketSender();
+	}
+	
 	/**
 	 * Sends data from sensors to the LightHouse platform asynchronously by
 	 * using UDP. Since the data is sent asynchronously the result is return as
@@ -30,10 +42,10 @@ public class LightHouseAPI {
 	 */
 	public void sendSensorDataAsync(HashMap<String, String> map, Response<Boolean> response) {
 		LighthouseDTO dto = new LighthouseDTO(map);
-		UdpPacketSender transfer = new UdpPacketSender();
+
 		byte[] bytesToSend = dto.toBytes();
 
-		transfer.sendPacketAsync(bytesToSend, response);
+		sender.sendPacketAsync(bytesToSend, response);
 	}
 
 	/**
@@ -46,7 +58,7 @@ public class LightHouseAPI {
 	 */
 	public boolean sendSensorDataSync(HashMap<String, String> map) {
 		LighthouseDTO dto = new LighthouseDTO(map);
-		UdpPacketSender transfer = new UdpPacketSender();
+		IPacketSender transfer = new UdpPacketSender();
 		byte[] bytesToSend = dto.toBytes();
 
 		transfer.sendPacketSync(bytesToSend);
