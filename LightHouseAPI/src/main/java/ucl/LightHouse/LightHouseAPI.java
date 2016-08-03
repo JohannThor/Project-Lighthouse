@@ -1,5 +1,6 @@
 package ucl.LightHouse;
 
+import ucl.LightHouse.Interfaces.IObstacleQuery;
 import ucl.LightHouse.Interfaces.IPacketSender;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,13 +20,16 @@ import java.util.HashMap;
 public class LightHouseAPI {
 	
 	IPacketSender sender;
+	IObstacleQuery query;
 	
-	public void LighthouseAPI(IPacketSender packetSender) {
+	public LightHouseAPI(IPacketSender packetSender,IObstacleQuery obstacleQuery) {
 		sender = packetSender;
+		query = obstacleQuery;
 	}
 	
-	public void LighthouseAPI() {
+	public LightHouseAPI() {
 		sender = new UdpPacketSender();
+		query = new ObstacleQuery();
 	}
 	
 	/**
@@ -58,10 +62,9 @@ public class LightHouseAPI {
 	 */
 	public boolean sendSensorDataSync(HashMap<String, String> map) {
 		LighthouseDTO dto = new LighthouseDTO(map);
-		IPacketSender transfer = new UdpPacketSender();
 		byte[] bytesToSend = dto.toBytes();
 
-		transfer.sendPacketSync(bytesToSend);
+		sender.sendPacketSync(bytesToSend);
 
 		return true;
 	}
@@ -81,8 +84,6 @@ public class LightHouseAPI {
 	 * @return ArrayList of obstacles
 	 */
 	public ArrayList<Obstacle> queryDatabaseSync(double longitude, double latitude, double radius) {
-		ObstacleQuery query = new ObstacleQuery();
-
 		ArrayList<Obstacle> obstacles = query.querySync(longitude, latitude, radius);
 
 		return obstacles;
@@ -108,8 +109,6 @@ public class LightHouseAPI {
 	 */
 	public void queryDatabaseAsync(double longitude, double latitude, double radius,
 			Response<ArrayList<Obstacle>> response) {
-		ObstacleQuery query = new ObstacleQuery();
-
 		query.queryAsync(longitude, latitude, radius, response);
 	}
 }

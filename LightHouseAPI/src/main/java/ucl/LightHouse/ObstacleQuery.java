@@ -11,6 +11,8 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import ucl.LightHouse.Interfaces.IObstacleQuery;
+
 /**
  * ObstacleQuery.java 
  * Purpose: Query the Lighthouse platform's database for
@@ -20,7 +22,7 @@ import org.json.JSONObject;
  * @version 1.0 27.08.2016
  */
 
-class ObstacleQuery {
+class ObstacleQuery implements IObstacleQuery {
 	private String _serverIP; // Server's IP to query the database
 	private int _apiPort; // Server's port to query the database
 
@@ -72,20 +74,10 @@ class ObstacleQuery {
 		return obstacles;
 	}
 
-	/**
-	 * Deserialize the json received from the Lighthouse platform's database
-	 * into list of Obstacle objects synchronously.
-	 *
-	 * @param longitude
-	 *            decimal degrees of longitude
-	 * @param latitude
-	 *            decimal degrees of latitude
-	 * @param radius
-	 *            radius in meters within which obstacles should be return.
-	 *            Cannot be more than 100 meters.
-	 * 
-	 * @return ArrayList of obstacles
+	/* (non-Javadoc)
+	 * @see ucl.LightHouse.IObstacleQuery#querySync(double, double, double)
 	 */
+	@Override
 	public ArrayList<Obstacle> querySync(final double longitude, final double latitude, final double radius) {
 		final List<Obstacle> obstacles = Collections.synchronizedList(new ArrayList<Obstacle>());
 		if (!checkRadius(radius))
@@ -126,24 +118,10 @@ class ObstacleQuery {
 		return new ArrayList<>(obstacles);
 	}
 
-	/**
-	 * Deserialize the json received from the Lighthouse platform's database
-	 * into list of Obstacle objects. Since the data is sent asynchronously the
-	 * result is return as a callback function which should be overwritten by
-	 * extending the Response class.
-	 *
-	 * @param longitude
-	 *            decimal degrees of longitude
-	 * @param latitude
-	 *            decimal degrees of latitude
-	 * @param radius
-	 *            radius in meters within which obstacles should be return.
-	 *            Cannot be more than 100 meters.
-	 * @param response
-	 *            class extending Response and implementing callback function
-	 *            
-	 * @return void
+	/* (non-Javadoc)
+	 * @see ucl.LightHouse.IObstacleQuery#queryAsync(double, double, double, ucl.LightHouse.Response)
 	 */
+	@Override
 	public void queryAsync(final double longitude, final double latitude, final double radius,
 			final Response<ArrayList<Obstacle>> response) {
 

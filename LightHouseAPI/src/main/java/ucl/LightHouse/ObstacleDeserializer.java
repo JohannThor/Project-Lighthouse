@@ -14,7 +14,7 @@ import org.json.JSONObject;
  * @author Vesko
  * @version 1.0 27.08.2016
  */
-class ObstacleDeserializer {
+public class ObstacleDeserializer {
 
 	/**
 	 * Deserialize the json received from the Lighthouse platform's database
@@ -29,6 +29,10 @@ class ObstacleDeserializer {
 	public static ArrayList<Obstacle> deserializeResponse(JSONObject jsonObj) {
 		ArrayList<Obstacle> deserializedObjects = new ArrayList<Obstacle>();
 
+		if(!jsonObj.has("Rows")) {
+			return deserializedObjects;
+		}
+		
 		JSONArray jsonArray = jsonObj.getJSONArray("Rows");
 
 		for (int i = 0, size = jsonArray.length(); i < size; i++) {
