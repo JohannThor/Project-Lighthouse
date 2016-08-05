@@ -132,9 +132,17 @@ umbrella, an initiative that was started to respond to the lack of available gui
 We aim to improve the experience of the members of the visually impaired population when entering specific indoor environments.
 We will focus on environments that are unfamiliar to the user and that are not equipped with any specific navigation infrastructure beforehand.
 We will do this by employing a range of wearable  sensors to build a dynamic map of the environment and give the user feedback on their surroundings.
-
 \section{Literature review}
-%TODO: Boring, do this later
+Obstacle detection is a large topic and has been a popular topic in the last few years with the advent of autonomous vehicles and unmanned aerial vehicles (UAVs).
+The DARPA Grand Challenge in 2005 and the Urban Challenge 2007 offered millions of dollars in prizes and sparked great interest within the research community. ~\cite{DARPAGrandChallenge2005} ~\cite{DARPAUrbanChallenge2007}
+In the specific case of obstacle detection as an assistive technology for the visually impaired there have been several projects. Cardin et al developed a wearable system that uses an array of ultrasonic transducers to do sonar sensing of obstacles around a subject. The subject is notified of the obstacles through vibrotactile instruments sown into clothing around the subjects torso. Experiments were conducted by blindfolding test subjects and having them navigate an environment filled with obstacles. The time it took the subjects to navigate was recorded and a the use of the system resulted in a 50\% reduction in navigation time after a short training time. ~\cite{Cardin2007} The system developed by Shin et al is similar but adds voice navigation through a headset. ~\cite{Shin2007} These kinds of reactive methods are common and widely explored both for the purposes of visually impaired navigation and for small robots or autonomous vehicles. ~\cite{Kato2002}
+Shoval et al have made attempts to fuse the work done in autonomous driving and robotics with the work in assistive technologies. They did this by mounting sonar sensing hardware on a robot that serves the same purpose as a guide dog. It has one axle and wheels that are powered. The robot is pushed by the subject through a handle, the robot can then detect and avoid obstacles and the subject notices the change in the robots movements through the handle. ~\cite{Shoval2003}
+As with the work of Cardin et al and Shin et al these robotics and autonomous driving works deal with the detection of obstacles in the immediate vicinity of the subject but do not persist or collect the location of the obstacle in a central location for further analysis and reuse.
+
+Sensor fusion is a well known term in the context of obstacle detection and navigation. Labayrade et al describe algorithms and architectures that facilitate cooperative fusion of two different kinds of sensors, stereovision and LIDAR to detect obstacles in an autonomous driving scenario. ~\cite{Labayrade2005} Cooperative fusion is used there to detect obstacles in the road in front of a vehicle and determine its distance with good accuracy. The use of sensor fusion decreased the rate of false negatives in the detection, from 14.7\% and 5.2\% for LIDAR and stereovision respectively, down to 5.2\%. In addition the rate of false negatives went from 4.5\% and 3.2\% respectively down to 1.2\%. Cho et al reach similar results showing increase in true positive obstacle detections from 83.2\% to 89.9\% by using fusion instead of using raw sensor values.~\cite{Cho2014}
+
+Therefore we proposed a project centered around gathering data from different sensors and using the collected data to determine the location of obstacles in a space.
+
 
 \section{Proposed System}
 \subsection{Preliminary work}
@@ -166,32 +174,33 @@ The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the s
 
 \section{Implementation}
 
-
 \subsection{Technology}
 
-\subsection{Project Management}
-The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are 
+% Architecture here
+
+\section{Project Management}
+The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are
 \subsubsection{Processes}
 Describe tools and processes, Scrum, Kanban etc.
 
 
-\subsubsection{Tools}
+\subsection{Tools}
 Jira, Slack Maybe not needed.
 
 \subsubsection{Communication}
 Talk about our communication and meeting schedule.
 
 
-\subsection{Testing}
+\subsection{Testing strategy}
 Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
 
 \section{Evaluation}
 Metrics and graphs showing the performance of certain parts of the project.
 
-\subsection{Challenges}
-Discuss what challenges the architecture faces and what can be done to mitigate them
 
-\section{Lessons Learned}
+\section{Lessons Learned} %Reflection
+%\subsection{Challenges}
+%Discuss what challenges the architecture faces and what can be done to mitigate them
 
 \section{Life cycle and Future Work}
 \subsection{Current state}
@@ -202,7 +211,6 @@ Quality requirements and the tests we used to evaluate them\\
 \subsection{Maintenance and Scaling}
 Describe how the project can be maintained and scaled in the event of deployment.\\
 Talk about the migration plan to Azure.\\
-
 
 \section{Conclusions}
 
