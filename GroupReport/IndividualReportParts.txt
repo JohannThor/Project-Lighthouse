@@ -1,0 +1,17 @@
+The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
+
+The use cases that were to be explore were centered around detecting gestures and possible indoor location possibilities.\\
+However, soon after the project was presented to the team the hardware was found to have several major flaws. The team found that the location accuracy was considerably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
+This eliminates the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
+%TODO: citation
+Another limitation of the hardware is that it only functions if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.\\
+%TODO: citation
+Our initial contact with the client was a brainstorming session where he expressed his vision for the project. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\
+Microsoft Research have done some investigation into using Sensor Fusion
+%TODO: citation
+and wanted to see what applications for that technology in aiding the visually impaired.
+After the meeting the team met several times to brainstorm and research possible applications and decided on a few possible project proposals.
+These were presented to the client and he expressed interest in continuing with one of them.\\
+For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+Using sensor fusion the team was to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in it's environment.
+The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
