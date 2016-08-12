@@ -1,4 +1,5 @@
 import math
+import random
 
 sign = lambda x: 1 if x > 0 else -1 if x < 0 else 0
 
@@ -12,18 +13,20 @@ velocity = 1 # m/sec
 # Scenario specifics
 obstacles = [{"position":(3,3),"id":2}]#{"position":(2,2),"id":1},
 initialPosition = (0,0)
-initialHeading = 0
-commands = [{"type":"heading","value":360},{"type":"displacement","value":2},{"type":"heading","value":360}]
-sensors = [{"name":"Ultrasound","range":5,"arc":10,"noise":{"stdev":0.1,"amplitude":1}},{"name":"Infrared","range":4,"arc":10,"noise":{"stdev":0.1,"amplitude":1}}]
+initialHeading = -45
+commands = [{"type":"displacement","value":5}]
+sensors = [{"name":"Latitude","range":10,"arc":270,"file":open("Latitude","w"),"noise":{"stdev":0.1}},{"name":"Longitude","range":10,"arc":270,"file":open("Longitude","w"),"noise":{"stdev":0.2}},{"name":"Confidence","range":10,"arc":270,"file":open("Confidence","w"),"noise":{"stdev":0.3}}]
 
 
 elapedTime = 0
-tick = 0.01
+tick = 0.0001
 position = initialPosition
 heading = initialHeading
 currentCommand = commands.pop()
+cumulativeTick = 0.0
 
 while True:
+	cumulativeTick += tick
 	# Move
 	if currentCommand["type"] == "heading":
 		delta = sign(currentCommand["value"]) * rotationalSpeed * tick
@@ -39,16 +42,23 @@ while True:
 		bearing = math.atan2(position[0] - obstacle["position"][0], position[1] - obstacle["position"][1])
 		distance = math.sqrt(math.pow(position[0] - obstacle["position"][0],2) + math.pow(position[1] - obstacle["position"][1],2))
 		for sensor in sensors:
-			if distance < sensor["range"] and math.fabs(bearing - heading) < sensor["arc"]/2:
+			distanceWithNoise = random.normalvariate(distance,sensor["noise"]["stdev"])
+			print(str(distance) + " : " + str(distanceWithNoise) + " : " + str(sensor["noise"]["stdev"]))
+			if distanceWithNoise < sensor["range"] and math.fabs(bearing - heading) < sensor["arc"]/2:
+				sensor["file"].write(str(cumulativeTick) + "," + str(distanceWithNoise) + "\n")
 				#print(str(bearing) + " : " + str(math.fabs(bearing-heading)) + " : " + str(math.fabs(bearing - heading) < sensor["arc"]/2))
-				print("#####################################")
-				print("Distance: " + str(distance))
-				print("Bearing: " + str(bearing))
-				print("Type: " + sensor["name"])
-				print("Obstacle: " + str(obstacle["id"]))
-				print("#####################################")
+				#print("#####################################")
+				#print("Distance: " + str(distance))
+				#print("Bearing: " + str(bearing))
+				#print("Type: " + sensor["name"])
+				#print("Obstacle: " + str(obstacle["id"]))
+				#print("#####################################")
+			else:
+				sensor["file"].write(str(cumulativeTick) + ",\n")
+
 	
-	print("HEADING: " + str(heading) + "  --- POSITION: " + str(position))
+	#print("HEADING: " + str(heading) + "  --- POSITION: " + str(position))
+	
 	if math.fabs(currentCommand["value"]) < epsilon:
 		if len(commands) == 0:
 			break
