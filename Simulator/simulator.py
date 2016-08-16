@@ -11,18 +11,19 @@ rotationalSpeed = 10 # r/sec
 velocity = 1 # m/sec
 
 # Scenario specifics
-obstacles = [{"position":(3,3),"id":2}]#{"position":(2,2),"id":1},
+obstacles = [{"position":(6,0),"id":2}]#{"position":(2,2),"id":1},
 initialPosition = (0,0)
-initialHeading = -45
-commands = [{"type":"displacement","value":5}]
+initialHeading = 0
+commands = [{"type":"displacement","value":-4},{"type":"displacement","value":4}]
 sensors = [{"name":"Latitude","range":10,"arc":270,"file":open("Latitude","w"),"noise":{"stdev":0.1}},{"name":"Longitude","range":10,"arc":270,"file":open("Longitude","w"),"noise":{"stdev":0.2}},{"name":"Confidence","range":10,"arc":270,"file":open("Confidence","w"),"noise":{"stdev":0.3}}]
 
 
 elapedTime = 0
-tick = 0.0001
+tick = 0.01
 position = initialPosition
 heading = initialHeading
 currentCommand = commands.pop()
+currentVelocity = currentCommand["value"]
 cumulativeTick = 0.0
 
 while True:
@@ -45,7 +46,7 @@ while True:
 			distanceWithNoise = random.normalvariate(distance,sensor["noise"]["stdev"])
 			print(str(distance) + " : " + str(distanceWithNoise) + " : " + str(sensor["noise"]["stdev"]))
 			if distanceWithNoise < sensor["range"] and math.fabs(bearing - heading) < sensor["arc"]/2:
-				sensor["file"].write(str(cumulativeTick) + "," + str(distanceWithNoise) + "\n")
+				sensor["file"].write(str(cumulativeTick) + "," + str(distanceWithNoise) + "," + str(currentVelocity) +"\n")
 				#print(str(bearing) + " : " + str(math.fabs(bearing-heading)) + " : " + str(math.fabs(bearing - heading) < sensor["arc"]/2))
 				#print("#####################################")
 				#print("Distance: " + str(distance))
@@ -54,7 +55,7 @@ while True:
 				#print("Obstacle: " + str(obstacle["id"]))
 				#print("#####################################")
 			else:
-				sensor["file"].write(str(cumulativeTick) + ",\n")
+				sensor["file"].write(str(cumulativeTick) + ",,\n")
 
 	
 	#print("HEADING: " + str(heading) + "  --- POSITION: " + str(position))
@@ -64,6 +65,7 @@ while True:
 			break
 		else:
 			currentCommand = commands.pop()
+			currentVelocity = currentCommand["value"]
 
 
 
