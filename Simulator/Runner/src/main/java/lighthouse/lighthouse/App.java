@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Queue;
 
 import org.apache.commons.math3.filter.DefaultMeasurementModel;
 import org.apache.commons.math3.filter.DefaultProcessModel;
@@ -24,6 +26,8 @@ import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
+
+import com.google.common.collect.EvictingQueue;
 
 import ucl.LightHouse.LightHouseAPI;
 import ucl.LightHouse.Response;
@@ -41,10 +45,30 @@ public class App
     		System.out.println("Please specify simulation directory.");
     		System.exit(1);
     	}
+    	
+    	ArrayList<SensorFeed> feeds = LoadFeeds(args[0]);
+    	
+    	int limit = 0;
+    	boolean rateLimit = false;
+    	
+    	if(args.length >= 2) {
+    		limit = Integer.parseInt(args[1]);
+    	}
+    	
+    	if(args.length == 3) {
+    		rateLimit = Boolean.parseBoolean(args[2]);
+    	}
+    	
+    	//MovingAverage(feeds);
+    	//KalmanFilter(feeds);
+    	SendToKafka(feeds,limit,rateLimit);
+    }
+	
+	private static ArrayList<SensorFeed> LoadFeeds(String path) {
     	ArrayList<SensorFeed> feeds = new ArrayList<SensorFeed>();
     	
     	try {
-			Files.walk(Paths.get(args[0])).forEach(filePath -> {
+			Files.walk(Paths.get(path)).forEach(filePath -> {
 				SensorFeed feed = new SensorFeed();
 				feed.feed = new ArrayList<SensorReading>();
 				feed.name = filePath.getFileName().toString();
@@ -67,12 +91,20 @@ public class App
 						String[] parts = line.split(",");
 						Double tick = Double.parseDouble(parts[0]);
 						Double value = null;
-						if(parts.length < 2) {
+						Double velocity = null;
+						
+						if(parts.length == 1) {
 							value = null;
+							velocity = null;
+						} else if (parts.length == 2) {
+							velocity = null;
+							value = Double.parseDouble(parts[1]);
 						} else {
+							velocity = Double.parseDouble(parts[2]);
 							value = Double.parseDouble(parts[1]);
 						}
-						SensorReading reading = new SensorReading(tick,value);
+						
+						SensorReading reading = new SensorReading(tick,value,velocity);
 						feed.feed.add(reading);
 			    		try {
 							line = reader.readLine();
@@ -86,16 +118,130 @@ public class App
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
-    	KalmanFilter(feeds);
-    	//SendToKafka(feeds);
-    }
+    	return feeds;
+	}
+
+	private static void MovingAverage(ArrayList<SensorFeed> feeds) {
+		double cumulativeMovingAverage = 0.0;
+		int window = 25;
+		
+		EvictingQueue<Double> lastItems = EvictingQueue.create(window);
+		
+		List<Double> xAxis = new ArrayList<Double>();
+		List<Double> raw = new ArrayList<Double>();
+		List<Double> simpleMovingAverages = new ArrayList<Double>();
+		List<Double> cumulativeAverages = new ArrayList<Double>();
+		List<Double> weightedMovingAverages = new ArrayList<Double>();
+		
+		List<Double> weightedMovingWeights = getWeightsOfLength(window);
+
+		
+		//Collections.reverse(weightedMovingWeights);
+		
+		for(int i = 0; i<feeds.get(0).feed.size();i++ ) {
+			lastItems.add(feeds.get(0).feed.get(i).sensorValue);
+
+			xAxis.add(feeds.get(0).feed.get(i).tickTime);
+			raw.add(feeds.get(0).feed.get(i).sensorValue);
+			Double lastSum = lastItems.stream().reduce((a,b) -> a+b).get();
+			Integer lastSize = lastItems.size();
+			simpleMovingAverages.add(lastSum/lastSize);
+			
+			Double weightedAverage = 0.0;
+			Integer index = 0;
+			
+			for(Double item : lastItems) {
+				weightedAverage += item * weightedMovingWeights.get(index);
+				index++;
+			}
+			
+			weightedMovingAverages.add(weightedAverage);
+			
+			if(i == 0) {
+				cumulativeMovingAverage = feeds.get(0).feed.get(i).sensorValue;
+			} else {
+				cumulativeMovingAverage += (feeds.get(0).feed.get(i).sensorValue - cumulativeMovingAverage) / i;
+			}
+			
+			cumulativeAverages.add(cumulativeMovingAverage);
+			
+		}
+		
+	    // Create Chart
+	    XYChart chart = new XYChart(1000, 500);
+	    chart.setTitle("Sample Chart");
+	    chart.setXAxisTitle("X");
+	    chart.setYAxisTitle("Y");
+	    XYSeries measuredSeries3 = chart.addSeries("Raw", xAxis, raw);
+	    //XYSeries measuredSeries4 = chart.addSeries("Cumulative", xAxis , cumulativeAverages);
+	    //XYSeries measuredSeries1 = chart.addSeries("Simple", xAxis , simpleMovingAverages);
+	    XYSeries measuredSeries2 = chart.addSeries("Weighted" + window, xAxis, weightedMovingAverages);
+	    measuredSeries3.setMarker(SeriesMarkers.SQUARE);
+	    //measuredSeries4.setMarker(SeriesMarkers.TRIANGLE_DOWN);
+	    //measuredSeries1.setMarker(SeriesMarkers.CIRCLE);
+	    measuredSeries2.setMarker(SeriesMarkers.DIAMOND);
+
+	    try {
+			BitmapEncoder.saveBitmap(chart, "/Development/chartBitmap" + window, BitmapFormat.PNG);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    System.out.println("DONE!!");	
+	}
 	
-	private void SendToKafka(ArrayList<SensorFeed> feeds) {
+	private static List<Double> getWeightsOfLength(int n) {
+		double sum = 0;
+		List<Double> l = new ArrayList<Double>();
+		for(int index = 0; index < n ; index++) {
+			double number = Math.pow(0.9999999, index);
+			l.add(number);
+			sum += number;
+		}
+		
+		for(int index = 0; index < n; index++) {
+			double val = l.get(index);
+			l.set(index, val/sum);
+		}
+		
+		return l;
+	}
+
+	private static void SendToKafka(ArrayList<SensorFeed> feeds, int limit, boolean rateLimit) {
+		double first = feeds.get(0).feed.get(0).tickTime;
+		double second = feeds.get(1).feed.get(1).tickTime;
+		double tickRate = second - first;
+		
+		int n = feeds.get(0).feed.size(); 
+
+		if(limit != 0 && limit < n) {
+			n = limit;
+		}
+		
     	long startTime = System.nanoTime();
 
     	LightHouseAPI api = new LightHouseAPI();
-    	for(int i = 0; i < feeds.get(0).feed.size(); i++) {
+    	
+    	long looptime = System.nanoTime();
+    	for(int i = 0; i < n; i++) {
+    		long lasttime = looptime;
+    		looptime = System.nanoTime();
+			//System.out.println(looptime - lasttime);
+			//System.out.println(tickRate*1000000000);
+    		if(tickRate*1000000000 > (looptime - lasttime) && rateLimit) {
+    			try {
+    				//System.out.println("Limit");
+    				//System.out.println((double)(looptime - lasttime)/1000000.0);
+    				//System.out.println(tickRate*1000.0);
+    				//System.out.println(((tickRate*1000000000.0 - (looptime - lasttime))/1000000.0));
+					Thread.sleep((long) ((tickRate*1000000000.0 - (looptime - lasttime))/1000000.0));
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
 	    	HashMap<String, String> map = new HashMap<String,String>();
 	    	map.put("sensor_type", "TestLightHouse");
 	    	map.put("ID", "4ee831f4-3da1-4e81-895d-f219ab1c4c35");
@@ -113,17 +259,18 @@ public class App
     	long stopTime = System.nanoTime();
     	System.out.println("Sending time: ");
     	System.out.println(stopTime - startTime);
+    	System.out.println("Sent messages #: " + n);
     	System.out.println("DONE!!!!");
 	}
 	
 	private static void KalmanFilter(ArrayList<SensorFeed> feeds) {
-		final double dt = 0.001;
+		final double dt = 0.00001;
         
 		 final RealMatrix A = MatrixUtils.createRealMatrix(new double[][] {
 			 {1,0,0,0},
-			 {0,1,0,0 },
-			 {0,0, 1, 0 },
-            { 0,0,dt,  1 } 
+			 {0,1,0,0},
+			 {0,0,1,0},
+             {0,0,0,1} 
 		 });
 		
 		 // The control vector, which adds acceleration to the kinematic equations.
@@ -131,15 +278,13 @@ public class App
 		 // 0          => vx(n+1) = vx(n+1)
 		 // -9.81*dt^2 =>  y(n+1) =  y(n+1) - 1/2 * 9.81 * dt^2
 		 // -9.81*dt   => vy(n+1) = vy(n+1) - 9.81 * dt
-		 final RealVector controlVector =
-		         MatrixUtils.createRealVector(new double[] { 0.0 , 0.0 , 0.0 , 0.0 } );
 		
 		 // The control matrix B only update y and vy, see control vector
 		 final RealMatrix B = MatrixUtils.createRealMatrix(new double[][] {
-			 	{ 1,0,0,0},
-			 	{0,1,0,0},
-			 	{0,0,1,0},
-			 	{0,0,0,1}
+			 	{0,0,0,1},
+			 	{0,0,0,1},
+			 	{0,0,0,1},
+			 	{0,0,0,0}
 		 });
 		
 		 // After state transition and control, here are the equations:
@@ -153,7 +298,7 @@ public class App
 		
 		 // We only observe the x/y position of the cannonball
 		 final RealMatrix H = MatrixUtils.createRealMatrix(new double[][] {
-		         { 1,0,0, 0 },
+		         { 1, 0, 0, 0 },
 		         { 0, 1, 0, 0 },
 		         { 0, 0, 1, 0 },
 		         { 0, 0, 0, 1 }
@@ -163,13 +308,13 @@ public class App
 		 // This is our guess of the initial state.  I intentionally set the Y value
 		 // wrong to illustrate how fast the Kalman filter will pick up on that.
 		
-		 final RealVector initialState = MatrixUtils.createRealVector(new double[] { 0, 0, 0, 0 } );
+		 final RealVector initialState = MatrixUtils.createRealVector(new double[] { 10, 10, 10, 1.0 } );
 		
 		 // The initial error covariance matrix, the variance = noise^2
 		 //final double var = measurementNoise * measurementNoise;
 		 final RealMatrix initialErrorCovariance = MatrixUtils.createRealMatrix(new double[][] {
-		         {   0,    0,0,0},
-		         {   0,    0,0,0},
+		         {0,0,0,0},
+		         {0,0,0,0},
 		         {0,0,0,0},
 		         {0,0,0,0}
 		 });
@@ -180,10 +325,10 @@ public class App
 		 // the measurement covariance matrix
 		 final RealMatrix R = MatrixUtils.createRealMatrix(new double[][] {
 
-		         { 1,  0,  0,  0 },
-		         { 0,  1,  0,  0 },
-		         { 0,  0,  1,  0 },
-		         { 0,  0,  0,  1 },
+		         { 0.5,  	0,  	0, 	0 },
+		         { 0,  		0.5,  	0, 	0 },
+		         { 0,  		0,		0.5,0 },
+		         { 0,  		0,		0,  0.5 },
 		 });
 		
 		 final ProcessModel pm = new DefaultProcessModel(A, B, Q, initialState, initialErrorCovariance);
@@ -210,6 +355,7 @@ public class App
 	         Double v1 = m1.feed.get(i).sensorValue == null ? 0.0 : m1.feed.get(i).sensorValue;
 	         Double v2 = m2.feed.get(i).sensorValue == null ? 0.0 : m2.feed.get(i).sensorValue;
 	         Double v3 = m3.feed.get(i).sensorValue == null ? 0.0 : m3.feed.get(i).sensorValue;
+	         Double velocity = m1.feed.get(i).velocity == null ? 1.0 : m1.feed.get(i).velocity;
 	         
 	         kalmanX.add(time);
 	         kalmanY.add(state[0]);
@@ -221,8 +367,8 @@ public class App
 	         measuredX3.add(time);
 	         measuredY3.add(v3);
 	         
-			 filter.predict(new double[] {v1,v2,v3,0.0});
-			 filter.correct(new double[] {(v1 + v2 + v3)/3,0.0,0,0});
+			 filter.predict(new double[] { 0.0 , 0.0 , 0.0 , -1 * velocity * dt });
+			 filter.correct(new double[] {v1,v2,v3,0});
 		 }
 		
 	  
@@ -233,8 +379,8 @@ public class App
 	    chart.setYAxisTitle("Y");
 	    //XYSeries realSeries = chart.addSeries("Real", realX, realY);
 	    XYSeries measuredSeries1 = chart.addSeries("Measured1", measuredX1, measuredY1);
-	    XYSeries measuredSeries2 = chart.addSeries("Measured2", measuredX2, measuredY2);
 	    XYSeries measuredSeries3 = chart.addSeries("Measured3", measuredX3, measuredY3);
+	    XYSeries measuredSeries2 = chart.addSeries("Measured2", measuredX2, measuredY2);
 	    XYSeries kalmanSeries = chart.addSeries("Kalman", kalmanX, kalmanY);
 	    measuredSeries1.setMarker(SeriesMarkers.CIRCLE);
 	    measuredSeries2.setMarker(SeriesMarkers.DIAMOND);

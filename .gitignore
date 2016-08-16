@@ -26,6 +26,7 @@ Simulator/scenario7400
 Simulator/scenario74000
 Simulator/scenario740000
 Simulator/kalmanScenario
+Simulator/backAndForthScenarion100SamplingRate
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
 *.bcf

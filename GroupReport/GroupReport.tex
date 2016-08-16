@@ -11,7 +11,7 @@
 %
 % For tracking purposes => this is v1.3 - March 2012
 
-\documentclass[prodmode,acmtecs]{acmsmall} % Aptara syntax
+\documentclass[prodmode,acmtosem]{acmsmall} % Aptara syntax
 
 % Package to generate and customize Algorithm as per ACM style
 \usepackage[ruled]{algorithm2e}
@@ -19,6 +19,7 @@
 \usepackage{gensymb}
 \usepackage[utf8]{inputenc}
 \usepackage[table]{xcolor}
+\usepackage{natbib}
 \renewcommand{\algorithmcfname}{ALGORITHM}
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -132,23 +133,50 @@ Microsoft has been exploring different technologies that could help the visually
 After exploring several possible use cases for these technologies the client and the UCL team decided to find a way to improve the experience of the members of the visually impaired population when entering specific indoor environments.
 Specifically in environments that are unfamiliar to the user and that are not equipped with any specific navigation infrastructure. There has already been thorough research done on indoor navigation but the identification of obstacles seemed to be a good fit for the hardware and technology requirements of the client.
 
-\section{Literature review}
+\section{Literature review} % TODO: Change to background
+% TODO: Check if there is a difference in font size.
+% TODO: use the 
+% TODO: citet and citep
 Obstacle detection is a large topic and has been popular in the last few years with the advent of autonomous vehicles and unmanned aerial vehicles.
-The Defense Advanced Research Project Agency (DARPA) in the United States has held several competitions to push the research community towards this specific topic. The DARPA Grand Challenge in 2005 and the Urban Challenge in 2007 offered millions of dollars in prizes and sparked great interest within the research community ~\cite{DARPAGrandChallenge2005,DARPAUrbanChallenge2007}.
+The Defense Advanced Research Project Agency (DARPA) in the United States has held several competitions to push the research community towards this specific topic. The DARPA Grand Challenge in 2005 and the Urban Challenge in 2007 offered millions of dollars in prizes and sparked great interest within the research community~\cite{DARPAGrandChallenge2005,DARPAUrbanChallenge2007}.
 \subsection{Obstacle detection}
-In the specific case of obstacle detection as an assistive technology there have been several papers exploring the topic. Cardin et al. developed a wearable system that uses an array of ultrasonic transducers to do sonar sensing of obstacles around a subject. The subject is notified of the obstacles through vibrotactile instruments sewn into clothing around the subjects torso. Experiments were conducted by blindfolding test subjects and having them navigate an environment filled with obstacles. The time it took the subjects to navigate was recorded and the use of the system resulted in a 50\% reduction in navigation time after a short training time ~\cite{Cardin2007}. The system developed by Shin et al. is similar to Cardin et al. but adds audible feedback through a headset ~\cite{Shin2007}. These methods are entirely reactive, in that they sense and identify obstacles in a space but do not record its position for possible future use. In addition to this the evaluation of the detection accuracy is lacking. The studies do not describe their experimental setups accurately and the data collection methods are never mentioned. 
+In the specific case of obstacle detection as an assistive technology there have been several papers exploring the topic. Cardin et al. developed a wearable system that uses an array of ultrasonic transducers to do sonar sensing of obstacles around a subject. The subject is notified of the obstacles through vibrotactile instruments sewn into clothing around the subjects torso. Experiments were conducted by blindfolding test subjects and having them navigate an environment filled with obstacles. The time it took the subjects to navigate was recorded and the use of the system resulted in a 50\% reduction in navigation time after a short training time~\cite{Cardin2007} t~\citet{Cardin2007} p~\citep{Cardin2007}. The system developed by Shin et al. is similar to Cardin et al. but adds audible feedback through a headset~\cite{Shin2007}. These methods are entirely reactive, in that they sense and identify obstacles in a space but do not record its position for possible future use. In addition to this the evaluation of the detection accuracy is lacking. The studies do not describe their experimental setups accurately and the data collection methods are never mentioned. 
 %These types of methods are common and widely explored both for the purposes of small robots and autonomous vehicles ~\cite{Kato2002}. 
 %Shoval et al. have made attempts to fuse the work done in autonomous driving and robotics with the work in assistive technologies. They did this by mounting sonar sensing hardware on a robot that serves the same purpose as a guide dog. It has one axle and wheels that are powered. The robot is pushed by the subject via a handle, the robot can then detect and avoid obstacles and the subject notices the change in the robots movements through the handle ~\cite{Shoval2003}.
 \subsection{Sensor Fusion}
-Sensor fusion, or cooperative fusion, is a well known term in the context of obstacle detection and navigation. Labayrade et al. describe algorithms and architectures that facilitate cooperative fusion of two different kinds of sensors, stereovision and LIDAR to detect obstacles in an autonomous driving scenario ~\cite{Labayrade2005}. Cooperative fusion is used to detect obstacles in the road in front of a vehicle and determine its distance with good accuracy. The use of sensor fusion decreased the rate of false negatives in the detection from 14.7\% and 5.2\% for LIDAR and stereovision respectively, down to 5.2\%. In addition the rate of false negatives went down from 4.5\% and 3.2\% respectively to 1.2\%. Cho et al. reached similar results showing an increase in the rate of true positives in obstacle detection from 83.2\% to 89.9\% by using fusion instead of using actual sensor values ~\cite{Cho2014}. Contrary to the research found for the use cases for the visually impaired these papers provide a thorough explanation of the evaluation and data gathering performed and will prove useful in designing the evaluation strategy for this project. These methods have been developed specifically for use in the scenario of autonomous driving but are directly applicable to the scenario of detecting obstacles around a visually impaired pedestrian.
-
+Sensor fusion, or cooperative fusion, is a well known term in the context of obstacle detection and navigation. Labayrade et al. describe algorithms and architectures that facilitate cooperative fusion of two different kinds of sensors, stereovision and LIDAR to detect obstacles in an autonomous driving scenario~\cite{Labayrade2005}. Cooperative fusion is used to detect obstacles in the road in front of a vehicle and determine its distance with good accuracy. The use of sensor fusion decreased the rate of false negatives in the detection from 14.7\% and 5.2\% for LIDAR and stereovision respectively, down to 5.2\%. In addition the rate of false negatives went down from 4.5\% and 3.2\% respectively to 1.2\%. Cho et al. reached similar results showing an increase in the rate of true positives in obstacle detection from 83.2\% to 89.9\% by using fusion instead of using actual sensor values~\cite{Cho2014}. Contrary to the research found for the use cases for the visually impaired these papers provide a thorough explanation of the evaluation and data gathering performed and will proved useful in designing the evaluation strategy for this project. These methods have been developed specifically for use in the scenario of autonomous driving but are directly applicable to the scenario of detecting obstacles around a visually impaired pedestrian.
 In light of research described in the literature reviewed the team will be able to reach the aforementioned aims of this project by developing a data collection platform that gathers data from many different cheap sensors. The sensor data will be used to identify obstacles and the accuracy of the results will be increased by using sensor fusion.
 
+
+% Add aims and goals
+% What are we building now and what are it's aims
 \section{Proposed System}
+% TODO: make a good argument for how we managed RISK
 \subsection{Preliminary work}
+% How did we end up with our current aim
+% US sensors and why we discarded those.
+
 % Subsection this into VI obstacle detection and Sensor fusion, then bring back together.
 
 %TODO: citation 
+
+The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
+
+The use cases that were to be explored were centered around detecting gestures and possible indoor location possibilities.\\
+However, soon after the project was presented to the team the hardware was found to have several limitations. The team found that the location accuracy was considerably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimeter, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimeters.\\
+This eliminates the gesture use case since more accuracy is needed to get accurate gesture recognition.\\
+%TODO: citation
+Another limitation of the hardware is that it only functions if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the usefulness of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment.\\
+%TODO: citation
+Our initial contact with the client was a brainstorming session where he expressed his vision for the project. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\
+Microsoft Research have done some investigation into using Sensor Fusion
+%TODO: citation
+and wanted to see what applications for that technology in aiding the visually impaired.
+After the meeting the team met several times to brainstorm and research possible applications and decided on a few possible project proposals.
+These were presented to the client and he expressed interest in continuing with one of them.\\
+For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+Using sensor fusion the team was to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in it's environment.
+The goals is to use cheap, of-the-shelf, sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
 
 \subsection{High level goals}
 
@@ -197,18 +225,20 @@ Table \ref{table:1} shows a list of requirements our sytem will fulfill (please 
 \end{table}
 
 \subsection{System Architecture}
+% TODO: make a good argument for how we managed RISK
 
 \section{Implementation}
 
 \subsection{Technology}
 
 % Architecture here
-
+% TODO: Reevaluate the structure here
 \section{Project Management}
+% Discuss 
 The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are
+
 \subsubsection{Processes}
 Describe tools and processes, Scrum, Kanban etc.
-
 
 \subsection{Tools}
 Jira, Slack Maybe not needed.
@@ -216,17 +246,11 @@ Jira, Slack Maybe not needed.
 \subsubsection{Communication}
 Talk about our communication and meeting schedule.
 
-
 \subsection{Testing strategy}
 Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
 
 \section{Evaluation}
 Metrics and graphs showing the performance of certain parts of the project.
-
-
-\section{Lessons Learned} %Reflection
-%\subsection{Challenges}
-%Discuss what challenges the architecture faces and what can be done to mitigate them
 
 \section{Life cycle and Future Work}
 \subsection{Current state}
@@ -235,11 +259,18 @@ Capabilities, how many of the Goals and Requirements have been fulfilled.\\
 Quality requirements and the tests we used to evaluate them\\
 
 \subsection{Maintenance and Scaling}
+% TODO: Enumerate limitation of the product
+% TODO: Describe how we can go from prototype to a running system
+% TODO: Add confidential appendix to report that does not go to the client.
 Describe how the project can be maintained and scaled in the event of deployment.\\
 Talk about the migration plan to Azure.\\
 
+
 \section{Conclusions}
 
+% TODO: identify the topic takeaway messages.
+% takeaway messages describe how we one could do things differently.
+% not in context of the project but rather in the context of the domain. 
 
 % Appendix
 \appendix
@@ -270,6 +301,5 @@ Talk about the migration plan to Azure.\\
 \section{Appendix section head}
 
 \end{document}
-% End of v2-acmsmall-sample.tex (March 2012) - Gerry Murray, ACM
 
 
