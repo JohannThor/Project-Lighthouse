@@ -168,7 +168,7 @@ Furthermore the hardware can only functions if 3 beacons are within a 130\degree
 Our initial contact with the client was a brainstorming session where he expressed his vision for the project. He expressed his desire to have an end product which would feel natural to the user with very little on the user's part in terms of learning getting themselves familiar with the product. Then he raised the idea of using a sensor or combination of wearbale sensors to achieve the ultimate goal. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\\\
 Microsoft Research have done some investigation into using Sensor Fusion
 %TODO: citation
-and wanted to see what applications for that technology in aiding the visually impaired. Sensor Fusion was introduced into window 8 Operating system to provide stabiility to applications relying on clean and stabilised data. \cite{Sinofsky Steven} described a siutation where Engnineers at Microsoft attempted to map a 3D virtual environment to a real Environment in an app through a tabelt. First of all they tried emulate up and down movements in the virtual environment using an accelerometer. Almost immediately they encountered an issue when tilting the tablet and holding the tablet in a stationary position. Noise coming from the accelerometer alone caused jittery movements in the applications. To achieve a much more stable movement, the accelerometer readings was passed through a low-pass filter. The low-pass filter fulfilled its duty but simultaneously introduced a bottleneck into the app. Movement was significantly smoother but the motion in the app felt unresponsive and sluggish. The engineers also used a 6-axis compass which is a 3D accelerometer and 3D magnetometer to emulate left and right movements however it did not yield practicable result due to the instability of the 6-axis sensor. Finally the engineers hit a breakthrough with sensor fusion using the 3D accelerometer, 3D magnetometer and 3D gyroscope. Data collected from all 9-axis resulted in a smooth and fluid experience in the virtual app. Additionally the sensors complemented each other in terms of areas where they fell short \cite{Sinofsky Steven}.
+and wanted to see what applications for that technology in aiding the visually impaired. Sensor Fusion was introduced into window 8 Operating system to provide stabiility to applications relying on clean and stabilised data. \citet{SinofskySteven} described a siutation where Engnineers at Microsoft attempted to map a 3D virtual environment to a real Environment in an app through a tabelt. First of all they tried emulate up and down movements in the virtual environment using an accelerometer. Almost immediately they encountered an issue when tilting the tablet and holding the tablet in a stationary position. Noise coming from the accelerometer alone caused jittery movements in the applications. To achieve a much more stable movement, the accelerometer readings was passed through a low-pass filter. The low-pass filter fulfilled its duty but simultaneously introduced a bottleneck into the app. Movement was significantly smoother but the motion in the app felt unresponsive and sluggish. The engineers also used a 6-axis compass which is a 3D accelerometer and 3D magnetometer to emulate left and right movements however it did not yield practicable result due to the instability of the 6-axis sensor. Finally the engineers hit a breakthrough with sensor fusion using the 3D accelerometer, 3D magnetometer and 3D gyroscope. Data collected from all 9-axis resulted in a smooth and fluid experience in the virtual app. Additionally the sensors complemented each other in terms of areas where they fell short~\cite{SinofskySteven}.
 
 After the meeting the team met several times to brainstorm and research possible applications around the sensor fusion concept and decided on a few possible project proposals.
 These were presented to the client and he expressed interest in continuing with one of them.\\\
@@ -221,9 +221,17 @@ Table \ref{table:1} shows a list of requirements our sytem will fulfill (please 
 \end{tabular}
 \label{table:1}
 
-\subsection{System Architecture}
+\section{System Architecture}
 \label{architecture}
 Given the goals the team and the client set for this project there were several considerations to be made to make the architecture flexible and performant enough to satisfy the requirements. Having the requirement of being able to accept data from many kinds of sensors made it clear that the architecture had to be made up of a variety of strategies to homogenise the incoming data into a stream of measurements that could be processed in a more abstract way.
+
+\subsection{Data collection}
+
+\subsection{Aggregation}
+
+\subscetion{Processing}
+
+\subsection{Feedback}
 
 % TODO: make a good argument for how we managed RISK
 
@@ -238,7 +246,8 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 % TODO: Reevaluate the structure here
 \section{Project Management}
 % Discuss 
-The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are
+The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are each responsible for a data collection or feedback application that would be the topic of their dissertation project.
+The roal of the SSE team with regards to the CS students was to coordinate their efforts towards creating value for the client and to provide them with guidance with the implementation and architecture of their projects.
 
 \subsubsection{Processes}
 Describe tools and processes, Scrum, Kanban etc.
