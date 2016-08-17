@@ -242,13 +242,35 @@ I think Android App?
 % TODO: make a good argument for how we managed RISK
 
 \section{Implementation}
-As described in section~\ref{architecture} the chosen architecture uses a variety of different technologies to achieve its goal. Each component therefore had a predefined best practice in implementation.\\\\
+As described in section~\ref{architecture} the chosen architecture uses a variety of different technologies to achieve its goal. Each component therefore had a predefined best practice in implementation.
+
+\subsection{Technology}
+
+\subsubsection{Kafka?}
+%Describe
+\subsubsection{Spark}
+%Describe
+\subsubsection{Cassandra}
+%Describe
+
+\subsection{Interaction}
 Before diving into suitability arguments for chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.\\\\
-An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from the kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
+An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
 
 % Why Java for 
 
-\subsection{Technology}
+
+\subsubsection{Why Java over Python and Scala?}
+
+\subsubsection{Why Kafka?}
+
+\subsubsection{Why Spark For Processing instead of Kafka Consumer, Apache Storm, Hadoop?}
+
+\subsubsection{Why UDP?}
+
+\subsubsection{Why Cassandra?}
+
+
 
 % Architecture here
 % TODO: Reevaluate the structure here
