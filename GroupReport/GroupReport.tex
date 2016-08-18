@@ -21,6 +21,8 @@
 \usepackage[table]{xcolor}
 \usepackage{natbib}
 \usepackage{subfigure}
+\usepackage{tabularx}
+
 \renewcommand{\algorithmcfname}{ALGORITHM}
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -155,6 +157,7 @@ In light of research described in the literature reviewed the team will be able 
 \section{Proposed System}
 % TODO: make a good argument for how we managed RISK
 \subsection{Preliminary work}
+\label{sec:Prelim}
 % How did we end up with our current aim
 % US sensors and why we discarded those.
 
@@ -167,6 +170,26 @@ The use cases that were to be explored were centred around detecting gestures an
 %TODO: citation
 Furthermore the hardware can only functions if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the practicality of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment such as static or movable objects.\\\\
 %TODO: citation
+
+\subsection{Stakeholders and Project Context}
+In order to identify and prioritise the goals and objectives of the SSE team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
+
+\subsubsection{Microsoft}
+Microsoft is both the sponsor and the client in this project. In addition Microsoft provides the team with access to domain experts and other resources.
+The main outcome that Microsoft wants from the project is research into the technologies available in assistive technologies based on obstacle detection and sensor fusion. The team is therefore responsible for conducting that research, enumerating the technologies available and developing a proof of concept prototype illustrate the possibilities of the technologies.
+
+\subsubsection{Academic}
+The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.
+The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding state of the art software engineering processes and maintaining good communication with the client throughout the process.
+
+
+\subsubsection{Team members}
+
+
+\subsection{High level goals}
+
+
+
 Our initial contact with the client was a brainstorming session where he expressed his vision for the project. He expressed his desire to have an end product which would feel natural to the user with very little work on the user's part in terms of learning getting themselves familiar with the product. Then he raised the idea of using a sensor or combination of wearable sensors to achieve the ultimate goal. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.\\\\
 Microsoft Research have done some investigation into using Sensor Fusion
 %TODO: citation
@@ -175,10 +198,14 @@ and wanted to see what applications for that technology in aiding the visually i
 After the meeting the team met several times to brainstorm and research possible applications around the sensor fusion concept and decided on a few possible project proposals.
 These were presented to the client and he expressed interest in continuing with one of them.\\\
 For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
-Using sensor fusion the team was to build a system that can collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
+Using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
 The goal is to use cheap, of-the-shelf sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
-\subsection{High level goals}
-
+In order to identify the main goals of our client the team came up with scenarios and use cases, within the scope that was mentioned in section~\ref{sec:Prelim}, and presented them to the client. This was followed up with a discussion that lead to the identification of the following high level goals.
+The main objective was to improve the experience of the visually impaired in a specific scenario. The scenario in question involved a visually impaired individual entering a space like a coffee shop and having to navigate around obstacles like tables and chairs.\\
+This made obstacle detection a clear objective and secondary objectives relating to that were then further explored. The use of the obstacle detection in conjunction with detection of points of interest was discussed as a possible objective but was deemed less important by the client.
+The use of Open Street Maps
+% TODO: citation
+was discussed in this context as a database to work from with regards to gathering information on points of interest.\\ Another secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluation sensor fusion techniques in the context of obstacle detection. This objective was deemed important since it fit well with the 
 
 \subsection{Requirements}
 
@@ -187,42 +214,29 @@ Table \ref{table:1} shows a list of requirements our system will fulfil (please 
 \renewcommand{\arraystretch}{1.5}
 
 \begin{center}
-\begin{tabular}{| l ||} 
+\begin{tabularx}{\textwidth}{| X | X |} 
  \hline
- \rowcolor{lightgray}\multicolumn{1}{c}{List of Requirements} \\ [0.5ex] 
+ \rowcolor{lightgray}
+ \multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
  \hline\hline
- Identifying points of interest in the environment. \\ 
+ Identifying points of interest in the environment. &  Detecting obstacles \\
  \hline
- Detecting obstacles \\
+ Feeding back mapping information &  Manually identifying obstacles in a space \\
  \hline
- Feeding back mapping information \\
+ Manually removing an obstacle from the map &  Providing navigation for a user to a point of interest \\ 
  \hline
- Manually identifying obstacles in a space \\
+ Voice interactions - listing &  Voice interactions - acceptance \\ 
  \hline
- Manually removing an obstacle from the map \\ 
+ Screen interactions - listing &  Screen interactions - acceptance \\ 
  \hline
- Providing navigation for a user to a point of interest \\ 
+ Classification of obstacles/Points Of Interest &  3D Directional Sound \\ 
  \hline
- Voice interactions - listing \\ 
+ Head Gestures &  IR and Ultrasound \\  
  \hline
- Voice interactions - acceptance \\ 
+
  \hline
- Screen interactions - listing \\ 
- \hline
- Screen interactions - acceptance \\ 
- \hline
- Classification of obstacles/Points Of Interest \\ 
- \hline
- 3D Directional Sound \\ 
- \hline
- Head Gestures \\ 
- \hline
- IR and Ultrasound \\ 
- \hline
- Machine Vision \\ 
- \hline
-\end{tabular}
-\label{table:1}
+\end{tabularx}
+\label{table:requirements}
 \end{center}
 
 \section{System Architecture}
@@ -248,7 +262,7 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 
 \subsection{Technology}
 
-\subsubsection{Kafka?}
+\subsubsection{Kafka}
 %Describe
 \subsubsection{Spark}
 %Describe
@@ -256,7 +270,7 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 %Describe
 
 \subsection{Interaction}
-Before diving into suitability arguments for chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.\\\\
+Before diving into suitability arguments for the chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.\\\\
 An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
 
 % Why Java for 
