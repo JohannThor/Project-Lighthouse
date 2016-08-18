@@ -72,49 +72,59 @@ public class App
 				SensorFeed feed = new SensorFeed();
 				feed.feed = new ArrayList<SensorReading>();
 				feed.name = filePath.getFileName().toString();
-			    if (Files.isRegularFile(filePath)) {
-			        BufferedReader reader = null;
-					try {
-						reader = new BufferedReader(new FileReader(filePath.toFile()));
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-			        String line = null;
-					try {
-						line = reader.readLine();
-					} catch (IOException e) {
-						System.out.println("Could not read first line");
-						System.exit(1);
-					}
-			    	while(line != null) {
-						String[] parts = line.split(",");
-						Double tick = Double.parseDouble(parts[0]);
-						Double value = null;
-						Double velocity = null;
-						
-						if(parts.length == 1) {
-							value = null;
-							velocity = null;
-						} else if (parts.length == 2) {
-							velocity = null;
-							value = Double.parseDouble(parts[1]);
-						} else {
-							velocity = Double.parseDouble(parts[2]);
-							value = Double.parseDouble(parts[1]);
+				
+			    try {
+					if (Files.isRegularFile(filePath) && !Files.isHidden(filePath)) {
+					    BufferedReader reader = null;
+						try {
+							reader = new BufferedReader(new FileReader(filePath.toFile()));
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-						
-						SensorReading reading = new SensorReading(tick,value,velocity);
-						feed.feed.add(reading);
-			    		try {
+					    String line = null;
+						try {
 							line = reader.readLine();
 						} catch (IOException e) {
-							System.out.println("Could not read line");
-							System.exit(1);						
+							System.out.println("Could not read first line");
+							System.exit(1);
 						}
-			    	}
-			    	feeds.add(feed);
-			    }
+						while(line != null) {
+							String[] parts = line.split(",");
+							System.out.println(parts[0]);
+							Double tick = Double.parseDouble(parts[0]);
+							Double value = null;
+							Double velocity = null;
+							
+							if(parts.length == 1) {
+								value = null;
+								velocity = null;
+							} else if (parts.length == 2) {
+								velocity = null;
+								value = Double.parseDouble(parts[1]);
+							} else {
+								velocity = Double.parseDouble(parts[2]);
+								value = Double.parseDouble(parts[1]);
+							}
+							
+							SensorReading reading = new SensorReading(tick,value,velocity);
+							feed.feed.add(reading);
+							try {
+								line = reader.readLine();
+							} catch (IOException e) {
+								System.out.println("Could not read line");
+								System.exit(1);						
+							}
+						}
+						feeds.add(feed);
+					}
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -211,7 +221,7 @@ public class App
 
 	private static void SendToKafka(ArrayList<SensorFeed> feeds, int limit, boolean rateLimit) {
 		double first = feeds.get(0).feed.get(0).tickTime;
-		double second = feeds.get(1).feed.get(1).tickTime;
+		double second = feeds.get(0).feed.get(1).tickTime;
 		double tickRate = second - first;
 		
 		int n = feeds.get(0).feed.size(); 
@@ -243,7 +253,7 @@ public class App
 				}
     		}
 	    	HashMap<String, String> map = new HashMap<String,String>();
-	    	map.put("sensor_type", "TestLightHouse");
+	    	map.put("sensor_type", "DistanceTopic");
 	    	map.put("ID", "4ee831f4-3da1-4e81-895d-f219ab1c4c35");
     		for(SensorFeed feed : feeds) {
     	    	SensorReading reading = feed.feed.get(i);
