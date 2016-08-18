@@ -247,13 +247,13 @@ Given the goals the team and the client set for this project there were several 
 Since data reaching our platform will be produced from various sources, it was of paramount importance that we build a system whereby huge amount of data can be collected and aggregated for further processing as at when needed. Our system architecture will also satisfy the requirement of flexibility so as to accommodate varied incoming dataset. Data will be collected by a single kafka producer and sent to the kafka cluster for consumption.
 
 \subsection{Aggregation} 
-Initial aggregation or preprocessing will be performed in the Kafka stream
+Initial aggregation or preprocessing will be performed in Kafka.
 
 \subsection{Processing}
-Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{<-- Vesko you can elaborate just a bit}
+Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{Vesko you can elaborate just a bit}
 
 \subsection{Feedback}
-\textcolor{blue}{<-- Shuang???}
+\textcolor{blue}{Shuang???}
 
 % TODO: make a good argument for how we managed RISK
 
@@ -270,9 +270,24 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 %Describe
 
 \subsection{Interaction}
-Before diving into suitability arguments for the chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.\\\\
-An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
 
+Before diving into suitability arguments for the chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. 
+
+\subsubsection{Android app and Jar file}
+A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor.
+
+
+\subsubsection{Kafka Producer Listener}
+At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
+
+\subsubsection{Spark Processing}
+An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. 
+
+\subsubsection{Obstacle API and Cassandra}
+Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
+
+
+\subsubsection{Query API}
 % Why Java for 
 
 
