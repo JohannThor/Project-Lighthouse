@@ -241,19 +241,19 @@ Table \ref{table:1} shows a list of requirements our system will fulfil (please 
 
 \section{System Architecture}
 \label{architecture}
-Given the goals the team and the client set for this project there were several considerations to be made to make the architecture flexible and performant enough to satisfy the requirements. Having the requirement of being able to accept data from many kinds of sensors made it clear that the architecture had to be made up of a variety of strategies to homogenise the data so that it could be processed in a more abstract way. Subsequent processing could then be performed based on a fixed data model that would make it easier to rapidly develop and evaluate different processing strategies.
+Given the goals the team and the client set for this project there were several considerations to be made to make the architecture flexible and perform enough to satisfy the requirements. Having the requirement of being able to accept data from many kinds of sensors made it clear that the architecture had to be made up of a variety of strategies to homogenise the data so that it could be processed in a more abstract way. Subsequent processing could then be performed based on a fixed data model that would make it easier to rapidly develop and evaluate different processing strategies.
 
 \subsection{Data collection}
-Since data reaching our platform will be produced from various sources, it was of paramount importance that we build a system whereby huge amount of data can be collected and aggregated for further processing as at when needed. After much consideration, we decided to include Apache Kafka and Apache Zookeeper into our overall System Architecture. Apache Kafka is a distributed publish/subscriber message queuing system that provides fault tolerance, high throughput for both publishing and subscribing tasks, supports multiple consumer, holds messages on disk for latter consumption in bulk and could also be used as a commit log service. Apache Zookeeper is a service that provides synchronization across a cluster in a distributed network. Zookeeper assists kafka in maintaining order across a Kafka cluster, it maintains properties such its configuration and leader election should a leader in the cluster fails to exist. Both Apache Kafka and Apache Zookeeper have the capability of scaling out. Additional kafka brokers can be added to the cluster depending on the requirements of the architecture, as well as additional zookeeper servers can be included but will have a master zookeeper server to oversee events in the distributed zookeeper network.
+Since data reaching our platform will be produced from various sources, it was of paramount importance that we build a system whereby huge amount of data can be collected and aggregated for further processing as at when needed. Our system architecture will also satisfy the requirement of flexibility so as to accommodate varied incoming dataset. Data will be collected by a single kafka producer and sent to the kafka cluster for consumption.
 
 \subsection{Aggregation} 
-Apache Kafka and Apache Spark
+Initial aggregation or preprocessing will be performed in the Kafka stream
 
 \subsection{Processing}
-Apache Spark
+Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{<-- Vesko you can elaborate just a bit}
 
 \subsection{Feedback}
-I think Android App?
+\textcolor{blue}{<-- Shuang???}
 
 % TODO: make a good argument for how we managed RISK
 
