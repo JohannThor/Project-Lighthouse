@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -93,21 +94,10 @@ public class App
 							String[] parts = line.split(",");
 							System.out.println(parts[0]);
 							Double tick = Double.parseDouble(parts[0]);
-							Double value = null;
-							Double velocity = null;
+							parts = Arrays.copyOfRange(parts, 1, parts.length);
 							
-							if(parts.length == 1) {
-								value = null;
-								velocity = null;
-							} else if (parts.length == 2) {
-								velocity = null;
-								value = Double.parseDouble(parts[1]);
-							} else {
-								velocity = Double.parseDouble(parts[2]);
-								value = Double.parseDouble(parts[1]);
-							}
 							
-							SensorReading reading = new SensorReading(tick,value,velocity);
+							SensorReading reading = new SensorReading(tick,parts);
 							feed.feed.add(reading);
 							try {
 								line = reader.readLine();
@@ -132,7 +122,7 @@ public class App
 		}
     	return feeds;
 	}
-
+/*
 	private static void MovingAverage(ArrayList<SensorFeed> feeds) {
 		double cumulativeMovingAverage = 0.0;
 		int window = 25;
@@ -201,6 +191,7 @@ public class App
 		}
 	    System.out.println("DONE!!");	
 	}
+	*/
 	
 	private static List<Double> getWeightsOfLength(int n) {
 		double sum = 0;
@@ -235,6 +226,8 @@ public class App
     	LightHouseAPI api = new LightHouseAPI();
     	
     	long looptime = System.nanoTime();
+    	java.util.Random rand = new java.util.Random();
+    	Long deviceID = rand.nextLong();
     	for(int i = 0; i < n; i++) {
     		long lasttime = looptime;
     		looptime = System.nanoTime();
@@ -242,29 +235,43 @@ public class App
 			//System.out.println(tickRate*1000000000);
     		if(tickRate*1000000000 > (looptime - lasttime) && rateLimit) {
     			try {
-    				//System.out.println("Limit");
-    				//System.out.println((double)(looptime - lasttime)/1000000.0);
-    				//System.out.println(tickRate*1000.0);
-    				//System.out.println(((tickRate*1000000000.0 - (looptime - lasttime))/1000000.0));
+    				System.out.println("Limit");
+    				System.out.println((double)(looptime - lasttime)/1000000.0);
+    				System.out.println(tickRate*1000.0);
+    				System.out.println(((tickRate*1000000000.0 - (looptime - lasttime))/1000000.0));
 					Thread.sleep((long) ((tickRate*1000000000.0 - (looptime - lasttime))/1000000.0));
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     		}
-	    	HashMap<String, String> map = new HashMap<String,String>();
-	    	map.put("sensor_type", "DistanceTopic");
-	    	map.put("ID", "4ee831f4-3da1-4e81-895d-f219ab1c4c35");
     		for(SensorFeed feed : feeds) {
+    	    	HashMap<String, String> map = new HashMap<String,String>();
+    	    	map.put("sensor_type", feed.name + "Topic");
+    	    	map.put("ID",deviceID.toString());
+    	    	map.put("Timestamp",Long.toString(System.currentTimeMillis()));
     	    	SensorReading reading = feed.feed.get(i);
+    	    	boolean doNotSend = false;
     	    	if(reading == null) {
-    	    		map.put(feed.name, "0.0");
+    	    		doNotSend = true;
     	    	}
-    	    	else {
-        	    	map.put(feed.name, reading.sensorValue == null ? "0.0" : reading.sensorValue.toString());
+    	    	else 
+    	    	{
+    	    		if(feed.name.equals("Location") && reading.sensorValue != null) {
+        	    		map.put("Latitude", reading.sensorValue[0]);
+        	    		map.put("Longitude", reading.sensorValue[1]);
+        	    		map.put("Heading", reading.sensorValue[2]);
+        	    		map.put("Confidence", "0.1");
+    	    		} else if(reading.sensorValue.length > 0){
+    	    			map.put(feed.name, reading.sensorValue[0]);
+    	    		} else {
+    	    			doNotSend = true;
+    	    		}
+    	    	}
+    	    	if(!doNotSend) {
+    				api.sendSensorDataAsync(map,new AsyncResponse());
     	    	}
     		}
-			api.sendSensorDataAsync(map,new AsyncResponse());
     	}
     	long stopTime = System.nanoTime();
     	System.out.println("Sending time: ");
@@ -272,6 +279,8 @@ public class App
     	System.out.println("Sent messages #: " + n);
     	System.out.println("DONE!!!!");
 	}
+	
+	/*
 	
 	private static void KalmanFilter(ArrayList<SensorFeed> feeds) {
 		final double dt = 0.00001;
@@ -405,4 +414,5 @@ public class App
 		}
 	    System.out.println("DONE!!");
 	}
+	*/
 }

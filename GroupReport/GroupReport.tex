@@ -184,7 +184,7 @@ The academic administrators and supervisors of this project have a specific visi
 The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
 \subsubsection{Team members}
-The team members have a different stake in the project since they want, not only, a good mark but also for a rewarding learning experience.
+The team members have a different stake in the project since they want, not only, a good mark but also a rewarding learning experience.
 They want to see the project fulfilling the requirements of the other stakeholders while also getting a chance to tackle interesting and challenging problems that will widen their knowledge base in the field of Software Engineering.
 In order to ensure a passing mark for every member of the team the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
 
@@ -253,10 +253,14 @@ Table \ref{table:1} shows a list of requirements our system will fulfil (please 
 Given the goals the team and the client set for this project there were several considerations to be made to make the architecture flexible and perform enough to satisfy the requirements. Having the requirement of being able to accept data from many kinds of sensors made it clear that the architecture had to be made up of a variety of strategies to homogenise the data so that it could be processed in a more abstract way. Subsequent processing could then be performed based on a fixed data model that would make it easier to rapidly develop and evaluate different processing strategies.
 
 \subsection{Data collection}
-
+\label{dataCollection}
+The data collection aspect of the project was a major architectural concern since the data processing part of the pipeline is supposed to handle data coming from may different kinds of sensors.
+Therefore the SSE team set up a simple, well documented, API for the data collection applications to communicate with. This decoupled the processing platform from the data collection by exposing an interface that clearly stated the data expected by the processing platform from the data collection applications.
+The initial implementation plan for this part of the architecture was to have the CS students implement each of the data collection applications.
+A concern about this structure was raised by our academic stakeholders where they wanted the SSE team to further decouple their work from the CS students. This was done by having one of the data collection application implemented by the SSE team, thereby making the SSE team responsible for a full slice through the system. Any additional data collection by the CS students would therefore be additive and not essential to the success of the project.
 
 \subsection{Aggregation} 
-Initial aggregation or preprocessing will be performed in Kafka.
+The API mentioned in Section~\ref{dataCollection} 
 
 \subsection{Processing}
 Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{Vesko you can elaborate just a bit}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="geoxml3.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+</head>
+
+<body>
+
+<div id="map-canvas">map</div>
+<script>
+console.log("a");
+ $(document).ready(function(){
+console.log("b");
+ $.ajax({
+   url : 'http://bigboy.io:8083/ObstacleAPI/v0_1/Locations/All',
+   dataType : 'html',
+   success : function(data) {
+     console.log(data);
+     var Google = new google.maps.LatLng(51.52441, -0.13315);
+     var mapOptions = {
+      zoom: 18,
+      center: Google
+   }
+
+   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+   var geoXml = new geoXML3.parser({
+                map: map
+            });
+
+   geoXml.parseKmlString(date);
+
+   ctaLayer.setMap(map);
+   console.log(data);
+
+   }
+  });                           
+ });
+</script>
+</body>
+</html>
