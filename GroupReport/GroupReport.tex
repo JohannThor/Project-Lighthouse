@@ -254,13 +254,12 @@ Given the goals the team and the client set for this project there were several 
 
 \subsection{Data collection}
 \label{dataCollection}
-The data collection aspect of the project was a major architectural concern since the data processing part of the pipeline is supposed to handle data coming from may different kinds of sensors.
-Therefore the SSE team set up a simple, well documented, API for the data collection applications to communicate with. This decoupled the processing platform from the data collection by exposing an interface that clearly stated the data expected by the processing platform from the data collection applications.
-The initial implementation plan for this part of the architecture was to have the CS students implement each of the data collection applications.
+The data collection aspect of the project was a major architectural concern since the data processing part of the pipeline is supposed to handle data coming from may different kinds of sensors. This part would have to be able to filter and make sense of a high volume of sensor readings and prepare them for further processing. Therefore the SSE team set up a simple, well documented, API for the data collection applications to communicate with. This decoupled the processing platform from the data collection by exposing an interface that clearly stated the data expected by the processing platform from the data collection applications.
+The initial implementation plan for this part of the architecture was to have the CS students implement each of the data collection applications and the SSE team would implement the processing platform.
 A concern about this structure was raised by our academic stakeholders where they wanted the SSE team to further decouple their work from the CS students. This was done by having one of the data collection application implemented by the SSE team, thereby making the SSE team responsible for a full slice through the system. Any additional data collection by the CS students would therefore be additive and not essential to the success of the project.
 
-\subsection{Aggregation} 
-The API mentioned in Section~\ref{dataCollection} 
+\subsection{Aggregation}  % TODO: find a good name for this
+The API mentioned in Section~\ref{dataCollection} was the only contact point for the data collection applications. The component needed to be designed and implemented to handle large quantities of incoming readings, from many different sources, and efficiently buffer and pass them to the processing component. The aggregation component would group together readings and post them to the processing component in a producer/consumer pattern. To manage this the SSE team evaluated several message broker systems for the job, Apache Kafka, Azure EventHub and RabbitMQ. The criteria used was threefold, one was the applicability of the technology to the producer/consumer pattern, their cost and their ease of integration with the technology used in the processing component. Azure EventHub was considered as a robust and scalable possibility but was discarded because of the cost associated with running it for the duration of the project, see Appendix~\ref{ArchitectureCost}. RabbitMQ and Apache Kafka both fit well with the architecture and patterns the team had in mind but ultimately Apache Kafka was chosen because of it's ease of integration with Apache Spark. 
 
 \subsection{Processing}
 Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{Vesko you can elaborate just a bit}
@@ -290,7 +289,7 @@ A socket on our VPS will be listening indefinitely on a particular port for inco
 
 
 \subsubsection{Kafka Producer Listener}
-At the listening end we would essentially do a partial deserialization of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
+At the listening end we would essentially do a partial deserialisation of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
 
 \subsubsection{Spark Processing}
 An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. 
@@ -417,6 +416,9 @@ Talk about the migration plan to Azure.\\
 
 
 \section{Appendix section head}
+
+\subsection{Architecture cost analysis}
+\label{ArchitectureCost}
 
 \end{document}
 
