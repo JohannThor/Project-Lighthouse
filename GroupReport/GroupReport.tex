@@ -207,12 +207,12 @@ The use of Open Street Maps was discussed in this context as a database to work 
 Another secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluating sensor fusion techniques in the context of obstacle detection. This objective was deemed important since it fit well with the rest of the project.
 
 % Goal model diagram
-\begin{figure}
-\label{fig:GoalModel}
-\centering
-\includegraphics[width=\textwidth]{test640}
-\caption{An awesome goal model}
-\end{figure}
+% \begin{figure}
+% \label{fig:GoalModel}
+% \centering
+% \includegraphics[width=\textwidth]{test640}
+% \caption{An awesome goal model}
+% \end{figure}
 
 % TODO: Link to appendix with formal goal definitions
 
@@ -279,84 +279,64 @@ The feedback application uses the locations of the obstacles to notify the user 
 \section{Implementation}
 As described in section~\ref{architecture} the chosen architecture uses a variety of different technologies to achieve its goal. Each component therefore had a predefined best practice in implementation. The team aimed to follow best practices when working with each technology and align their work so that each member would be able to work on each component interchangeably.
 
-\subsection{Technology}
+The first concern the SSE team took on was the choice of programming language. Each of the Apache technologies supported Java, Scala and Python for development so those were the options evaluated. Java and Scala are the most common implementation languages for these technologies and provide the most comprehensive documentation and support. The team felt more comfortable with Java than Scala and the choice of using Android for the front end applications drove the decision towards using Java for the server side as well. This would help the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
 
-\subsubsection{Kafka}
+
+\subsection{Kafka}
 A communication handler is set up to listen on a UDP socket for sensor readings. The readings are sent to the socket from the data collection applications in JSON format which the handler receives and deserialises before pushing them into the Kafka message queue.
 
 %Describe
-\subsubsection{Spark}
+\subsection{Spark}
 After aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{Vesko you can elaborate just a bit}
 
-%Describe
-\subsubsection{Cassandra}
-%Describe
+\subsection{Cassandra}
+The data modelling for Cassandra was fairly simple, the number of data points needed to persist an obstacle were few and clear. After setting up the Cassandra server the data model was set up through CQL and drivers with Java set up for testing and querying.
 
-\subsection{Interaction}
-Before diving into suitability arguments for the chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other. 
+\subsection{Obstacle Query API}
+To query the database an API was set up that was written in Java using the Jersey framework. The API is hosted on the same machine as Cassandra using the Tomcat web server. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
 
-\subsubsection{Android app and Jar file}
+\subsection{Android app and Jar file}
 A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor.
 
-
-\subsubsection{Kafka Producer Listener}
+\subsection{Kafka Producer Listener}
 At the listening end we would essentially do a partial deserialisation of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
 
-\subsubsection{Spark Processing}
+\subsection{Spark Processing}
 An option for the consumption part of the architecture could be carried out using a standard kafka consumer however we went ahead with Spark to provide these services. Spark receives the data from a kafka direct stream, aggregates and processes the data. Kafka and spark interact through a spark kafka streaming plug-in. 
 
-\subsubsection{Obstacle API and Cassandra}
-Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
+\subsection{Interaction}
+Before diving into suitability arguments for the chosen architecture, it would be of immense importance to discuss how components in our architecture will interact with each other.
 
 
-\subsubsection{Query API}
-% Why Java for 
-
-
-\subsubsection{Why Java over Python and Scala?}
-
-\subsubsection{Why Kafka?}
-
-\subsubsection{Why Spark For Processing instead of Kafka Consumer, Apache Storm, Hadoop?}
-
-\subsubsection{Why UDP?}
-
-\subsubsection{Why Cassandra?}
-
-
-
-% Architecture here
-% TODO: Reevaluate the structure here
 \section{Project Management}
-% Discuss 
-The team consists of 8 Masters students, 4 are doing a conversion course in Computer Science and 4 are doing Software Systems Engineering. As discussed earlier the 4 CS students are each responsible for a data collection or feedback application that would be the topic of their dissertation project.
+The team consists of 8 Masters students, 4 are doing a MSc level conversion course in Computer Science and 4 are doing a MSc degree in Software Systems Engineering. As discussed earlier the 4 CS students are each responsible for a data collection or feedback application that would be the topic of their dissertation project.
 The role of the SSE team with regards to the CS students was to coordinate their efforts towards creating value for the client and to provide them with guidance with the implementation and architecture of their projects.
 
 \subsubsection{Processes}
-Describe tools and processes, Scrum, Kanban etc.
-
-\subsection{Tools}
-Jira, Slack Maybe not needed.
-
-\subsubsection{Communication}
-Talk about our communication and meeting schedule.
+The SSE team managed their work by relying on the Scrum methodology. Work was organised into 2 week sprints and standup meetings were scheduled for communication and status updates. Mondays were set up as meeting days to synchronise with stakeholders, academic supervisors and our client. Standup meetings were held the following Tuesday which was used to re-organise and adapt the work schedule over the week to the most recent project vision of our client. Fridays were used to write reports and inform our stakeholders of the progress made. The team would hand in a weekly report and send demonstration material to the client to show progress and receive feedback.
 
 \subsection{Testing strategy}
-Show how our integration and load testing evaluates our architecture and a discussion of why it fits well
+The testing strategy was a large consideration for the SSE team, since the many components of the architecture had different interfaces so each needed a strategy tailor made for it. In order to manage and enforce the testing strategy the team set up a continuous integration server, Jenkins, to run tests as code was pushed to Git and run unit, load and integration tests.
+
+\subsubsection{Kafka}
+The main quality requirement for the UDP socket server for the Kafka producer was the throughput. Therefore load tests were the main focus in the testing strategy for this component. Since the component uses UDP the metrics gathered were to measure number of packets processed, number of packets dropped and the processing speed of each packet from the socket and into the message queue. The team considered using unit testing and integration tests to evaluate this component but the work involved in mocking out dependencies was not the most efficient use of time. The Kafka producer should contain as little logic as possible and therefore unit tests would be of little value. Integration tests on this component would be run on the component when testing the integration with the Spark processing component.
+
+\subsubsection{Spark}
+This component has a similar testing strategy to the Kafka component. The processing throughput is a large concern since the entire processing pipeline needs to be checked for bottlenecks so load test will need to be performed. Integration tests are also required to test if the processing is producing the correct output. Here the dependency of the processing component on the Spark environment creates real problems to unit testing. Mocking this out is a major effort so the integration tests were found to be sufficient to assure the team that the processing is producing the correct results.
+
+\subsubsection{Obstacle API}
+The obstacle REST API has several logic components that need unit testing in addition to other testing methods. The logic will be tested through unit tests and the HTTP compliance and error checks will be performed through integration tests. In addition to this some load tests will be performed to make sure the API stands up to a minimum level of load expected in our quality requirements.
+
+\subsubsection{Indoor Atlas}
+%TODO: Shuang add a discussion
 
 \section{Evaluation}
-Metrics and graphs showing the performance of certain parts of the project.
+%TODO: Need more here
 
 \subsection{Performance and Scalability}
 Discussion of the amount of messages that can be processed in Kafka -> Spark -> Cassandra.
 Talking about aggregation and such.
 Packet drop, burst of messages vs sustained.
-
-\subsection{Detection accuracy}
-What is it that we are measuring
-How do we evaluate the accuracy
-Noise cancelling?
-
 
 \begin{figure}
 \centering
@@ -390,6 +370,15 @@ Noise cancelling?
 \caption{A figure with two subfigures}
 \label{fig:test}
 \end{figure}
+
+\subsection{Detection accuracy}
+Describe the testing scenario, the simulator and show diagrams that compare both.
+
+
+\subsection{Acceptance}
+
+
+%TODO: Talk about the cs students evaluation?
 
 \section{Life cycle and Future Work}
 \subsection{Current state}
