@@ -266,6 +266,7 @@ Upon aggregation, data will be processed/transformed before it is stored inside 
 
 \subsection{Feedback}
 \textcolor{blue}{Shuang???}
+After Processing, the obstacle data will be stored in Cassandra database. Based on the Requirement mentioned in Section 3.4, we implement the feedback part to show the user the surroundings by querying the stored obstacle data. When to query the nearby obstacles in the database, we set the query based on the user‘s location data which consists of latitude, longitude. In an actual situation where our platform is used for, we show the obstacles nearby instead of all the obstacles detected and stored. For this reason, we set radius which allows the platform give user feedback within an exact area.
 
 % TODO: make a good argument for how we managed RISK
 
