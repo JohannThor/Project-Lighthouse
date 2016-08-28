@@ -265,9 +265,8 @@ The API mentioned in Section~\ref{dataCollection} was the only contact point for
 Upon aggregation, data will be processed/transformed before it is stored inside Cassandra. We agreed on using a \textcolor{red}{Kalman filter} or using a \textcolor{red}{moving average} in Spark to produce a confident measurement we can store in Cassandra. \textcolor{blue}{Vesko you can elaborate just a bit}
 
 \subsection{Feedback}
-\textcolor{blue}{Shuang???}
 After Processing, the obstacle data will be stored in Cassandra database. Based on the Requirement mentioned in Section 3.4, we implement the feedback part to show the user the surroundings by querying the stored obstacle data. When to query the nearby obstacles in the database, we set the query based on the user‘s location data which consists of latitude, longitude. In an actual situation where our platform is used for, we show the obstacles nearby instead of all the obstacles detected and stored. For this reason, we set radius which allows the platform give user feedback within an exact area. We show the obstacle both in a scrollable list and on a visual map.
-
+
 
 % TODO: make a good argument for how we managed RISK
 
@@ -277,6 +276,7 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 \subsection{Technology}
 
 \subsubsection{Kafka}
+Kafka is a distributed publish subscribe messaging service designed specifically to be fast and handle large volume of data inflow coming from various sources. Kafka is fault tolerant as it is inherently distributed over a cluster computers so if one broker fails, the other live brokers= will complemenent. Kafka achieves fault tolerance with the help of zookeeper which is a seperate Apache tool for confifugration and synchronisation of nodes in a distributed system. A leader in a kafka broker is resposnible for read/write operations in a partition and only one leader can exist for every partition. If a leader dies in the cluster, zookeeper is responisble for managing change in leadership to an existing slave broker. Furthermore Kafka seamlessly integrate with Spark for high speed data processing. 
 %Describe
 \subsubsection{Spark}
 %Describe
@@ -303,14 +303,20 @@ Upon processing by spark, a single obstacle location is stored in Cassandra with
 \subsubsection{Query API}
 % Why Java for 
 
+\subsection{Discussion}
 
 \subsubsection{Why Java over Python and Scala?}
 
+
+
 \subsubsection{Why Kafka?}
+
 
 \subsubsection{Why Spark For Processing instead of Kafka processing, Apache Storm, Hadoop?}
 
+
 \subsubsection{Why UDP?}
+
 
 \subsubsection{Why Cassandra?}
 
