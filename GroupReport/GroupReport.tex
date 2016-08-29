@@ -167,46 +167,46 @@ In light of research described in the literature reviewed the team will be able 
 
 %TODO: citation 
 
-The initial plan for this project was to make use of hardware developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in strategically predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
-The use cases that were to be explored were centred around detecting gestures and possible indoor location possibilities. However, soon after the project was presented to the team the hardware was found to have several limitations. The team found that the location accuracy was considerably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimetre, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimetres. This eliminates the gesture use case since more accuracy is needed to get accurate gesture recognition.
+The initial plan for this project was to make use of device developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in strategically predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
+The former use cases to be explored focused on detecting gestures and possible indoor location possibilities. However, soon after the project was presented to the team, the hardware was found to have several limitations. The team found that the location accuracy was considerably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimetre, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimetres. This eliminates the gesture use case since more precision is needed to get accurate gesture recognition.
 %TODO: citation
-Furthermore the hardware can only functions if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the practicality of the device for indoor location since a wearable piece of hardware is usually blocked by the wearers body in addition to any obstacle in the environment such as static or movable objects.
+Furthermore, the hardware can only functions if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the practicality of the device for indoor location since a wearable piece of hardware is usually blocked by the wearer's body in addition to any obstacle in the environment such as static or movable objects.
 %TODO: citation
-Therefore the high probability of getting unacceptable performance out of the hardware platform was found to cause to much risk to the project and the team mitigated that risk by pivoting the focus of the project to different topic.
+Therefore the high probability of getting unacceptable performance out of the hardware platform was found to cause to much risk to the project and the team mitigated that risk by pivoting the focus of the project to a different topic.
 
 \subsection{Stakeholders and Project Context}
-In order to identify and prioritise the goals and objectives of the SSE team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
+To identify and prioritise the goals and objectives of the SSE team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
 
 \subsubsection{Microsoft}
-Microsoft is both the sponsor and the client in this project, in addition to that Microsoft provides the team with access to domain experts and other resources. The main outcome that Microsoft wants from the project is research into available assistive technologies based on obstacle detection and sensor fusion. The team is therefore responsible for conducting that research, enumerating the technologies available and developing a proof of concept prototype to illustrate the possibilities of a system using them.
-Mr. Jarnail Chudge is representing Microsoft and will be the teams client for the duration of the project.
+Microsoft is both the sponsor and the client in this project, in addition to that Microsoft provides the team with access to domain experts and other resources. The primary outcome that Microsoft wants from the project is research into available assistive technologies based on obstacle detection and sensor fusion. The team is therefore responsible for conducting that research, enumerating the technologies available and developing a proof of concept prototype to illustrate the possibilities of a system using them.
+Mr Jarnail Chudge is representing Microsoft and will be the team's client for the duration of the project.
 
 \subsubsection{Academic}
 The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.
-The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding state of the art software engineering processes and maintaining good communication with the client throughout the process.
+The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding the state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
 \subsubsection{Team members}
 The team members have a different stake in the project since they want, not only, a good mark but also a rewarding learning experience.
 They want to see the project fulfilling the requirements of the other stakeholders while also getting a chance to tackle interesting and challenging problems that will widen their knowledge base in the field of Software Engineering.
-In order to ensure a passing mark for every member of the team the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
+To ensure a passing mark for every member of the team, the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
 
 \subsection{High level goals}
-The teams initial contact with the client was a brainstorming session where he expressed the vision for the project. He expressed Microsoft's desire to have an end product which would feel natural to the user with very little work on the user's part in terms of learning getting themselves familiar with the product. Then they raised the idea of using a sensor or combination of wearable sensors to achieve the ultimate goal. Ideas were then bounced around and a subject area was found that was open for research and of value to our client.
-Microsoft Research have done some investigation into using Sensor Fusion and wanted to see how that technology could be used in aiding the visually impaired~\cite{Gear2012}.
+The team's initial contact with the client was a brainstorming session where he expressed the vision for the project. He expressed Microsoft's desire to have an end product which would feel natural to the user with very little work on the user's part regarding learning getting themselves familiar with the product. Then they raised the idea of using a sensor or combination of wearable sensors to achieve the ultimate goal. Ideas were then bounced around, and a subject area was found that was open for research and of value to our client.
+Microsoft Research has done some investigation into using Sensor Fusion and wanted to see how that technology could be utilised in aiding the visually impaired~\cite{Gear2012}.
 
-After the brainstorming session the team met several times to brainstorm further and research possible applications around the sensor fusion concept and decided on a few possible project proposals.
-These were presented to the client and he expressed interest in continuing with one of them.
-For the final project proposal our client agreed on a research area that will help the visually impaired navigate an indoor environment.
-Using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
+After the brainstorming session, the team met several times to brainstorm further and research possible applications around the sensor fusion concept and decided on a few possible project proposals.
+These were presented to the client, and he expressed interest in continuing with one of them.
+For the final project proposal, our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+By using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
 
-The goal is to use cheap, off-the-shelf sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using various sensor fusion methods.
-In order to identify the main goals of our client the team came up with scenarios and use cases, within the scope that was mentioned in section~\ref{sec:Prelim}, and presented them to the client. This was followed up with a discussion that lead to the identification of the following high level goals.
+The goal is to use cheap, off-the-shelf sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using sensor fusion methods.
+In order to identify the main goals of our client the team came up with scenarios and use cases, within the scope that was mentioned in section~\ref{sec:Prelim}, and presented them to the client. This was followed up by a discussion that leads to the identification of the following high level goals.
 
 
 The main objective was to improve the experience of the visually impaired in a specific scenario. The scenario in question involved a visually impaired individual entering a space like a coffee shop and having to navigate around obstacles like tables and chairs.
 This made obstacle detection a clear objective and secondary objectives relating to that were then further explored. The use of the obstacle detection in conjunction with detection of points of interest was discussed as a possible objective but was deemed less important by the client.
 The use of Open Street Maps was discussed in this context as a database to work from with regards to gathering information on points of interest~\cite{OSM}.
-Another secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluating sensor fusion techniques in the context of obstacle detection. This objective was deemed important since it fit well with the rest of the project.
+Another secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluating sensor fusion techniques in the context of obstacle detection. This objective was deemed essential since it fit well with the rest of the project.
 
 % Goal model diagram
 \begin{figure}
