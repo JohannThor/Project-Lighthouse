@@ -355,12 +355,16 @@ The obstacle REST API has several logic components that need unit testing in add
 %TODO: Shuang add a discussion
 
 \section{Evaluation}
-%TODO: Need more here
+Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by doing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
+
+\subsection{Tools and Data generation}
+
 
 \subsection{Performance and Scalability}
 Discussion of the amount of messages that can be processed in Kafka -> Spark -> Cassandra.
 Talking about aggregation and such.
 Packet drop, burst of messages vs sustained.
+
 
 \begin{figure}
 \centering
