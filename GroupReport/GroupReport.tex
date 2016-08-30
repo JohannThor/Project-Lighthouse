@@ -362,6 +362,7 @@ Given the nature of the project the main success criteria is if the system can a
 The data was generated through a simulation script written in Python. The simulation was set up by specifying an agent, some obstacles and a set of sensors. The agent and obstacles would have a location in space and the agent had a maximum velocity, rotation speed and other movement parameters. The simulation would then be configured by laying out a path for the agent to move through while the sensors were polled to check if they would detect an obstacle. The simulation allowed for noise to be added to the sensor readings that would give a more realistic way of processing sensor data that will inherently contain error and noise.
 
 \subsection{Performance and Scalability}
+After implementing the processing pipeline the first performance test performed was to evaluate the throughput and packet loss. This was done by sending progressively larger numbers of simulated sensor readings to the pipeline and measure how it handled the load.
 
 \begin{center}
 \begin{tabularx}{\textwidth}{| X | X | X | X |} 
@@ -377,6 +378,8 @@ The data was generated through a simulation script written in Python. The simula
 \end{tabularx}
 \label{tab:performance}
 \end{center}
+
+The results showed that the pipeline handled loads far beyond what was stipulated in the quality requirements, the packet loss is within acceptable limits (2\%) for over 100000 readings and the throughput was an order of magnitude higher than the goal. The quality requirements needed the pipeline to handle 100 readings per second but the load testing showed that the pipeline could handle over 5000 messages before it started to experience deteriorating performance.
 
 \begin{figure}
 \centering
