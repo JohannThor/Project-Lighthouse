@@ -1,0 +1,67 @@
+% v2-acmsmall-sample.tex, dated March 6 2012
+% This is a sample file for ACM small trim journals
+%
+% Compilation using 'acmsmall.cls' - version 1.3 (March 2012), Aptara Inc.
+% (c) 2010 Association for Computing Machinery (ACM)
+%
+% Questions/Suggestions/Feedback should be addressed to => "acmtexsupport@aptaracorp.com".
+% Users can also go through the FAQs available on the journal's submission webpage.
+%
+% Steps to compile: latex, bibtex, latex latex
+%
+% For tracking purposes => this is v1.3 - March 2012
+
+\documentclass[prodmode,acmtosem]{acmsmall} % Aptara syntax
+
+% Package to generate and customize Algorithm as per ACM style
+\usepackage[ruled]{algorithm2e}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage{natbib}
+\usepackage{subfigure}
+\usepackage{tabularx}
+
+\renewcommand{\algorithmcfname}{ALGORITHM}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+\SetAlCapHSkip{0pt}
+\IncMargin{-\parindent}
+
+% Document starts
+\begin{document}
+
+% Page heads
+\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
+
+% Title portion
+\title{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
+\author{Johann Thor Kristthorsson
+\affil{University College London}
+Ifeanyi Ndu
+\affil{University College London}
+Veselin Pavlov
+\affil{University College London}
+Shuang Zhang
+\affil{University College London}
+}
+
+\maketitle
+
+\section{Project Context and Objectives}
+Who is your client? What problem did you have to solve? Why is that problem interesting or important?
+\section{Achievements}
+What software and other artifacts have you delivered?
+\section{Evaluation}
+What evaluation have you done? What are the results of your evaluations?(Be specific; give numbers!)
+\section{Impact}
+What are the impacts of your work for your client and other stakeholders?
+\section{Challenges}
+Was your project subject to significant constraints and difficulties (technical, organisational, logistics, etc.)? How did you respond to these constraints and difficulties?
+\section{Lessons Learnt}
+What can other software engineers learn from your experience in this project? (take away messages)
+\end{document}
+
+
