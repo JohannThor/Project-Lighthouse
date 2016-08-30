@@ -353,6 +353,7 @@ The obstacle REST API has several logic components that need unit testing in add
 
 \subsubsection{Indoor Atlas}
 %TODO: Shuang add a discussion
+The user's location collecting component based on Indoor Atlas in our project requires low latency and high accuracy. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, IndoorAtlas provides the average accuracy tested by their platform. Also, the actual accuracy will be measured by calculating the distance between the actual user location and the IndoorAtlas result.
 
 \section{Evaluation}
 %TODO: Need more here
