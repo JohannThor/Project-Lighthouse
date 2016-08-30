@@ -1,1 +1,0 @@
-rm GroupReport.pdf ; bibtex GroupReport && pdflatex GroupReport.tex && open GroupReport.pdf
