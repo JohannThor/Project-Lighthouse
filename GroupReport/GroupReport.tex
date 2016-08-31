@@ -260,10 +260,10 @@ Another CS student worked on an application that polled cheap off-the-shelf infr
 \subsection{Aggregation}  % TODO: find a good name for this
 The API mentioned in Section~\ref{dataCollection} was the only contact point for the data collection applications. The component needed to be designed and implemented to handle large quantities of incoming readings, from many different sources, and efficiently buffer and pass them to the processing component. The aggregation component would group together readings and post them to the processing component in a producer/consumer pattern. To manage this the SSE team evaluated several message broker systems for the job, Apache Kafka, Azure EventHub and RabbitMQ. The criteria used was threefold, one was the applicability of the technology to the producer/consumer pattern, their cost and their ease of integration with the technology used in the processing component. Azure EventHub was considered as a robust and scalable possibility but was discarded because of the cost associated with running it for the duration of the project, see Appendix~\ref{ArchitectureCost}. RabbitMQ and Apache Kafka both fit well with the architecture and patterns the team had in mind but ultimately Apache Kafka was chosen because of it's ease of integration with Apache Spark.
 
-Kafka is a distributed publish subscribe messaging service designed specifically to be fast and handle large volume of data inflow coming from various sources. Kafka is fault tolerant as it is inherently distributed over a cluster computers so if one broker fails, the other live brokers will complemenent the node. Kafka achieves fault tolerance with the help of zookeeper which is a seperate Apache tool for configuration and synchronisation of nodes in a distributed system. A leader in a kafka broker is resposnible for read/write operations in a partition and only one leader can exist for every partition. If a leader dies in the cluster, zookeeper is responisble for managing change in leadership to an existing slave broker. Furthermore Kafka seamlessly integrates with Spark for high speed data processing. 
+Kafka is a distributed publish subscribe messaging service designed specifically to be fast and handle large volume of data inflow coming from various sources. Kafka is fault tolerant as it is inherently distributed over a cluster computers so if one broker fails, the other live brokers will complement the node. Kafka achieves fault tolerance with the help of zookeeper which is a separate Apache tool for configuration and synchronisation of nodes in a distributed system. A leader in a Kafka broker is responsible for read/write operations in a partition and only one leader can exist for every partition. If a leader dies in the cluster, zookeeper is responsible for managing change in leadership to an existing slave broker. Furthermore Kafka seamlessly integrates with Spark for high speed data processing. 
 
 \subsection{Processing}
-With Apacha Kafka working as a producer for the producer/consumer pattern and Apache Spark working as the consumer the team managed to handle the level of throughput needed for the purposes of the project.
+With Apache Kafka working as a producer for the producer/consumer pattern and Apache Spark working as the consumer the team managed to handle the level of throughput needed for the purposes of the project.
 Spark consumes streams of sensor readings coming from Kafka in the distributed way, performs the processing on the data and stores the result into database.
 
 \subsection{Storage and API}
@@ -282,7 +282,7 @@ As described in section~\ref{architecture} the chosen architecture uses a variet
 The first concern the SSE team took on was the choice of programming language. Each of the Apache technologies supported Java, Scala and Python for development so those were the options evaluated. Java and Scala are the most common implementation languages for these technologies and provide the most comprehensive documentation and support. The team felt more comfortable with Java than Scala and the choice of using Android for the front end applications drove the decision towards using Java for the server side as well. This would help the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
 
 \subsection{Android app and Jar file}
-A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor.
+A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. To simplify the development process for each application the SSE team decided to provide each application with a library that would perform the data sending and obstacle querying. Therefore, reducing the code duplication over the android applications.
 
 \subsection{Kafka Producer Listener}
 At the listening end we would essentially do a partial deserialisation of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
@@ -422,6 +422,7 @@ Furthermore, the hardware can only function if 3 beacons are within a 130\degree
 Therefore the high probability of getting unacceptable performance out of the hardware platform was found to cause too much risk to the project and the team mitigated that risk by pivoting the focus of the project to a different topic.
 
 \subsection{Testing with Real Data}
+Despite creation of a program which simulates an user who moves in an environment full of obstacles, we could be never sure that our system fulfill the requirements. It is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
 
 \subsection{Memory Shortage}
 
@@ -429,10 +430,20 @@ Therefore the high probability of getting unacceptable performance out of the ha
 
 \subsection{UDP over TCP}
 
-\subsection{Java over Scala}
+\subsection{Shared communication library}
+As described above a library was provided to the CS students which let them interact with our platform. Initially, we decided to implement this library on a desktop computer using Java 8. However, when we tried to use the library to send data to our platform we realised that android has limitations of networking tasks. Specifically, it would not let to send data over socket on the main thread. Therefore, we had to reimplement the library to be compatible with android devices.
 
-\subsection{Combining Streams}
-\textcolor{red}{vesko??}
+\subsection{Java over Scala for Spark}
+As describe above it was decided to use Java as a programming language for Spark processing. Making this decision led us to several challenges which we couldn't know beforehand. First, despite that there was plenty of Java code documentation we still spent a lot of time on implementing the required features. That is due to the fact that the official Java code was not working anymore with the latest Spark version because of methods deprecation. Therefore, we were forced to learn the technology more deeply in order to workaround these problem. 
+
+From the experience with Spark programming we have learned that sometimes it is better to learn a new language for which the technology was initially implemented instead of picking an already familiar language in order to program on the new technology. In addition, the code would be much cleaner if we had used Scala instead of Java.
+
+\subsection{Combining Data Streams}
+Another challenge, on top of absence of up-to-date documentation, was understanding how Spark is processing data and how to write code for it. Initially the sensor data processing was written in standard Java 8. We encountered several problems when tried to integrate the code into Spark since it uses different concept of data, where data stream contains batches of sensor data. First, Spark didn't let us to work with sensor data in different batches as we expected. Therefore, we had to completely change the processing approach, which also took us time.
+
+The experience was helpful to understand that implementation of features should be right away done for the technology which is going to be used.
+
+\textcolor{red}{vesko has written some ideas}
 
 \section{Conclusion}
 
