@@ -170,10 +170,10 @@ Mr Jarnail Chudge is representing Microsoft and will be the team's client for th
 %\subsubsection{Academic}
 %The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding the state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
-\subsubsection{Team members}
-The team members have a different stake in the project since they want, not only, a good mark but also a rewarding learning experience.
-They want to see the project fulfilling the requirements of the other stakeholders while also getting a chance to tackle interesting and challenging problems that will widen their knowledge base in the field of Software Engineering.
-To ensure a passing mark for every member of the team, the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
+% \subsubsection{Team members}
+% The team members have a different stake in the project since they want, not only, a good mark but also a rewarding learning experience.
+% They want to see the project fulfilling the requirements of the other stakeholders while also getting a chance to tackle interesting and challenging problems that will widen their knowledge base in the field of Software Engineering.
+% To ensure a passing mark for every member of the team, the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
 
 \subsection{High level goals}
 %The team's initial contact with the client was a brainstorming session where he expressed the vision for the project. He expressed Microsoft's desire to have an end product which would feel natural to the user with very little work on the user's part regarding getting themselves familiar with the product. Then they raised the idea of using a sensor or combination of wearable sensors to achieve the ultimate goal. Ideas were then bounced around, and a subject area was found that was open for research and of value to our client.
@@ -257,21 +257,31 @@ The ultrasound and infrared component also makes measurements of the objects in 
 These measurements are done by using 2 infrared sensors and ultrasound sensor to detect the distance from the user to an obstacle. The 3 sensors readings are preprocessed and filtered to mitigate the effects of temperature, velocity and other factors before being sent to the data collection platform. 
 
 \subsection{Obstacle processing and mapping}
-These sensors are the minimal set of sensors decided upon for the initial iteration of the project, however the mapping platform was designed to accept any type of sensor reading. Therefore there are a few preprocessing steps between the data collection API described in section~\cite{sec:interactions} and the final obstacle processing and storage.
+These sensors are the minimal set of sensors decided upon for the initial iteration of the project, however the mapping platform was designed to accept any type of sensor reading. Therefore there are a few preprocessing steps between the data collection API described in section~\cite{sec:interactions} and the final obstacle processing and storage. A figure depicting the processing pipeline can be found in Appendix~\ref{app:SparkPipeline}.
 
 \subsubsection{Data collection API}
-The first point of contact in the data collection platform is the API mentioned in section~\cite{sec:interactions}. The responsibility of this component is to provide an interface for the data collection platform that allows the data collection applications to send data to the platform. This is implemented by a server that listens on a UDP socket for messages in a specific JSON format. Once a message is received the message is validated and partially deserialised into a data structure.
+The first point of contact in the data collection platform is the API mentioned in section~\cite{sec:interactions}. The responsibility of this component is to provide an interface for the server side that allows the data collection applications to send data to the server side platform. This is implemented by a server that listens on a UDP socket for messages in a specific JSON format. Once a message is received the message is validated and partially deserialised into a data structure and given a timestamp. The ID of the device sending the measurements is also recorded to allow the platform to correlate messages from different sensors from the same device.
 %TODO: citation needed
 
 \subsubsection{Aggregation}
-After being partially deserialised the messages are filtered and split into categories.
-The producer/consumer pattern is implemented by the Apache Kafka message broker system~\cite{ApacheKafka}. Kafka provides a distributed messaging systems that allows for separation of large volumes of data into categorised streams called \"topics\". This is used by the system to sort the deserialised data structures into topics which are then preprocessed further.
+\label{sec:aggregation}
+After being partially deserialised the messages are filtered and split into categories. This step is designed so that the initial aggregation layer recognises the types of sensors and can map them to types that are used in the calculation of obstacles further down the pipeline. This allows for specific handling of each type of sensor in the aggregation layer while providing structured data down the line for processing. In the initial iteration there are three main data types, location, heading and distance. These sensor values are a minimum set necessary to infer the location of an obstacle based on a users location, heading and the distance to the obstacle. By abstracting the sensor values into these types the final obstacle calculations can be decoupled from the complexity of processing raw sensor readings and can be made more flexible. Once a sensor reading has been categorised it is pushed into a single message queue that is a part of a producer-consumer pattern. The producer-consumer pattern is implemented by the Apache Kafka message broker system~\cite{ApacheKafka}. Kafka provides a distributed messaging systems that allows for separation of large volumes of data into categorised streams called \"topics\". This is used by the system to sort the deserialised data structures into topics which are then processed further.
 
 \subsubsection{Processing and Mapping}
-The topics created in the previous steps are consumed by Apache Spark streams that filter the readings further.
+The readings produced and pushed into the Kafka topic in the step described in section~\ref{sec:aggregation} are consumed by a consumer that is implemented in Apache Spark~\cite{ApacheSpark}. Spark is a high performance, in memory, cluster computing framework. It provides a scalable platform that is capable of efficiently computing the large amount of data that the data collection applications can output. Spark Streaming is then used on top of the Spark processing platform to process the streamed topics provided by Kafka~\cite{ApacheSparkStreaming}.
+
+In spark the categorised and partially deserialised sensor readings are fully serialised into concrete data types and then pushed into separate streams, one for location and heading and another for distance readings. This separation is to facilitate the preprocessing and filtering done in the next step. 
+
+Once the streams have been separated based on data type the first pass of sensor fusion is performed. There is a moving average performed over each of the streams and an aggregation done to down sample the stream to a tick rate of 100ms. This smooths out noise in the sensor signal and gives a more accurate reading for each tick, which is then fed to the mapping calculation step.
+
+Before performing the final mapping calculation the streams are joined and aligned based on the timestamp of the sensor reading and the ID of the device that performed the reading. This is done so that the mapping calculation can draw batches of measurements from each device over a certain time interval for further calculations. The result is a stream of sensor readings that is keyed by the server tick time and grouped by device id.
+
+The last step involves a second pass of sensor fusion that consumes batches of readings from the joined stream and passes them through a calculation that extrapolates an obstacles position from a users location, heading and the distance measured by the sensors. These obstacles are then persisted in Apache Cassandra~\cite{ApacheCassandra}.
 
 \subsubsection{Storage and obstacle API}
+Cassandra is a highly performant, distributed NoSQL database that offers the same throughput and scalability as the other Apache products discussed in previous sections. The obstacles identified by the processing pipeline are stored in a table that contains the location, confidence and ID of an obstacle.
 
+The feedback applications can then query Cassandra for obstacles by calling the Obstacle API. This API is a REST web service written in Java that queries the table in Cassandra and exposes a simple interface to the feedback applications.
 
 
 % ======================================================================================================================================================
@@ -308,15 +318,12 @@ The topics created in the previous steps are consumed by Apache Spark streams th
 % \subsection{Feedback}
 % After Processing, the obstacle data will be stored in Cassandra database. Based on the Requirement mentioned in Section 3.4, we implement the feedback part to show the user the surroundings by querying the stored obstacle data. When to query the nearby obstacles in the database, we set the query based on the user‘s location data which consists of latitude, longitude and radius. In an actual situation where our platform is used for, we show the obstacles nearby instead of all the obstacles detected and stored. For this reason, we set radius which allows the platform give user feedback within an exact area. We show the obstacle both in a scrollable list and on a visual map.
 
-%<<<<<<< HEAD
 
-%=======
 %Kafka is a distributed publish subscribe messaging service designed specifically to be fast and handle large volume of data inflow coming from various sources. Kafka is fault tolerant as it is inherently distributed over a cluster computers so if one broker fails, the other live brokers will complement the node. Kafka achieves fault tolerance with the help of zookeeper which is a separate Apache tool for configuration and synchronisation of nodes in a distributed system. A leader in a Kafka broker is responsible for read/write operations in a partition and only one leader can exist for every partition. If a leader dies in the cluster, zookeeper is responsible for managing change in leadership to an existing slave broker. Furthermore Kafka seamlessly integrates with Spark for high speed data processing. 
 
 %\subsection{Processing}
 %With Apache Kafka working as a producer for the producer/consumer pattern and Apache Spark working as the consumer the team managed to handle the level of throughput needed for the purposes of the project.
 %Spark consumes streams of sensor readings coming from Kafka in the distributed way, performs the processing on the data and stores the result into database.
-%>>>>>>> 87b4efd6dfa57d0e9948d35eab41837e020b78a0
 
 
 
