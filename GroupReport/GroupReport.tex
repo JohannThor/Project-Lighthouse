@@ -204,7 +204,7 @@ Another secondary objective that came up on the topic of obstacle detection was 
 
 \subsection{Requirements}
 
-Table \ref{table:1} shows a list of requirements our system will fulfil (please see section \ref{Appendix} for a full description of our requirement patterns).\\
+Table \ref{table:1} shows a list of requirements our system will fulfill (please see section \ref{Appendix} for a full description of our requirement patterns).\\
 
 \renewcommand{\arraystretch}{1.5}
 
@@ -251,7 +251,7 @@ The components developed by the SSE team were chosen so that a full slice of the
 The Indoor Atlas application uses an SDK developed by Indoor Atlas Ltd. \cite{IndoorAtlas} which uses magnetometric, accelerometer and gyroscopic sensors in a mobile device to determine a users location and heading indoors. In addition to sending the data to the server side the app also queries the server for the locations of obstacles. These obstacles are also drawn on the on-screen map.
 
 \subsubsection{Visual obstacle detection}
-The visual obstacle detection component uses a head mounted camera that takes pictures of the area infront of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then be detected and their location is sent to the data collection platform.
+The visual obstacle detection component uses a head mounted camera that takes pictures of the area in front of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then be detected and their location is sent to the data collection platform.
 
 \subsubsection{Ultrasound and Infrared}
 The ultrasound and infrared component also makes measurements of the objects in front of the user and send the readings to the obstacle mapping platform.
@@ -461,8 +461,18 @@ Describe the testing scenario, the simulator and show diagrams that compare both
 \subsection{Acceptance}
 %TODO: Talk about the cs students evaluation?
 
-\subsection{Android app}
+\subsection{Android application}
 We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
+
+\subsection{Kafka}
+
+\subsection{Spark}
+
+\subsection{Cassandra}
+
+
+\subsection{Jenkins}
+\textcolor{red}{vesko? i cant remember why we chose jenkins over Travis or whatever it is called lol}
 
 \section{Life cycle and Future Work}
 \subsection{Current state}
@@ -492,7 +502,7 @@ Therefore the high probability of getting unacceptable performance out of the ha
 Despite creation of a program which simulates an user who moves in an environment full of obstacles, we could be never sure that our system fulfill the requirements. It is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
 
 \subsection{Memory Shortage}
-Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. Before we rented the server we had little prior knowledge our tools are memory intensive hence the server froze intermittently due to a shortage of memory. In addition to the server freezing, some of our tools could not startup for example Kafka and Zookeeper displayed error messages regarding to Java being unable to allocate sufficient memory to startup both tools. 
+Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. Before we rented the server we had little prior knowledge our tools are memory intensive hence the server froze intermittently due to a shortage of memory. In addition to the server freezing, some of our tools could not startup for example Kafka and Zookeeper displayed error due incapacity of the Java virtual machine to allocate sufficient memory required to startup both tools. 
 
 To resolve our memory troubles we upgraded our subscription to a machine with 6GB of main memory and 25GB of secondary memory. Furthermore we allocated swap space of 6GB deal with any unforeseeable eventuality. Lastly we set the machine to depend highly on main memory in order to keep I/O operations as fast as possible.
 
