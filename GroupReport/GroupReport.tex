@@ -285,8 +285,10 @@ The topics created in the previous steps are consumed by Apache Spark streams th
 \label{fig:architecture}
 \centering
 \includegraphics[width=\textwidth]{ReportDiagram.pdf}
-\caption{Temporary architecture figure}
+\caption{System architecture}
 \end{figure}
+
+
 
 % \subsection{Data collection}
 % \label{sec:dataCollection}
@@ -368,13 +370,6 @@ The topics created in the previous steps are consumed by Apache Spark streams th
 
 % \subsection{Android app and Jar file}
 % A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{Spark}
-\caption{Spark pipeline}
-\label{fig:Spark pipeline}
-\end{figure}
 
 
 \section{Project Management}
@@ -544,10 +539,18 @@ The experience was helpful to understand that implementation of features should 
 
 \section{This is an example of Appendix section head}
 
-
-\section{Appendix section head}
-
-\subsection{Architecture cost analysis}
+\pagebreak
+\section{Spark Pipeline Figure}
+\label{app:SparkPipeline}
+\begin{figure}[!ht]
+\label{fig:SparkPipeline}
+\centering
+\includegraphics[width=0.8\textwidth]{SparkPipeline.pdf}
+\caption{Spark processing pipeline}
+\end{figure}
+\clearpage
+\pagebreak
+\section{Architecture cost analysis}
 \label{ArchitectureCost}
 
 \end{document}
