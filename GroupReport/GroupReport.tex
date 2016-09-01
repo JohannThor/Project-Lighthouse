@@ -131,7 +131,7 @@ Visually Impaired, Blind, Microsoft}
 
 \section{Introduction}
 
-Two million people are living with visual impairment in the UK and despite that indoor environment are often not designed for this vast of individuals in mind. This situation leads to a terrible experience of the visually impaired when they move around without depending on others. Mobility canes and guide dogs work for this case but are limited in their use. The canes have restricted use to a person needing to navigate from place to place, and the guide dogs are not currently available to assist all visually impaired persons in the UK. Also, the available navigation application cannot show the dynamic barriers in the way.Therefore, an easily available solution which can provide real-time assistance in an indoor environment for visually impaired people is highly needed. The Lighthouse team was working with Microsoft, which is both the sponsor and client of this project and who wanted the team to use wearable sensors which are low-cost and off the shelf.
+Two million people are living with visual impairment in the UK and despite that indoor environment are often not designed for this vast of individuals in mind.\cite{NHSBlindStatistics} This situation leads to a terrible experience of the visually impaired when they move around without depending on others. Mobility canes and guide dogs work for this case but are limited in their use. The canes have restricted use to a person needing to navigate from place to place, and the guide dogs are not currently available to assist all visually impaired persons in the UK. Also, the available navigation application cannot show the dynamic barriers in the way.Therefore, an easily available solution which can provide real-time assistance in an indoor environment for visually impaired people is highly needed. The Lighthouse team was working with Microsoft, which is both the sponsor and client of this project and who wanted the team to use wearable sensors which are low-cost and off the shelf.
 
 To solve the problem mentioned above, the team designed to build a platform which can process the data of the environment collected by sensors and give the user feedback about their surroundings, such as where they are and if there are obstacles nearby or not. When the user is entering an indoor environment, the platform achieves the dynamic obstacle mapping by processing the data collected by Android phone and wearable sensors, and the real-time details of the environment will be shown to users.
 By cooperation of 8 MSc students in Lighthouse team, one data transfer API, one processing platform and an Android application were delivered. The API provide the communication between sensors and processing platform which generate the data collected with sensor fusion method and store result to the database. The Android application gives user feedback of surroundings by querying the database and showing the result on the map.
@@ -167,6 +167,7 @@ Microsoft is both the sponsor and the client in this project, in addition to tha
 Mr Jarnail Chudge is representing Microsoft and will be the team's client for the duration of the project.
 
 \subsubsection{Visually Impaired People}
+The Lighthouse team is working on solutions that can assist the blind or partly-sighted people in their daily life. The visually impaired people want to know where they are and what kind of objects are in their environment, especially in front of them, and they want to be informed particularly about the direction, the change in the environment and other persons. Given the fact that moving around independently is a desire of them, this project aims to improve the current situation when visually impaired people going into a unfamiliar indoor environment.
 %\subsubsection{Academic}
 %The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding the state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
@@ -203,7 +204,7 @@ Another secondary objective that came up on the topic of obstacle detection was 
 
 \subsection{Requirements}
 
-Table \ref{table:1} shows a list of requirements our system will fulfil (please see section \ref{Appendix} for a full description of our requirement patterns).\\
+Table \ref{table:1} shows a list of requirements our system will fulfill (please see section \ref{Appendix} for a full description of our requirement patterns).\\
 
 \renewcommand{\arraystretch}{1.5}
 
@@ -250,7 +251,7 @@ The components developed by the SSE team were chosen so that a full slice of the
 The Indoor Atlas application uses an SDK developed by Indoor Atlas Ltd. \cite{IndoorAtlas} which uses magnetometric, accelerometer and gyroscopic sensors in a mobile device to determine a users location and heading indoors. In addition to sending the data to the server side the app also queries the server for the locations of obstacles. These obstacles are also drawn on the on-screen map.
 
 \subsubsection{Visual obstacle detection}
-The visual obstacle detection component uses a head mounted camera that takes pictures of the area infront of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then be detected and their location is sent to the data collection platform.
+The visual obstacle detection component uses a head mounted camera that takes pictures of the area in front of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then be detected and their location is sent to the data collection platform.
 
 \subsubsection{Ultrasound and Infrared}
 The ultrasound and infrared component also makes measurements of the objects in front of the user and send the readings to the obstacle mapping platform.
@@ -386,7 +387,6 @@ The role of the SSE team with regards to the CS students was to coordinate their
 \subsection{Testing strategy}
 The testing strategy was a large consideration for the SSE team, since the many components of the architecture had different interfaces so each needed a strategy tailor made for it. In order to manage and enforce the testing strategy the team set up a continuous integration server, Jenkins, to run tests as code was pushed to Git and run unit, load and integration tests.
 
-
 \subsubsection{Spark}
 This component has a similar testing strategy to the Kafka component. The processing throughput is a large concern since the entire processing pipeline needs to be checked for bottlenecks so load test will need to be performed. Integration tests are also required to test if the processing is producing the correct output. Here the dependency of the processing component on the Spark environment creates real problems to unit testing. Mocking this out is a major effort so the integration tests were found to be sufficient to assure the team that the processing is producing the correct results.
 
@@ -463,25 +463,34 @@ Describe the testing scenario, the simulator and show diagrams that compare both
 \subsection{Acceptance}
 %TODO: Talk about the cs students evaluation?
 
+\subsection{Android application}
+We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
+
+\subsection{Kafka}
+
+\subsection{Spark}
+
+\subsection{Cassandra}
+
+
+\subsection{Jenkins}
+\textcolor{red}{vesko? i cant remember why we chose jenkins over Travis or whatever it is called lol}
+
 \section{Life cycle and Future Work}
 \subsection{Current state}
-The Lighthouse project now can process data from all kinds of sensors and achieves the aim of detecting obstacles. The project reaches the goal that is using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the smartphone, camera, Inferred and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfil the requirement of indoor real-time obstacle detection.(need to add some testing result)
+The Lighthouse project now can process data from all kinds of sensors and achieves the aim of detecting obstacles. The project reaches the goal that is using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Inferred and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.(need to add some testing result)
 
 \subsection{Maintenance and Scaling}
 % TODO: Enumerate limitation of the product
 % TODO: Describe how we can go from prototype to a running system
 In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. 
-Although this product can fulfil the client’s requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficed to support thousands of simultaneous user query.
+Although this product can fulfill the client’s requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficient to support thousands of simultaneous user query.
+
 This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analog technologies. First, Kafka part in this project should be replaced by Azure Event Hub. Next, Apache Storm consumes messages from the queue, which should be easy to do since Storm is hosted on HDInsight. Apache Storm is an alternative to Spark Streaming that has many of the same features but is built specifically for stream processing. Storm then performs the same processing as in the prototype stage and passes the result to a wide column store database. For the database, HBase is an alternative of Cassandra. When moving the project to Azure,  there will be an Asp.NET MVC REST API that queries HBase through the .NET SDK to expose the obstacles to the internet.
 
 \section{Challenges and Lessons Learnt}
 \subsection{Initially Proposed System}
 \label{sec:Prelim}
-% How did we end up with our current aim
-% US sensors and why we discarded those.
-
-% Subsection this into VI obstacle detection and Sensor fusion, then bring back together.
-
 %TODO: citation 
 
 The initial plan for this project was to make use of device developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in strategically predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
@@ -495,16 +504,15 @@ Therefore the high probability of getting unacceptable performance out of the ha
 Despite creation of a program which simulates an user who moves in an environment full of obstacles, we could be never sure that our system fulfill the requirements. It is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
 
 \subsection{Memory Shortage}
+Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. Before we rented the server we had little prior knowledge our tools are memory intensive hence the server froze intermittently due to a shortage of memory. In addition to the server freezing, some of our tools could not startup for example Kafka and Zookeeper displayed error due incapacity of the Java virtual machine to allocate sufficient memory required to startup both tools. 
 
-\subsection{Completing Tasks in Sprints}
-
-\subsection{UDP over TCP}
+To resolve our memory troubles we upgraded our subscription to a machine with 6GB of main memory and 25GB of secondary memory. Furthermore we allocated swap space of 6GB deal with any unforeseeable eventuality. Lastly we set the machine to depend highly on main memory in order to keep I/O operations as fast as possible.
 
 \subsection{Shared communication library}
-As described above a library was provided to the CS students which let them interact with our platform. Initially, we decided to implement this library on a desktop computer using Java 8. However, when we tried to use the library to send data to our platform we realised that android has limitations of networking tasks. Specifically, it would not let to send data over socket on the main thread. Therefore, we had to reimplement the library to be compatible with android devices.
+As described above a library was provided to the CS students which let them interact with our platform. Initially, we decided to implement this library on a desktop computer using Java 8. However, when we tried to use the library to send data to our platform we realised that android has limitations of networking tasks. Specifically, it would not let to send data over socket on the main thread. Therefore, we had to re-implement the library to be compatible with android devices.
 
 \subsection{Java over Scala for Spark}
-As describe above it was decided to use Java as a programming language for Spark processing. Making this decision led us to several challenges which we couldn't know beforehand. First, despite that there was plenty of Java code documentation we still spent a lot of time on implementing the required features. That is due to the fact that the official Java code was not working anymore with the latest Spark version because of methods deprecation. Therefore, we were forced to learn the technology more deeply in order to workaround these problem. 
+As described above it was decided to use Java as a programming language for Spark processing. Making this decision led us to several challenges which we couldn't know beforehand. First, despite that there was plenty of Java code documentation we still spent a lot of time on implementing the required features. That is due to the fact that the official Java code was not working anymore with the latest Spark version because of methods deprecation. Therefore, we were forced to learn the technology more deeply in order to workaround these problem. 
 
 From the experience with Spark programming we have learned that sometimes it is better to learn a new language for which the technology was initially implemented instead of picking an already familiar language in order to program on the new technology. In addition, the code would be much cleaner if we had used Scala instead of Java.
 
@@ -513,9 +521,11 @@ Another challenge, on top of absence of up-to-date documentation, was understand
 
 The experience was helpful to understand that implementation of features should be right away done for the technology which is going to be used.
 
-\textcolor{red}{vesko has written some ideas}\textcolor{blue}{ cheers mate}
+\textcolor{red}{vesko has written some ideas} \textcolor{blue}{cheers mate}
 
 \subsection{Cassandra Data Modelling}
+
+\subsection{Completing Tasks in Sprints}\textcolor{orange}{debatable though!. Was going to say something about having too many tasks in a sprint and ending up having to carry over tasks to the next sprint and etc.}
 
 \section{Conclusion}
 
