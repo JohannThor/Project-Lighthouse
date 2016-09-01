@@ -385,17 +385,21 @@ As discussed earlier the 4 CS students are each responsible for data collection 
 The role of the SSE team with regards to the CS students was to coordinate their efforts towards creating value for the client and to provide them with guidance with the implementation and architecture of their projects.
 
 \subsection{Testing strategy}
-The testing strategy was a large consideration for the SSE team, since the many components of the architecture had different interfaces so each needed a strategy tailor made for it. In order to manage and enforce the testing strategy the team set up a continuous integration server, Jenkins, to run tests as code was pushed to Git and run unit, load and integration tests.
+To test if the quality of the Lighthouse project meets the standard of the client, testing procedures were made via experience. Since different components of the architecture have different feature to test, unit, load and integration tests were implemented separately.
 
-\subsubsection{Spark}
-This component has a similar testing strategy to the Kafka component. The processing throughput is a large concern since the entire processing pipeline needs to be checked for bottlenecks so load test will need to be performed. Integration tests are also required to test if the processing is producing the correct output. Here the dependency of the processing component on the Spark environment creates real problems to unit testing. Mocking this out is a major effort so the integration tests were found to be sufficient to assure the team that the processing is producing the correct results.
+\subsubsection{Unit testing}
+Unit testing is a kind of software process where small parts of the application are tested individually and independently to check if they are in proper operation. (add citation) In Lighthouse project, unit testing was used for Obstacle API which had several logic components. Each logic was tested with actual data independently to assure each part run the correct logic.
 
-\subsubsection{Obstacle API}
-The obstacle REST API has several logic components that need unit testing in addition to other testing methods. The logic will be tested through unit tests and the HTTP compliance and error checks will be performed through integration tests. In addition to this some load tests will be performed to make sure the API stands up to a minimum level of load expected in our quality requirements.
+\subsubsection{Load testing}
+Load testing is a process of putting demand and checking response, which will be undertaken in both normal conditions and overload conditions. (add citation) For the components which deal with input and output stream, load testing is a useful testing strategy.
+First, the Kafka component which managed the message queue in the project was tested with different amount data simulated by code. Then, load testing will be performed on Spark processing throughput, since the entire processing pipeline needs to be checked for bottlenecks which will affect the response time of the whole project. Also, load testing is used to test the Obstacle API to make sure the API stands up to a minimum level of pressure expected in our quality requirements.
 
-\subsubsection{Indoor Atlas}
-%TODO: Shuang add a discussion
-The user's location collecting component based on Indoor Atlas in our project requires low latency and high accuracy. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, IndoorAtlas provides the average accuracy tested by their platform. Also, the actual accuracy will be measured by calculating the distance between the actual user location and the IndoorAtlas result.
+\subsubsection{Integration testing}
+Integration testing is a test strategy where individual parts of the project are combined and testing together as a group. Integration testing can show how the whole project works via testing the interfaces between components, interactions to different parts of the system. 
+Since the dependency of the processing component on the Spark environment creates real problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform.
+Integration testing will be carried out after all the tests mentioned above to check if the processing is producing the correct output.
+\subsubsection{Other testing}
+Besides all the testing methods above, other tests were also used in this project. For the data collection part, accuracy and response time are the most important feature to be tested. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, the actual accuracy will be measured by calculating the distance between the actual user location and the Indoor Atlas result.
 
 \section{Evaluation}
 Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by doing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
