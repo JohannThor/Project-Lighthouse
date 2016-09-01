@@ -493,6 +493,7 @@ Therefore the high probability of getting unacceptable performance out of the ha
 Despite creation of a program which simulates an user who moves in an environment full of obstacles, we could be never sure that our system fulfill the requirements. It is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
 
 \subsection{Memory Shortage}
+Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. Before we rented the server we had little prior knoweldge our tools are memory intensive hence the server froze intermitently due to a shortage of memory. In addition to the server freezing, some of our tools could not startup for example Kafka and Zookeeper displayed error messages regarding to java being unable to allocate sufficient memory to startup both tools. To resolve our memmory troubles we upgraded our subscription to a machine with 6GB of main memory and 25GB of seconday memory. Furthermore we allocated swap space of 6GB deal with any unforeseeable evenutality. Lastly we set the machine to depend highly on main memory in order to keep I/O operations as fast as possible.
 
 \subsection{Completing Tasks in Sprints}
 
@@ -511,7 +512,7 @@ Another challenge, on top of absence of up-to-date documentation, was understand
 
 The experience was helpful to understand that implementation of features should be right away done for the technology which is going to be used.
 
-\textcolor{red}{vesko has written some ideas}\textcolor{blue}{ cheers mate}
+\textcolor{red}{vesko has written some ideas}\textcolor{blue}{cheers mate}
 
 \subsection{Cassandra Data Modelling}
 
