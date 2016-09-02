@@ -383,18 +383,22 @@ The feedback applications can then query Cassandra for obstacles by calling the 
 \section{Evaluation}
 Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by doing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
 
-\subsection{Testing strategy}
-The testing strategy was a large consideration for the SSE team, since the many components of the architecture had different interfaces so each needed a strategy tailor made for it. In order to manage and enforce the testing strategy the team set up a continuous integration server, Jenkins, to run tests as code was pushed to Git and run unit, load and integration tests.
+\section{Testing strategy}
+To test if the quality of the Lighthouse project meets the standard of the client, testing procedures were made via experience. Since different components of the architecture have different feature to test, unit, load and integration tests were implemented separately.
 
-\subsubsection{Spark}
-This component has a similar testing strategy to the Kafka component. The processing throughput is a large concern since the entire processing pipeline needs to be checked for bottlenecks so load test will need to be performed. Integration tests are also required to test if the processing is producing the correct output. Here the dependency of the processing component on the Spark environment creates real problems to unit testing. Mocking this out is a major effort so the integration tests were found to be sufficient to assure the team that the processing is producing the correct results.
+\subsection{Unit testing}
+Unit testing is a kind of software process where small parts of the application are tested individually and independently to check if they are in proper operation. (add citation) In Lighthouse project, unit testing was used for Obstacle API which had several logic components. Each logic was tested with actual data independently to assure each part run the correct logic.
 
-\subsubsection{Obstacle API}
-The obstacle REST API has several logic components that need unit testing in addition to other testing methods. The logic will be tested through unit tests and the HTTP compliance and error checks will be performed through integration tests. In addition to this some load tests will be performed to make sure the API stands up to a minimum level of load expected in our quality requirements.
+\subsection{Load testing}
+Load testing is a process of putting demand and checking response, which will be undertaken in both normal conditions and overload conditions. (add citation) For the components which deal with input and output stream, load testing is a useful testing strategy.
+First, the Kafka component which managed the message queue in the project was tested with different amount data simulated by code. Then, load testing will be performed on Spark processing throughput, since the entire processing pipeline needs to be checked for bottlenecks which will affect the response time of the whole project. Also, load testing is used to test the Obstacle API to make sure the API stands up to a minimum level of pressure expected in our quality requirements.
 
-\subsubsection{Indoor Atlas}
-%TODO: Shuang add a discussion
-The user's location collecting component based on Indoor Atlas in our project requires low latency and high accuracy. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, IndoorAtlas provides the average accuracy tested by their platform. Also, the actual accuracy will be measured by calculating the distance between the actual user location and the IndoorAtlas result.
+\subsection{Integration testing}
+Integration testing is a test strategy where individual parts of the project are combined and testing together as a group. Integration testing can show how the whole project works via testing the interfaces between components, interactions to different parts of the system. 
+Since the dependency of the processing component on the Spark environment creates real problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform.
+Integration testing will be carried out after all the tests mentioned above to check if the processing is producing the correct output.
+\subsection{Other testing}
+Besides all the testing methods above, other tests were also used in this project. For the data collection part, accuracy and response time are the most important feature to be tested. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, the actual accuracy will be measured by calculating the distance between the actual user location and the Indoor Atlas result.
 
 
 \subsection{Tools and Data generation}
@@ -473,18 +477,6 @@ We decided to program in an android environment because the team is more familia
 \subsection{Jenkins}
 \textcolor{red}{vesko? i cant remember why we chose jenkins over Travis or whatever it is called lol}
 
-\section{Life cycle and Future Work}
-\subsection{Current state}
-The Lighthouse project now can process data from all kinds of sensors and achieves the aim of detecting obstacles. The project reaches the goal that is using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Inferred and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.(need to add some testing result)
-
-\subsection{Maintenance and Scaling}
-% TODO: Enumerate limitation of the product
-% TODO: Describe how we can go from prototype to a running system
-In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. 
-Although this product can fulfill the client’s requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficient to support thousands of simultaneous user query.
-
-This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analog technologies. First, Kafka part in this project should be replaced by Azure Event Hub. Next, Apache Storm consumes messages from the queue, which should be easy to do since Storm is hosted on HDInsight. Apache Storm is an alternative to Spark Streaming that has many of the same features but is built specifically for stream processing. Storm then performs the same processing as in the prototype stage and passes the result to a wide column store database. For the database, HBase is an alternative of Cassandra. When moving the project to Azure,  there will be an Asp.NET MVC REST API that queries HBase through the .NET SDK to expose the obstacles to the internet.
-
 \section{Challenges and Lessons Learnt}
 \subsection{Initially Proposed System}
 \label{sec:Prelim}
@@ -523,6 +515,19 @@ The experience was helpful to understand that implementation of features should 
 \subsection{Cassandra Data Modelling}
 
 \subsection{Completing Tasks in Sprints}\textcolor{orange}{debatable though!. Was going to say something about having too many tasks in a sprint and ending up having to carry over tasks to the next sprint and etc.}
+
+\section{Life cycle and Future Work}
+\subsection{Current state}
+The Lighthouse project now can process data from all kinds of sensors and achieves the aim of detecting obstacles. The project reaches the goal that is using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Inferred and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.(need to add some testing result)
+
+\subsection{Maintenance and Scaling}
+% TODO: Enumerate limitation of the product
+% TODO: Describe how we can go from prototype to a running system
+In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. 
+Although this product can fulfill the client’s requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficient to support thousands of simultaneous user query.
+
+This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analog technologies. First, Kafka part in this project should be replaced by Azure Event Hub. Next, Apache Storm consumes messages from the queue, which should be easy to do since Storm is hosted on HDInsight. Apache Storm is an alternative to Spark Streaming that has many of the same features but is built specifically for stream processing. Storm then performs the same processing as in the prototype stage and passes the result to a wide column store database. For the database, HBase is an alternative of Cassandra. When moving the project to Azure,  there will be an Asp.NET MVC REST API that queries HBase through the .NET SDK to expose the obstacles to the internet.
+
 
 \section{Conclusion}
 
