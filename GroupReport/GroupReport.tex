@@ -359,10 +359,6 @@ Results show that the sensor fusion performed on the input manages to mitigate t
 The accuracy of the Indoor Atlas data collection application was done by comparing the location of an Android device given by the SDK with the actual measured location.
 \textcolor{orange}{Numbers here}
 
-\subsubsection{Android application}
-\textcolor{orange}{Do we need this, this is not the right place for this.}
-We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
-
 % \begin{figure}
 % \centering
 % \subfigure[Figure 1] {
@@ -497,6 +493,9 @@ Describe the testing scenario, the simulator and show diagrams that compare both
 
 \section{Evaluation}
 Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by performing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
+
+\subsubsection{Android application}
+We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
 
 %TODO: Talk about the cs students evaluation?
 
