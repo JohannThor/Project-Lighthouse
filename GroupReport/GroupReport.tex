@@ -392,14 +392,16 @@ The experience was helpful to understand that implementation of features should 
 \subsection{Cassandra Data Modelling}
 \textcolor{orange}{Lots to say here, see if we have space}
 
-\subsection{Completing Tasks in Sprints}\textcolor{orange}{debatable though!. Was going to say something about having too many tasks in a sprint and ending up having to carry over tasks to the next sprint and etc.}
-
 \section{Life cycle and Future Work}
 \subsection{Current state}
-The Lighthouse project now can process data from two kinds of sensors, location and rangefinding sensirs, and achieves the aim of detecting obstacles through the use of them. The project reaches the goal of using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Infrared and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.
+\label{sec:current}
+The Lighthouse project now can process data from two kinds of sensors, location and rangefinding sensors, and achieves the aim of detecting obstacles through the use of them. The project reaches the goal of using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Infrared and Ultrasound sensors work together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.
 \textcolor{orange}{(need to add some testing result)}
 
 \subsection{Future work}
+
+\subsubsection{Cluster computing}
+As described in~\ref{sec:current}, all the data from the previously mentioned sensors are queued and process by a single machine. Looking into the future were more sensors would be attached to the client's device and a possible staggering number of active users, it would be of high importance to scale out our current system to meet future compuational demands. The benefit of deploying kafka, Zookeeper, Spark and Cassandra as part of our solutuion is they were all built to be used in a distributed environment hence making scaling out a less tedious. Cluster computing will guarantee fault tolerance to our data collection platform and higher computational speed for our running processes.
 
 \subsubsection{Sensor fusion}
 
@@ -415,7 +417,10 @@ This project can be migrated to Azure which is a Microsoft product and can provi
 
 
 \section{Conclusion}
-\textcolor{orange}{Need a short section that drives through the impact and client value}
+Moving around without others’ assistance in an unfamiliar environment is always a challenge for the visually impaired especially in a place where the obstacles are changing. To solve this problem, the Lighthouse team managed to deliver a product which consists of data collection component with sensors, data processing platform and feedback component build in Android. The sensors which include the magnetic sensor in Android phone, infrared sensor, ultrasound sensor and camera collected data of environment and sent them to processing platform via Kafka. After processing, the Android application showed the details of surroundings to users. In testing, each component in this project showed satisfied quality which met most of the requirements from stakeholders. 
+
+Both Microsoft and the visually impaired people can benefit from the Lighthouse project. First, it can help Microsoft enlarge the market for the visually impaired since there is an enormous amount of people living with sight loss. Second, the Lighthouse project provides a prototype which is both low-cost and easy to deploy to help Microsoft economise the funds. Also, for visually impaired users, the Lighthouse project not only assist them get details of surroundings but also enrich their confidence to explore the world on their own. 
+
 
 % TODO: identify the topic takeaway messages.
 % takeaway messages describe how we one could do things differently.
