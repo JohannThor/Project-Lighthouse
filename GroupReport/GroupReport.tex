@@ -56,10 +56,10 @@
 \begin{document}
 
 % Page heads
-\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
+\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion}
 
 % Title portion
-\title{Dynamic obstacle mapping for the visually impaired using sensor fusion.}
+\title{Dynamic obstacle mapping for the visually impaired using sensor fusion}
 \author{Johann Thor Kristthorsson
 \affil{University College London}
 Ifeanyi Ndu
@@ -77,7 +77,7 @@ Shuang Zhang
 %       currently affiliated with NASA.
 
 \begin{abstract}
-Abstract goes here
+\textcolor{orange}{Abstract goes here}
 \end{abstract}
 
 
@@ -131,30 +131,44 @@ Visually Impaired, Blind, Microsoft}
 
 \section{Introduction}
 
-Two million people are living with visual impairment in the UK, but despite that indoor environment are often not designed with this vast number of individuals in mind.\cite{NHSBlindStatistics} This situation leads creates stressful situations for the visually impaired and often forces them to depend on others to get around. Mobility canes and guide dogs work for this case but are limited in their use. The canes have restricted use to a person needing to navigate from place to place, and the guide dogs are not currently available to assist all visually impaired persons in the UK. Therefore, an easily available solution which can provide real-time assistance in an indoor environment for visually impaired people is highly needed. The Lighthouse team is working with Microsoft, which is both the sponsor and client of this project and who wanted the team to use wearable sensors to aid the visually impaired in this difficult situation.
+Two million people are living with visual impairment in the UK, despite that indoor environment are often not designed with this vast number of individuals in mind~\cite{NHSBlindStatistics}. This creates stressful situations for the visually impaired and often forces them to depend on others to get around. Mobility canes and guide dogs are used but are limited in their use. The canes have restricted use to a person when navigating from place to place, and the guide dogs are currently not available to assist all visually impaired persons in the UK. Therefore, an easily available solution which can provide real-time assistance in an indoor environment for visually impaired people is highly needed. 
+% TODO: What is the lighthouse team
+% TODO: Make it clear that this is the aim of the project
+The Lighthouse team is working with Microsoft, which is the sponsor and client of this project, and the Guide Dogs Association to improve the experience of the visually impaired and provide a solution to the indoor navigation problem. Previously Microsoft and the Guide Dogs Association have worked together on a project called Cities Unlocked to improve the lives of the visually impaired where one of the projects was a 3D soundscape headset that provided audible guidance outdoors and in indoor environments like train stations.
+% TODO: Can be shortened
 
-To solve the problem mentioned above the team designed and built a platform which can process the data of the environment collected by sensors and give the user feedback about their surroundings, such as where they are and if there are obstacles nearby or not. There are two channels the application uses to notify the user of an obstacle.
+To solve the indoor navigation problem mentioned above the team designed and built a platform which detects obstacles in the environment and gives the users feedback about their surroundings. The application uses two channels to notify the user of an obstacle.
 
 The first is to poll the wearable sensors and immediately notify the user if they detect an obstacle the user is likely to collide with. The other is to query a server side platform for obstacles in the area. The sensor readings gathered in the first channel are sent to a server side platform for further processing where obstacles are identified and their location made available for all users of the platform. 
+% TODO: does this need to be in the intro?
+% TODO: tie this into the previous paragraphs
+By the cooperation of 8 MSc students in the Lighthouse team, one data transfer API, one processing platform and an Android application were delivered. 
+The Lighthouse platform reached an obstacle detection accuracy within one meter and kept the processing latency within an acceptable range. The Lighthouse project not only solves the indoor dynamic obstacle mapping challenge but also makes it possible for visually impaired users to explore unfamiliar environments.
 
-By cooperation of 8 MSc students in Lighthouse team, one data transfer API, one processing platform and an Android application were delivered. The API provide the communication between sensors and processing platform which generate the data collected with sensor fusion method and store result to the database. The Android application gives user feedback of surroundings by querying the database and showing the result on the map.
-The Lighthouse platform reached the accuracy within one meter and controlled the latency to an acceptable range. The Lighthouse project not only solves the indoor dynamic obstacle mapping challenge but also makes it possible for visually impaired users to explore unfamiliar environments.
+The client was also interested in improving the experience of users wearing the 3D soundscape headsets and the team built two proof of concept applications to aid the users in their use of the headset.
 
 
 \section{Literature review} % TODO: Change to background
 % TODO: Check if there is a difference in font size.
 % TODO: use the 
 % TODO: citet and citep
-Obstacle detection is a large topic and has been popular in the last few years with the advent of autonomous vehicles and unmanned aerial vehicles.
-The Defence Advanced Research Project Agency (DARPA) in the United States has held several competitions to push the research community towards this particular topic. The DARPA Grand Challenge in 2005 and the Urban Challenge in 2007 offered millions of dollars in prizes and sparked considerable interest within the research community~\cite{DARPAGrandChallenge2005,DARPAUrbanChallenge2007}.
+% TODO: The past yfew years obstacle detection has been a large topic, particularly with the advent of...
+Obstacle detection and sensor fusion is a  large topic and has been popular in the last few years with the advent of autonomous vehicles and unmanned aerial vehicles.
+The Defence Advanced Research Project Agency (DARPA) in the United States has held several competitions to promote the research community towards this particular topic. The DARPA Grand Challenge in 2005 and the Urban Challenge in 2007 offered millions of dollars in prizes and sparked considerable interest within the research community~\cite{DARPAGrandChallenge2005,DARPAUrbanChallenge2007}.
+% TODO: sensor fusion
+% TODO: maybe cut the darpa
 \subsection{Obstacle detection}
-In the specific case of obstacle detection as an assistive technology, there have been several papers exploring the topic. \citet{Cardin2007} developed a wearable system that uses an array of ultrasonic transducers to do sonar sensing of obstacles around a subject. The subject is notified of the obstacles through vibrotactile instruments sewn into clothing around the subject's torso. Experiments were conducted by blindfolding test subjects and having them navigate an environment filled with obstacles. The time it took the subjects to navigate was recorded, and the use of the system resulted in a 50\% reduction in navigation time after a short training time~\cite{Cardin2007}. The system developed by \citet{Shin2007} is similar to \citet{Cardin2007} but adds audible feedback through a headset~\cite{Shin2007}. These methods are entirely reactive, in that they sense and identify obstacles in space but do not record its position for possible future use. In addition to this, the evaluation of the detection accuracy is lacking. The studies do not describe their experimental setups accurately, and the data collection methods are never mentioned.
+%Several papers have explored the use of obstacle detection as an assistive technology
+In the specific case of obstacle detection as an assistive technology, there have been several papers exploring the topic. \citet{Cardin2007} developed a wearable system that uses an array of ultrasonic transducers to do sonar sensing of obstacles around a subject. The subject is notified of the obstacles through vibrotactile instruments sewn into clothing around the subject's torso. Experiments were conducted by blindfolding test subjects and having them navigate an environment filled with obstacles. Where the use of the system resulted in a 50\% reduction in navigation time after a short training time compared to navigating without the assitive technology~\cite{Cardin2007}. The system developed by \citet{Shin2007} is similar to \citet{Cardin2007} but adds audible feedback through a headset~\cite{Shin2007}. These methods are reactive, in that they sense and identify obstacles in space but do not record its position for future use. In addition to this, the evaluation of the detection accuracy is lacking. The studies do not describe their experimental setups accurately, and the data collection methods are not mentioned.
 %These types of methods are common and widely explored both for the purposes of small robots and autonomous vehicles ~\cite{Kato2002}. 
 %Shoval et al. have made attempts to fuse the work done in autonomous driving and robotics with the work in assistive technologies. They did this by mounting sonar sensing hardware on a robot that serves the same purpose as a guide dog. It has one axle and wheels that are powered. The robot is pushed by the subject via a handle, the robot can then detect and avoid obstacles and the subject notices the change in the robots movements through the handle ~\cite{Shoval2003}.
 \subsection{Sensor Fusion}
-Sensor fusion, or cooperative fusion, is a well-known term in the context of obstacle detection and navigation. This kind of technique combines the data from several sensors to get a more certain result than using sensors individually. \citet{Labayrade2005} describe algorithms and architectures that facilitate cooperative fusion of two different kinds of sensors, stereovision and LIDAR to detect obstacles in an autonomous driving scenario~\cite{Labayrade2005}. Cooperative fusion is used to detect barriers in the road in front of a vehicle and determine its distance with good accuracy. The use of sensor fusion decreased the rate of false negatives in the detection from 14.7\% and 5.2\% for LIDAR and stereovision respectively, down to 5.2\%. In addition the rate of false negatives went down from 4.5\% and 3.2\% respectively to 1.2\%. \citet{Cho2014} reached similar results showing an increase in the rate of true positives in obstacle detection from 83.2\% to 89.9\% by using fusion instead of using actual sensor values~\cite{Cho2014}. Contrary to the research found for the use cases for the visually impaired these papers provide a thorough explanation of the evaluation and data gathering performed and will prove useful in designing the evaluation strategy for this project. These methods have been developed specifically for use in the scenario of autonomous driving but are directly applicable to the scenario of detecting obstacles around a visually impaired pedestrian. Sensor fusion was introduced into the Windows 8 Operating system to provide stability to applications relying on clean and stabilised data. \citet{Gear2012} described a situation where engineers at Microsoft attempted to map a 3D virtual environment to a real environment in an app running on a tablet. First of all they tried emulate up and down movements in the virtual environment using an accelerometer. Almost immediately they encountered an issue when tilting the tablet and holding the tablet in a stationary position. Noise coming from the accelerometer alone caused jittery movements in the applications. To achieve a much more stable movement, the accelerometer readings was passed through a low-pass filter. The low-pass filter fulfilled its duty but simultaneously introduced a bottleneck into the app. Movement was significantly smoother but the motion in the app felt unresponsive and sluggish. The engineers also used a 6-axis compass which is a 3D accelerometer and 3D magnetometer to emulate left and right movements however it did not yield practicable result due to the instability of the 6-axis sensor. Finally the engineers hit a breakthrough with sensor fusion using the 3D accelerometer, 3D magnetometer and 3D gyroscope. Data collected from all 9-axis resulted in a smooth and fluid experience in the virtual app. Additionally the sensors complemented each other in terms of areas where they fell short~\cite{Gear2012}.
+%TODO: Check if I need to do Microsoft (registered trademark symbol) for every mention.
+Sensor fusion, or cooperative fusion, is a well-known term in the context of obstacle detection and navigation. This technique combines the data from several sensors to get a more accurate result than using sensors individually. \citet{Labayrade2005} describe algorithms and architectures that facilitate cooperative fusion of two different kinds of sensors, stereovision and Light Detection And Ranging(LIDAR) to detect obstacles in an autonomous driving scenario~\cite{Labayrade2005}. Cooperative fusion is used to detect barriers in the road in front of a vehicle and determine its distance with good accuracy. The use of sensor fusion decreased the rate of false negatives in the detection from 14.7\% and 5.2\% for LIDAR and stereovision respectively, down to 5.2\%. In addition the rate of false negatives went down from 4.5\% and 3.2\% respectively to 1.2\%. \citet{Cho2014} reached similar results showing an increase in the rate of true positives in obstacle detection from 83.2\% to 89.9\% by using fusion instead of using actual sensor values~\cite{Cho2014}. Contrary to the research found for the use cases for the visually impaired these papers provide a thorough explanation of the evaluation and data gathering performed and will prove useful in designing the evaluation strategy for this project. These methods have been developed specifically for use in the scenario of autonomous driving but are directly applicable to the scenario of detecting obstacles around a visually impaired pedestrian. 
+% TODO: check the wording here, remove emotion and shorten.
+Sensor fusion was introduced into the Windows 8 Operating system to provide stability to applications relying on clean and stabilised data. \citet{Gear2012} described a situation where engineers at Microsoft attempted to map a 3D virtual environment to a real environment in an app running on a tablet. First of all they tried emulate up and down movements in the virtual environment using an accelerometer. Almost immediately they encountered an issue when tilting the tablet and holding the tablet in a stationary position. Noise coming from the accelerometer alone caused jittery movements in the applications. To achieve a much more stable movement, the accelerometer readings was passed through a low-pass filter. The low-pass filter fulfilled its duty but simultaneously introduced a bottleneck into the app. Movement was significantly smoother but the motion in the app felt unresponsive and sluggish. The engineers also used a 6-axis compass which is a 3D accelerometer and 3D magnetometer to emulate left and right movements however it did not yield practicable result due to the instability of the 6-axis sensor. Finally the engineers hit a breakthrough with sensor fusion using the 3D accelerometer, 3D magnetometer and 3D gyroscope. Data collected from all 9-axis resulted in a smooth and fluid experience in the virtual app. Additionally the sensors complemented each other in terms of areas where they fell short~\cite{Gear2012}.
 
-In light of research described in the literature reviewed the team will be able to reach the aims mentioned above of this project by developing a data collection platform that gathers data from many different cheap sensors. The sensor data will be used to identify obstacles, and the accuracy of the results will be increased by using sensor fusion.
+In light of research described in the literature reviewed the team will be able to reach the aims mentioned above of this project by developing a data collection platform that gathers data from many different cheap sensors. The sensor data was used to identify obstacles, and the accuracy of the results increased by using sensor fusion.
 
 
 
@@ -163,14 +177,14 @@ In light of research described in the literature reviewed the team will be able 
 
 
 \subsection{Stakeholders and Project Context}
-To identify and prioritise the goals and objectives of the SSE team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
+To identify and prioritise the goals and objectives the team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
 
 \subsubsection{Microsoft}
-Microsoft is both the sponsor and the client in this project, in addition to that Microsoft provides the team with access to domain experts and other resources. The primary outcome that Microsoft wants from the project is research into available assistive technologies based on obstacle detection and sensor fusion. The team is therefore responsible for conducting that research, enumerating the technologies available and developing a proof of concept prototype to illustrate the possibilities of a system using them.
-Mr Jarnail Chudge is representing Microsoft and will be the team's client for the duration of the project.
+Microsoft is both the sponsor and the client in this project, as previously mentioned, and in addition to that Microsoft provided the team with access to domain experts and other resources. The primary outcome for Microsoft with regards to this project is research into available assistive technologies based on obstacle detection and sensor fusion. The team esd therefore responsible for conducting that research, enumerating the technologies available and develope a proof of concept prototype to illustrate the possibilities of a system using them.
+Mr. Jarnail Chudge represented Microsoft as the team's client for the duration of the project.
 
 \subsubsection{Visually Impaired People}
-The Lighthouse team is working on solutions that can assist the blind or partly-sighted people in their daily life. The visually impaired people want to know where they are and what kind of objects are in their environment, especially in front of them, and they want to be informed particularly about the direction, the change in the environment and other persons. Given the fact that moving around independently is a desire of them, this project aims to improve the current situation when visually impaired people going into a unfamiliar indoor environment.
+The Lighthouse team is working on solutions that can assist the visally impaired people in their daily life. The visually impaired people want to know where they are and what kind of objects are in their environment along with being informed of possible obstacles in their path. Given the fact that moving around independently is a desire of them, this project aims to improve the current experience when visually impaired people going into a unfamiliar indoor environment.
 %\subsubsection{Academic}
 %The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding the state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
@@ -184,16 +198,18 @@ The Lighthouse team is working on solutions that can assist the blind or partly-
 %Microsoft Research has done some investigation into using sensor fusion and wanted to see how that technology could be utilised in aiding the visually impaired~\cite{Gear2012}.
 
 %After the brainstorming session, the team met several times to brainstorm further and research possible applications around the sensor fusion concept and decided on a few possible project proposals.These were presented to the client, and he expressed interest in continuing with one of them.
-For the final project proposal, our client agreed on a research area that will help the visually impaired navigate an indoor environment.
+For the final project proposal, the client agreed on a research area that will help the visually impaired navigate an indoor environment.
 By using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
 
-The goal is to use cheap, off-the-shelf sensors and mitigate any error in the sensor readings by correlating different readings. This will help us reduce error and increase accuracy by using sensor fusion methods. The ones the team has selected to examine are the use of a Kalman filter, the central limit theorem and neural networks, in that order, to evaluate their applicability to the problem space. In order to identify the main goals of our client the team came up with scenarios and use cases, within the scope that was mentioned in section~\ref{sec:Prelim}, and presented them to the client. This was followed up by a discussion that leads to the identification of the following high level goals.
+The goal is to use inexpensive, off-the-shelf sensors and mitigate any error in the sensor readings by correlating different readings. This will helps to reduce error and increase accuracy by using sensor fusion methods. Kalman filter, the central limit theorem and neural networks, in that order, were selected and the team aims to evaluate their applicability to the problem space. In order to identify the main goals of the client the team came up with scenarios and use cases and presented them to the client. This was followed up by a discussion that lead to the identification of the following goals.
 
-
-The main objective was to improve the experience of the visually impaired in a specific scenario. The scenario in question involved a visually impaired individual entering a space like a coffee shop and having to navigate around obstacles like tables and chairs.
+The main objective was to improve the experience of the visually impaired in a specific scenario. The scenario in question involved a visually impaired individual entering a space such as a coffee shop and having to navigate around obstacles like tables and chairs.
 This made obstacle detection a clear objective and secondary objectives relating to that were then further explored. The use of the obstacle detection in conjunction with detection of points of interest was discussed as a possible objective but was deemed less important by the client.
-The use of Open Street Maps was discussed in this context as a database to work from with regards to gathering information on points of interest~\cite{OSM}.
-Another secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluating sensor fusion techniques in the context of obstacle detection. This objective was deemed essential since it fit well with the rest of the project.
+
+A secondary objective that came up on the topic of obstacle detection was the use of sensor fusion. Members of the Microsoft Research team had shown interest in the team evaluating sensor fusion techniques in the context of obstacle detection.
+
+Two goals were identified to improve the users experience with the 3D soundscape headset. One was a game to train a user in identifying the bearing of a sound played through the headset. There a user would go through several stages of training where a sound would be played in the 3D soundscape headset and the user would turn to face the direction of the sound. The training application would then score the users accuracy in identifying the bearing and help the user improve it.
+Another application developed was a proof of concept application that included an algorithm that could detect minute gestures of the head. This was of immense importance to the client since hands free commands from a user give can greatly increase it's usefulness for the visually impaired.
 
 % Goal model diagram
 % \begin{figure}
@@ -206,7 +222,7 @@ Another secondary objective that came up on the topic of obstacle detection was 
 % TODO: Link to appendix with formal goal definitions
 
 \subsection{Requirements}
-
+\textcolor{orange}{Section on the chopping block}
 Table \ref{table:1} shows a list of requirements our system will fulfill (please see section \ref{Appendix} for a full description of our requirement patterns).\\
 
 \renewcommand{\arraystretch}{1.5}
@@ -239,7 +255,7 @@ Table \ref{table:1} shows a list of requirements our system will fulfill (please
 
 \section{System Architecture and Implementation}
 \label{sec:architecture}
-The architecture developed for this project is designed to be flexible and performant so that it allows for easy implementation of additional sensor inputs and can handle large volumes of readings. It is split in two parts, the client side data collection and feedback application and the server side data processing and obstacle mapping.
+The architecture developed for this project was designed to be flexible and performant so that it allows for easy implementation of additional sensor inputs and can handle large volumes of readings. It was split in two parts, the client side data collection and feedback application and the server side data processing and obstacle mapping.
 
 \begin{figure}[!ht]
 \label{fig:architecture}
@@ -253,7 +269,7 @@ The architecture developed for this project is designed to be flexible and perfo
 To facilitate communication between the server side and the client side the SSE team developed a portable library that handled the communication. It defines a clearly documented API for the use of the data collection and feedback applications. The library contains methods to synchronously or asynchronously send sensor readings to the data collection platform in addition to providing an API that allows the feedback applications to query the mapping platform for obstacles in an area. Each of the applications discussed in this section use these APIs to interact with the server side platform.
 
 \subsection{Data collection and feedback}
-The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components would be the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture.
+The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components were the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture.
 
 \subsubsection{Indoor Atlas location and obstacle listing}
 The components developed by the SSE team were chosen so that a full slice of the system would be developed by the SSE team and any deliverables by the CS team would be additive. The app loads a map on to the screen of the mobile device and shows a point that represents the users location and heading.
@@ -261,21 +277,23 @@ The components developed by the SSE team were chosen so that a full slice of the
 The Indoor Atlas application uses an SDK developed by Indoor Atlas Ltd. \cite{IndoorAtlas} which uses magnetometric, accelerometer and gyroscopic sensors in a mobile device to determine a users location and heading indoors. In addition to sending the data to the server side the app also queries the server for the locations of obstacles. These obstacles are also drawn on the on-screen map.
 
 \subsubsection{Visual obstacle detection}
-The visual obstacle detection component uses a head mounted camera that takes pictures of the area in front of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then be detected and their location is sent to the data collection platform.
+The visual obstacle detection component uses a head mounted camera that takes pictures of the area in front of the user and uses a color detection algorithm to detect the floor area. Once the floor area is detected any obstacles of a different color are then detected and their location is sent to the data collection platform.
 
 \subsubsection{Ultrasound and Infrared}
 The ultrasound and infrared component also makes measurements of the objects in front of the user and send the readings to the obstacle mapping platform.
-These measurements are done by using 2 infrared sensors and ultrasound sensor to detect the distance from the user to an obstacle. The 3 sensors readings are preprocessed and filtered to mitigate the effects of temperature, velocity and other factors before being sent to the data collection platform. 
+These measurements are done by using two infrared sensors and ultrasound sensor to detect the distance from the user to an obstacle. The three sensors readings are preprocessed and filtered to mitigate the effects of temperature, velocity and other factors before being sent to the data collection platform. 
 
 \subsubsection{3D audio training}
+The 3D audio training application leads a user through a series of steps that play sounds at certain bearings around the user. When the users hear the sound they turn their head so that they are facing the direction they think the sound is coming from. If the users are facing the correct direction they will be rewarded with a positive audible queue. If they are not they will get instructions on whether they are off to the left or right of the correct bearing. The application then gives the users a performance score which the users can then try to improve over time.
 
 \subsubsection{Head gesture recognition}
+\textcolor{orange}{Coming soon!!!}
 
 \subsection{Obstacle processing and mapping}
-These sensors are the minimal set of sensors decided upon for the initial iteration of the project, however the mapping platform was designed to accept any type of sensor reading. Therefore there are a few preprocessing steps between the data collection API described in section~\cite{sec:interactions} and the final obstacle processing and storage. A figure depicting the processing pipeline can be found in Appendix~\ref{app:SparkPipeline}.
+The ultrasound, infrared and visual sensors are the minimal set of sensors decided upon for the initial iteration of the project, however the mapping platform was designed to accept any type of sensor reading. Therefore there are a few preprocessing steps between the data collection API described in section~\ref{sec:interactions} and the final obstacle processing and storage. A figure depicting the processing pipeline can be found in Appendix~\ref{app:SparkPipeline}.
 
 \subsubsection{Data collection API}
-The first point of contact in the data collection platform is the API mentioned in section~\cite{sec:interactions}. The responsibility of this component is to provide an interface for the server side that allows the data collection applications to send data to the server side platform. This is implemented by a server that listens on a UDP socket for messages in a specific JSON format. Once a message is received the message is validated and partially deserialised into a data structure and given a timestamp. The ID of the device sending the measurements is also recorded to allow the platform to correlate messages from different sensors from the same device.
+The first point of contact in the data collection platform is the API mentioned in section~\ref{sec:interactions}. The responsibility of this component is to provide an interface for the server side that allows the data collection applications to send data to the server side platform. This is implemented by a server that listens on a UDP socket for messages in a specific JSON format. Once a message is received the message is validated and partially deserialised into a data structure and given a timestamp. The ID of the device sending the measurements is also recorded to allow the platform to correlate messages from different sensors from the same device.
 %TODO: citation needed
 
 \subsubsection{Aggregation}
@@ -390,30 +408,21 @@ The feedback applications can then query Cassandra for obstacles by calling the 
 
 
 \section{Evaluation}
-Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by doing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
+Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by performing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
 
 \section{Testing strategy}
-To test if the quality of the Lighthouse project meets the standard of the client, testing procedures were made via experience. Since different components of the architecture have different feature to test, unit, load and integration tests were implemented separately.
-
-\subsection{Unit testing}
-Unit testing is a kind of software process where small parts of the application are tested individually and independently to check if they are in proper operation.\cite{cheon2002simple} In Lighthouse project, unit testing was used for Obstacle API which had several logic components. Each logic was tested with actual data independently to assure each part run the correct logic.
-
-\subsection{Load testing}
-Load testing is a process of putting demand and checking response, which will be undertaken in both normal conditions and overload conditions. (add citation) For the components which deal with input and output stream, load testing is a useful testing strategy.
-First, the Kafka component which managed the message queue in the project was tested with different amount data simulated by code. Then, load testing will be performed on Spark processing throughput, since the entire processing pipeline needs to be checked for bottlenecks which will affect the response time of the whole project. Also, load testing is used to test the Obstacle API to make sure the API stands up to a minimum level of pressure expected in our quality requirements.
-
-\subsection{Integration testing}
-Integration testing is a test strategy where individual parts of the project are combined and testing together as a group.\cite{jorgensen1994object} Integration testing can show how the whole project works via testing the interfaces between components, interactions to different parts of the system. 
-Since the dependency of the processing component on the Spark environment creates real problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform.
-Integration testing will be carried out after all the tests mentioned above to check if the processing is producing the correct output.
-\subsection{Other testing}
-Besides all the testing methods above, other tests were also used in this project. For the data collection part, accuracy and response time are the most important feature to be tested. The latency will be tested by recording the time when sending the data and the time when getting the response. Overall 20 testing will be taken, and the average result is the latency. To test the accuracy, the actual accuracy will be measured by calculating the distance between the actual user location and the Indoor Atlas result.
-
+%TODO: Prioritise these subsections
+To test if the quality of the Lighthouse project meets the standard of the client, testing procedures were designed and implemented throughout the platform. Since different components of the architecture have different feature to test, unit, load and integration tests were implemented separately.
 
 \subsection{Tools and Data generation}
 The data was generated through a simulation script written in Python. The simulation was set up by specifying an agent, some obstacles and a set of sensors. The agent and obstacles would have a location in space and the agent had a maximum velocity, rotation speed and other movement parameters. The simulation would then be configured by laying out a path for the agent to move through while the sensors were polled to check if they would detect an obstacle. The simulation allowed for noise to be added to the sensor readings that would give a more realistic way of processing sensor data that will inherently contain error and noise.
 
-\subsection{Performance and Scalability}
+\subsection{Unit testing}
+Unit testing was used for Obstacle API which had several logic components. Each piece of logic was tested with actual data independently to assure that the output was as expected. The unit tests were run after each checking to the Git repostitory through the Jenkins continous integration platform.
+
+\textcolor{orange}{Add metrics}
+
+\subsection{Load testing}
 After implementing the processing pipeline the first performance test performed was to evaluate the throughput and packet loss. This was done by sending progressively larger numbers of simulated sensor readings to the pipeline and measure how it handled the load.
 
 \begin{center}
@@ -430,8 +439,22 @@ After implementing the processing pipeline the first performance test performed 
 \end{tabularx}
 \label{tab:performance}
 \end{center}
+%TODO: Label and reference the table
 
 The results shown in table~\ref{tab:performance} show that the pipeline handled loads far beyond what was stipulated in the quality requirements, the packet loss is within acceptable limits (2\%) for over 100000 readings and the throughput was an order of magnitude higher than the goal. The quality requirements needed the pipeline to handle 100 readings per second but the load testing showed that the pipeline could handle over 5000 messages before it started to experience deteriorating performance.
+
+\subsection{Integration testing}
+Since the dependency of the processing component on the Spark environment creates  problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform. Integration tests were performed by sending a simulated scenario of sensor readings through the processing pipeline to evaluate the obstacle detection accuracy. The simulated output was varied with respect to samling frequency, data rate and noise in the signal.
+\textcolor{orange}{Numbers here}
+Results show that the sensor fusion performed on the input manages to mitigate the noise up to a limit and provides much better results than when the processing pipeline is run without fusion.
+
+\subsection{Other testing}
+The accuracy of the Indoor Atlas data collection application was done by comparing the location of an Android device given by the SDK with the actual measured location.
+\textcolor{orange}{Numbers here}
+
+\subsection{Android application}
+\textcolor{orange}{Do we need this, this is not the right place for this.}
+We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
 
 % \begin{figure}
 % \centering
@@ -468,32 +491,30 @@ The results shown in table~\ref{tab:performance} show that the pipeline handled 
 
 \subsection{Detection accuracy}
 Describe the testing scenario, the simulator and show diagrams that compare both.
-
+\textcolor{orange}{More to come}
 
 \subsection{Acceptance}
+\textcolor{orange}{More to come}
 %TODO: Talk about the cs students evaluation?
-
-\subsection{Android application}
-We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
 
 \section{Challenges and Lessons Learnt}
 \subsection{Initially Proposed System}
 \label{sec:Prelim}
 %TODO: citation 
-The initial plan for this project was to make use of device developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least 3 beacons in strategically predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
-The former use cases to be explored focused on detecting gestures and possible indoor location possibilities. However, soon after the project was presented to the team, the hardware was found to have several limitations. The team found that the location accuracy was considerably less than what was initially described. The initial description of the hardware stated that the location accuracy was sub-centimetre, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimetres. This eliminates the gesture use case since more precision is needed to get accurate gesture recognition.
+The initial plan for this project was to make use of device developed by students in the Electrical Engineering department. The hardware consists of an armband that can detect ultrasonic frequencies. Those frequencies are emitted by at least three beacons in strategically predefined locations in the room. The armband, in conjunction with a computer and an Android device, then triangulates the position of the armband in space.
+The former use cases to be explored focused on detecting gestures and possible indoor location possibilities. However, soon after the project was presented to the team, the hardware was found to have several limitations. The team found that the location accuracy was considerably less than initially described. The initial description of the hardware stated that the location accuracy was sub-centimetre, which is the theoretical minimum, but the functional accuracy was between 10 and 50 centimetres. This eliminates the gesture use case since more precision is needed to get accurate gesture recognition.
 %TODO: citation
-Furthermore, the hardware can only function if 3 beacons are within a 130\degree cone in front of the receiver. This severely limits the practicality of the device for indoor location since a wearable piece of hardware is usually blocked by the wearer's body in addition to any obstacle in the environment such as static or movable objects.
+Furthermore, the hardware can only function if three beacons are within a 130\degree cone in front of the receiver. This severely limits the practicality of the device for indoor location since a wearable piece of hardware is usually blocked by the wearer's body in addition to any obstacle in the environment such as static or movable objects.
 %TODO: citation
 Therefore the high probability of getting unacceptable performance out of the hardware platform was found to cause too much risk to the project and the team mitigated that risk by pivoting the focus of the project to a different topic.
 
 \subsection{Testing with Real Data}
-Despite creation of a program which simulates an user who moves in an environment full of obstacles, we could be never sure that our system fulfil the requirements. It is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
+Despite creation of a program which simulates a user who moves in an environment full of obstacles, it is complicated to infer the accuracy of the platform based on simulated data. This is because the real data was expected to be provided by the CS students and it could differ from the data provided by the simulator. The challenge was that the CS student could provide real data only during the last few week of the project which gave us little time to test our platform with real data. 
 
 \subsection{Memory Shortage}
-Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. Before we rented the server we had little prior knowledge our tools are memory intensive hence the server froze intermittently due to a shortage of memory. In addition to the server freezing, some of our tools could not start up for example Kafka and Zookeeper displayed error due incapacity of the Java virtual machine to allocate sufficient memory required to start up both tools. 
+Initially we rented a private server with only 2GB of main memory to run Oracle Java, Scala, Jenkins, Spark, Kafka, Zookeeper, Tomcat and Cassandra. These tools have high memory requirements, which the team underestimated. This caused runtime interuptions during development that required immediate remediation. 
 
-To resolve our memory troubles we upgraded our subscription to a machine with 6GB of main memory and 25GB of secondary memory. Furthermore we allocated swap space of 6GB deal with any unforeseeable eventuality. Lastly we set the machine to depend highly on main memory in order to keep I/O operations as fast as possible.
+To remedy these problems the team upgraded it's VPS subscription to a machine with 6GB of main memory and 25GB of secondary memory. Furthermore, allocating swap space of 6GB helped deal with any future memory issues. Lastly we set the machine to depend highly on main memory in order to keep I/O operations as fast as possible.
 
 This situation had been avoidable if a thorough evaluation of the hardware requirements of all the technologies had been made in the early weeks of development.
 
@@ -511,12 +532,14 @@ Another challenge, on top of absence of up-to-date documentation, was understand
 The experience was helpful to understand that implementation of features should be right away done for the technology which is going to be used.
 
 \subsection{Cassandra Data Modelling}
+\textcolor{orange}{Lots to say here, see if we have space}
 
 \subsection{Completing Tasks in Sprints}\textcolor{orange}{debatable though!. Was going to say something about having too many tasks in a sprint and ending up having to carry over tasks to the next sprint and etc.}
 
 \section{Life cycle and Future Work}
 \subsection{Current state}
-The Lighthouse project now can process data from two kinds of sensors, location and rangefinding sensirs, and achieves the aim of detecting obstacles through the use of them. The project reaches the goal of using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Inferred and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.(need to add some testing result)
+The Lighthouse project now can process data from two kinds of sensors, location and rangefinding sensirs, and achieves the aim of detecting obstacles through the use of them. The project reaches the goal of using low-cost and off-the-shelf sensors. Currently, the magnetic sensor in the android device, camera, Infrared and Ultrasound sensors works together to collect data from the indoor environment and send all the information collected to data processing component by implementing the API created by SSE team. After the processing, feedback will be shown to users in map and 3D sound. The two most important factor of performance are latency and accuracy. In our testing mentioned above, the quality of the project can fulfill the requirement of indoor real-time obstacle detection.
+\textcolor{orange}{(need to add some testing result)}
 
 \subsection{Future work}
 
@@ -534,6 +557,7 @@ This project can be migrated to Azure which is a Microsoft product and can provi
 
 
 \section{Conclusion}
+\textcolor{orange}{Need a short section that drives through the impact and client value}
 
 % TODO: identify the topic takeaway messages.
 % takeaway messages describe how we one could do things differently.
