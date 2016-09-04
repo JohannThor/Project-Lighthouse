@@ -53,18 +53,18 @@ Shuang Zhang
 %Who is your client? What problem did you have to solve? Why is that problem interesting or important?
 The Lighthouse team collaborated with Microsoft and the Guide Dog Associations to produce applications which can improve the experience of visually impaired users. Since few environments and applications were designed for the huge amount of blind and partly sighted individuals it is difficult for them to move around especially in an unfamiliar environment without assistance. 
 
-Microsoft is both the sponsor and the client in this project and particular field of study was to explore the use cases for wearable sensors in aiding the visually impaired in navigating an indoor environment. Also, the client wanted the team to use low-cost, off-of-shelf hardware in this project and to use a technique called sensor fusion to attain acceptable accuracy.
+Microsoft is both the sponsor and the client in this project and particular field of study was to explore the use cases for wearable sensors in aiding the visually impaired in navigating an indoor environment. Also, the client wanted the team to use low-cost, off-the-shelf hardware in this project and to use a technique called sensor fusion to attain acceptable accuracy.
 
 Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping using wearable sensors. Deliverables included an Obstacle API which allowed for querying for obstacles in an area, an obstacle processing platform and an Android application that collects data and gives users feedback. After testing, the quality of the project meet the client's expectations.
 
 \section{Achievements}
 %What software and other artifacts have you delivered?
 \subsection{Obstacle mapping platform}
-The team delivered a platform that gatheres data from sensor and pushes them to the cloud throug a component called the Obstacle API which handles communication between data collection sensors and the processing platform. The obstacle API also provides an interface to query the platform for obstacles in a specified area. 
+The team delivered a platform that gathers data from sensors and pushes them to the cloud through a component called the Obstacle API which handles communication between data collection sensors and the processing platform. The obstacle API also provides an interface to query the platform for obstacles in a specified area. 
 
-The data sent through the Obstacle API is sent through a processing pipeline that performs filtering, aggregation and other steps to produce estimated locations of obstacles in the area. The pipeline is implemented in Apache Kafaka and Apache Spark and uses sensor fusion techniques to increase the accuracy of the obstacle location estimation. 
+The data sent through the Obstacle API is sent through a processing pipeline that performs filtering, aggregation and other steps to produce estimated locations of obstacles in the area. The pipeline is implemented in Apache Kafka and Apache Spark and uses sensor fusion techniques to increase the accuracy of the obstacle location estimation. 
 
-An android application was created to show query the Obstacle API to provide the user with details of obstacles in surrounding area. It showes the obstacles on the map that is centered on the location of the user.
+An android application was created to show query the Obstacle API to provide the user with details of obstacles in surrounding area. It shows the obstacles on the map that is centred on the location of the user.
 
 \subsection{Secondary deliverables}
 The MSc CS students in this team worked on collecting data from sensors and sending the readings through the Obstacle API. The also researched interaction and feedback mechanisms that the client wanted explored.
