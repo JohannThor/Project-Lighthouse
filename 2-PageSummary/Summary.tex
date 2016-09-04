@@ -66,7 +66,7 @@ The MSc CS students in this team worked on collecting data from environment and 
 \subsection{Testing strategy}
 Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testings such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
 \subsection{Results}
-
+The results of testing prove the quality of the project. 
 \section{Impact}
 Microsoft
 \begin{itemize}
@@ -81,12 +81,22 @@ Visually impaired people
 
 \section{Challenges}
 %Was your project subject to significant constraints and difficulties (technical, organisational, logistics, etc.)? How did you respond to these constraints and difficulties?
+\begin{itemize}
+\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons. We chose better sensors after research.\\
+\item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. We tested the project with a simulator.\\
+\item[.] The limited quality of server slowed down the progress. And we ungraded it timely.\\
+\item[.] The Obstacle API cannot work on Android, since Android does not support data transfer via main thread. So we modified the API by anding more methods.\\
+\item[.] Programming in Java for Spark took a long time, so we changed to write the code in Scala.\\
+\item[.] Spark cannot work with sensor data in different batches. Therefore, so we completely changed the processing approach.\\
+\end{itemize}
+
+
 \section{Lessons Learnt}
 \begin{itemize}
-\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons.\\
-\item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. This is a risk need to be managed.\\
+\item[.] Research is necessary in the beginning of the project.\\
+\item[.] Risk management plan is needed to avoid failure of the project.\\
 \item[.] Hardware requirements should be decided as early as possible.\\
-\item[.] Think Android feature first when create API. For instance, Android does not support data transfer via main thread.\\
+\item[.] Think of the feature of both side first when create API.\\
 \item[.] New programming language maybe make coding easier, such as Scala for Spark.\\
 \item[.] Implementation of features should be right away done for the technology which is going to be used.\\
 \end{itemize}
