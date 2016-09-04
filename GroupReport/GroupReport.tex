@@ -380,7 +380,7 @@ The Lighthouse project now can process data from two kinds of sensors, location 
 As described in~\ref{sec:current}, all the data from the previously mentioned sensors are queued and process by a single machine. Looking into the future were more sensors would be attached to the client's device and a possible staggering number of active users, it would be of high importance to scale out our current system to meet future compuational demands. The benefit of deploying kafka, Zookeeper, Spark and Cassandra as part of our solutuion is they were all built to be used in a distributed environment hence making scaling out a less tedious. Cluster computing will guarantee fault tolerance to our data collection platform in the event of a Node failure and will provide higher computational speed for our running processes.
 
 \subsubsection{Sensor fusion}
-Sensor fusion 
+Sensor fusion is an integral part of our project as it is the technique that will provide information with little uncertainty to the visually impaired. We looked into Kalman filtering as a mehtod of fusing senory data but the time at hand left no room for creating a perfect physics model for the filter. Moreover Kalman filtering is tailored to suit models with a very high sampling rate for instance GPS tracking every 100ms, however for our system we would not necessairly want to notify the user every 100ms. Looking down the line, data from our current sensing hardware, coupled with other possible sensors would be plugged into a mathematical model such as Artificial Neural Networks for better analysis.
 
 \subsubsection{NoSQL to MySQL}
 
