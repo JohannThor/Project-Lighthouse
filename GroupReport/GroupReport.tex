@@ -285,9 +285,7 @@ After implementing the processing pipeline the first performance test performed 
 Since the dependency of the processing component on the Spark environment creates  problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform. Integration tests were performed by sending a simulated scenario of sensor readings through the processing pipeline to evaluate the obstacle detection accuracy. The simulated output was varied with respect to samling frequency, data rate and noise in the signal.
 
 \subsubsection{Detection accuracy}
-Describe the testing scenario, the simulator and show diagrams that compare both.
-\textcolor{orange}{More to come}
-
+The detection accuracy was measured by running a simulated scenario against the processing pipeline and comparing the predicted obstacle location with the actual one. There were a few tests run with various levels of noise added to the sensor readings and one test was performed without any noise as a control.
 
 \section{Evaluation}
 Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by performing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
@@ -299,11 +297,11 @@ Given the nature of the project the main success criteria is if the system can a
 \hline
 \# Readings & Transmission time & \# Readings/Second & Packet Loss \% \\
 \hline
-7400 & 2.220366535 & 3332.783071 & 1.135135135 \\
+7400 & 2.220sec & 3332.783 & 1.135 \\
 \hline
-74000 & 15.81466027 & 4678.380612 & 0.7731087894 \\
+74000 & 15.816sec & 4678.381 & 0.773 \\
 \hline
-740000 & 119.9508543 & 5738.18339 & 5.847595525 \\
+740000 & 119.951sec & 5738.183 & 5.848 \\
 \hline
 \end{tabularx}
 \label{tab:performance}
@@ -319,11 +317,9 @@ Results show that the sensor fusion performed on the input manages to mitigate t
 \begin{tabularx}{\textwidth}{| X | X | X | X |} 
 \hline
 No noise & No noise  & High noise  & High noise  \\
-whithout fusion & with fusion & without fusion & with fusion \\
+without fusion & with fusion & without fusion & with fusion \\
 \hline
-0.3849913005m & 0.3951750923m & 6.552494911m & 0.8089400658m \\
-\hline
-%0.2291972724m & 0.2288306005m & 23.88570995m & 1.465448725m \\
+0.385m & 0.395m & 6.552m & 0.809m \\
 \hline
 \end{tabularx}
 \label{tab:performance}
