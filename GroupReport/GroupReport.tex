@@ -33,11 +33,11 @@
 \IncMargin{-\parindent}
 
 % Metadata Information
-% \acmVolume{9}
-% \acmNumber{4}
-% \acmArticle{39}
-% \acmYear{2010}
-% \acmMonth{3}
+\acmVolume{1}
+\acmNumber{1}
+\acmArticle{GS99}
+\acmYear{2016}
+\acmMonth{9}
 
 % Copyright
 %\setcopyright{acmcopyright}
@@ -58,7 +58,7 @@
 \begin{document}
 
 % Page heads
-\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion}
+%\markboth{}{Dynamic obstacle mapping for the visually impaired using sensor fusion}
 
 % Title portion
 \title{Dynamic obstacle mapping for the visually impaired using sensor fusion}
@@ -190,7 +190,7 @@ The architecture developed for this project was designed to be flexible and perf
 To facilitate communication between the server side and the client side the SSE team developed a portable library that handled the communication. It defines a clearly documented API for the use of the data collection and feedback applications. The library contains methods to synchronously or asynchronously send sensor readings to the data collection platform in addition to providing an API that allows the feedback applications to query the mapping platform for obstacles in an area. Each of the applications discussed in this section use these APIs to interact with the server side platform.
 
 \subsection{Data collection and feedback}
-The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components were the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture. Most visually impaired people use IOS devices. However, for the data collection application we decided to use android application due to the fact that all members of the team are familiar with Java and have the required hardware to program on.
+The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components were the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. In Figure~\ref{fig:architecture} the dark grey components are the responsibility of the SSE team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture. Most visually impaired people use iOS devices. However, for the data collection application we decided to use Android application due to the fact that all members of the team are familiar with Java and have the required hardware to program on.
 
 \subsubsection{Indoor Atlas location and obstacle listing}
 The components developed by the SSE team were chosen so that a full slice of the system would be developed by the SSE team and any deliverables by the CS team would be additive. The app loads a map on to the screen of the mobile device and shows a point that represents the users location and heading.
@@ -410,8 +410,6 @@ The authors would like to thank Dr. Jenks Krinke for his helpful comments and su
  Classification of obstacles/Points Of Interest &  3D Directional Sound \\ 
  \hline
  Head Gestures &  IR and Ultrasound \\  
- \hline
-
  \hline
 \end{tabularx}
 \label{tab:requirements}
