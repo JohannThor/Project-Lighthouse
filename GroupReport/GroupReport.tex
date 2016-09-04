@@ -545,11 +545,13 @@ The Lighthouse project now can process data from two kinds of sensors, location 
 \subsection{Future work}
 
 \subsubsection{Cluster computing}
-As described in~\ref{sec:current}, all the data from the previously mentioned sensors are queued and process by a single machine. Looking into the future were more sensors would be attached to the client's device and a possible staggering number of active users, it would be of high importance to scale out our current system to meet future compuational demands. The benefit of deploying kafka, Zookeeper, Spark and Cassandra as part of our solutuion is they were all built to be used in a distributed environment hence making scaling out a less tedious. Cluster computing will guarantee fault tolerance to our data collection platform and higher computational speed for our running processes.
+As described in~\ref{sec:current}, all the data from the previously mentioned sensors are queued and process by a single machine. Looking into the future were more sensors would be attached to the client's device and a possible staggering number of active users, it would be of high importance to scale out our current system to meet future compuational demands. The benefit of deploying kafka, Zookeeper, Spark and Cassandra as part of our solutuion is they were all built to be used in a distributed environment hence making scaling out a less tedious. Cluster computing will guarantee fault tolerance to our data collection platform in the event of a Node failure and will provide higher computational speed for our running processes.
 
 \subsubsection{Sensor fusion}
+Sensor fusion 
 
 \subsubsection{NoSQL to MySQL}
+
 
 \subsection{Maintenance and Scaling}
 % TODO: Enumerate limitation of the product
