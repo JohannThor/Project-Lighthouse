@@ -182,7 +182,7 @@ In light of research described in the literature reviewed the team will be able 
 To identify and prioritise the goals and objectives the team first enumerated the stakeholders of the project and their desired outcomes. This would prove valuable to maintain a clear vision throughout the development process and to limit the risk of non-acceptance later on in the project.
 
 \subsubsection{Microsoft}
-Microsoft is both the sponsor and the client in this project, as previously mentioned, and in addition to that Microsoft provided the team with access to domain experts and other resources. The primary outcome for Microsoft with regards to this project is research into available assistive technologies based on obstacle detection and sensor fusion. The team esd therefore responsible for conducting that research, enumerating the technologies available and develope a proof of concept prototype to illustrate the possibilities of a system using them.
+Microsoft is both the sponsor and the client in this project, as previously mentioned, and in addition to that Microsoft provided the team with access to domain experts and other resources. The primary outcome for Microsoft with regards to this project is research into available assistive technologies based on obstacle detection and sensor fusion. The team is therefore responsible for conducting that research, enumerating the technologies available and developing a proof of concept prototype to illustrate the possibilities of a system using them.
 Mr. Jarnail Chudge represented Microsoft as the team's client for the duration of the project.
 
 \subsubsection{Visually Impaired People}
@@ -190,7 +190,6 @@ The Lighthouse team is working on solutions that can assist the visally impaired
 
 
 \subsection{High level goals}
-
 For the final project proposal, the client agreed on a research area that will help the visually impaired navigate an indoor environment.
 By using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
 
@@ -312,15 +311,16 @@ Given the nature of the project the main success criteria is if the system can a
 The results shown in table~\ref{tab:performance} show that the pipeline handled loads far beyond what was stipulated in the quality requirements, the packet loss is within acceptable limits (2\%) for over 100000 readings and the throughput was an order of magnitude higher than the goal. The quality requirements needed the pipeline to handle 100 readings per second but the load testing showed that the pipeline could handle over 5000 messages before it started to experience deteriorating performance.
 
 \subsection{Integration testing}
-Results show that the sensor fusion performed on the input manages to mitigate the noise up to a limit and provides much better results than when the processing pipeline is run without fusion.
+Results show that the sensor fusion performed on the input manages to mitigate the noise up to a limit and provides much better results than when the processing pipeline is run without fusion. Table~\ref{tab:integrationTest} shows the difference in location accuracy when processing obstacles with and without sensor fusion. The first column shows the accuracy when no noise is in the sensor readings and the next two compare the accuracy in a high noise situation, both with and without sensor fusion. 
 
 \begin{center}
-\begin{tabularx}{\textwidth}{| X | X | X | X |} 
+\begin{tabularx}{\textwidth}{| X | X | X |} 
+\label{tab:integrationTest}
 \hline
-No noise & No noise  & High noise  & High noise  \\
-without fusion & with fusion & without fusion & with fusion \\
+No noise  & High noise  & High noise  \\
+ & without fusion & with fusion \\
 \hline
-0.385m & 0.395m & 6.552m & 0.809m \\
+0.385m & 6.552m & 0.809m \\
 \hline
 \end{tabularx}
 \label{tab:performance}
@@ -329,8 +329,6 @@ without fusion & with fusion & without fusion & with fusion \\
 \subsection{Unit testing}
 As stated in section the Obstacle API was thoroughly unit tested because of the complexity of the calculations performed there. The components that were unit tested had over 20 unit tests and achieved 100\% statement and branch coverage according to EclEmma.
 %TODO: citation
-
-
 
 \section{Challenges and Lessons Learnt}
 \subsection{Initially Proposed System}
@@ -379,12 +377,12 @@ As described in~\ref{sec:current}, all the data from the previously mentioned se
 %TODO: citations for Zookeeper
 
 \subsubsection{Sensor fusion}
-The exploration of fusion models is large possibility of future work, the platform built in this project allows for interchangeable fusion model that could improve the detection accuracy achieved in this iteration of the project. The use of Kalman filters, neural networks and other models would be an interesting next step that is likely to give positive results.
+% The exploration of fusion models is large possibility of future work, the platform built in this project allows for interchangeable fusion model that could improve the detection accuracy achieved in this iteration of the project. The use of Kalman filters, neural networks and other models would be an interesting next step that is likely to give positive results.
 
 \subsection{Maintenance and Scaling}
 % TODO: Enumerate limitation of the product
 % TODO: Describe how we can go from prototype to a running system
-In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. 
+In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. A system manual has been prepared for future developers that details how to set up the system in a deployment environment as well as a description of the development environment needed. This systems manual is in an accompanying document that is handed in with this report.
 Although this product can fulfil the client's requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficient to support thousands of simultaneous user queries at the moment.
 
 This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analogue technologies. Please refer to Appendix~\cite{app:MigrationPlan} for a detailed description of a possible migration strategy.

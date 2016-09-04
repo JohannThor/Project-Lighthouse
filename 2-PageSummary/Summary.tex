@@ -60,14 +60,16 @@ Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping
 
 \section{Achievements}
 %What software and other artifacts have you delivered?
-\subsection{Obstacle API}
-Obstacle API in this project provided communication between sensors and processing platform. It was written in Java and implemented by a server which listened on a UDP socket.
-\subsection{Processing platform}
-The processing platform was based on Spark and it computed the data collected from sensors. It can not only compute the data but also reduce the error by filters.
-\subsection{Android application}
-An android application was created to show user the details of surroundings by querying the database. It showed the nearby obstacles on the map of the environment.
-\subsection{Others}
-The MSc CS students in this team worked on collecting data from environment and detecting obstacles by sensors. They had their Android applications which was supposed to send data to the Lighthouse platform.
+\subsection{Obstacle mapping platform}
+The team delivered a platform that gatheres data from sensor and pushes them to the cloud throug a component called the Obstacle API which handles communication between data collection sensors and the processing platform. The obstacle API also provides an interface to query the platform for obstacles in a specified area. 
+
+The data sent through the Obstacle API is sent through a processing pipeline that performs filtering, aggregation and other steps to produce estimated locations of obstacles in the area. The pipeline is implemented in Apache Kafaka and Apache Spark and uses sensor fusion techniques to increase the accuracy of the obstacle location estimation. 
+
+An android application was created to show query the Obstacle API to provide the user with details of obstacles in surrounding area. It showes the obstacles on the map that is centered on the location of the user.
+
+\subsection{Others deliverables}
+The MSc CS students in this team worked on collecting data from sensors and sending the readings through the Obstacle API. The also researched interaction and feedback mechanisms that the client wanted explored.
+
 \section{Evaluation}
 \subsection{Testing strategy}
 Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testings such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
