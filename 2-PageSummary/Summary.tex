@@ -66,19 +66,19 @@ The data sent through the Obstacle API is sent through a processing pipeline tha
 
 An android application was created to show query the Obstacle API to provide the user with details of obstacles in surrounding area. It showes the obstacles on the map that is centered on the location of the user.
 
-\subsection{Others deliverables}
+\subsection{Secondary deliverables}
 The MSc CS students in this team worked on collecting data from sensors and sending the readings through the Obstacle API. The also researched interaction and feedback mechanisms that the client wanted explored.
 
 \section{Evaluation}
 \subsection{Testing strategy}
-Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testings such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
+Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testing, such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
 \subsection{Results}
-In the unit testing, the code coverage reaches 100\% according to EclEmma. And the result of load testing proved the platform had higher quality than requirements and the package loss rate is lower than 2\%. When perform the integration testing, results with sensor fusion was better than that without sensor fusion in both noisy and no noise situation.
+In the unit testing, the branch and statement coverage reaches 100\% according to EclEmma, on the components that were evaluated through unit tests. And the result of load testing proved the platform met performance requirements. When perform the integration testing, results with sensor fusion was better than that without sensor fusion in both noisy and no noise situation.
 \section{Impact}
 Microsoft
 \begin{itemize}
-\item[.] The Lighthouse project help to enlarge the market of a large amount of visually impaired people.
-\item[.] Save funds by using cheap sensors and components since the sensors used in project are cheap and easy to get.
+\item[.] The Lighthouse Team has provided Microsoft with a platform to improve the experience of the visually impaired in indoor environments.
+\item[.] Secondary deliverables provide valuable research to Microsoft that will help them make decisions in moving the Guide Dogs project further.
 \end{itemize}
 Visually impaired people
 \begin{itemize}
@@ -89,23 +89,22 @@ Visually impaired people
 \section{Challenges}
 %Was your project subject to significant constraints and difficulties (technical, organisational, logistics, etc.)? How did you respond to these constraints and difficulties?
 \begin{itemize}
-\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons. We chose better sensors after research.
+\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the hardware. We moved the focus of the project away from that which proved successful.
 \item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. We tested the project with a simulator.
-\item[.] The limited quality of server slowed down the progress. And we ungraded it timely.
-\item[.] The Obstacle API cannot work on Android, since Android does not support data transfer via main thread. So we modified the API by anding more methods.
-\item[.] Programming in Java for Spark took a long time, so we changed to write the code in Scala.
-\item[.] Spark cannot work with sensor data in different batches. Therefore, so we completely changed the processing approach.
+\item[.] Implementation of simulator decoupled the work of the team from the CS students projects.
+\item[.] The hardware requirements of the technologies used was underestimated initially. Quick upgrade of hardware mitigated the risk.
+\item[.] Limitations in the way networking is done in Android required the team to rewrite Obstacle API.
+\item[.] Sensor fusion techniques vary greatly in their use and implementation, the team analysed each and selected one that fit the purpose.
 \end{itemize}
 
 
 \section{Lessons Learnt}
 \begin{itemize}
-\item[.] Research is necessary in the beginning of the project.
-\item[.] Risk management plan is needed to avoid failure of the project.
-\item[.] Hardware requirements should be decided as early as possible.
-\item[.] Think of the feature of both side first when create API.
-\item[.] New programming language maybe make coding easier, such as Scala for Spark.
-\item[.] Implementation of features should be right away done for the technology which is going to be used.
+\item[.] Research into hardware requirements of frameworks should be done early.
+\item[.] Identification of sensor fusion techniques is necessary and must fit the specific purpose of use and the type of inputs available.
+\item[.] Risk management plan is valuable to avoid failure of the project, decoupling of components provide risk mitigation.
+\item[.] Investigate the limitations of platforms like Android early to mitigate the risk of wasted effort.
+\item[.] New programming language maybe make coding easier, such as Scala for Spark. Library support is not equal with regards to all languages.
 \end{itemize}
 
 \end{document}
