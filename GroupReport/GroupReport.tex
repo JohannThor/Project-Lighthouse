@@ -443,28 +443,124 @@ The authors would like to thank Dr. Jenks Krinke for his helpful comments and su
 
 \section{Requirements}
 \begin{center}
-\begin{tabularx}{\textwidth}{| X | X |} 
+\def\arraystretch{1.5}
+%\setlength{\tabcolsep}{1.2em}
+\begin{tabularx}{\textwidth}{| p{1.5em} | X |} 
  \hline
- \rowcolor{lightgray}
- \multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
- \hline\hline
- Identifying points of interest in the environment. &  Detecting obstacles \\
+ %\rowcolor{lightgray}
+ 
+No & Requirements \\
+ %\multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
  \hline
- Feeding back mapping information &  Manually identifying obstacles in a space \\
+ R01 & 
+ 		\textbf{Achieve} [Identifying points of interest in the environment]\newline\newline
+ 		\textbf{GIVEN} that there is a point of interests in the vicinity (50m indoors, 200m outdoors)\newline
+		\textbf{WHEN} the point of interest is within range (20m indoors , 50m outdoors)\newline
+		\textbf{THEN} the user gets notified of it’s distance and bearing.\\
  \hline
- Manually removing an obstacle from the map &  Providing navigation for a user to a point of interest \\ 
+ R02 & 
+ 		\textbf{Achieve} [Feeding back mapping information]\newline\newline
+ 		\textbf{GIVEN} that a user is successfully navigating a space\newline
+		\textbf{WHEN} that user has finished navigating to its destination\newline
+		\textbf{THEN} the data about the trip is sent back to the cloud platform \\
  \hline
- Voice interactions - listing &  Voice interactions - acceptance \\ 
+ R03 & 
+ 		\textbf{Achieve} [Manually removing an obstacle from the map]\newline\newline
+ 		\textbf{GIVEN} an area with a defined floorplan and a defined obstacle\newline
+		\textbf{WHEN} a user find that the defined obstacle is no longer there\newline
+		\textbf{THEN} the user can remove it from the map \\ 
  \hline
- Screen interactions - listing &  Screen interactions - acceptance \\ 
+ R04 & 
+ 		\textbf{Achieve} [Voice interactions - listing]\newline\newline
+ 		\textbf{GIVEN} a user in a space with a list of points of interest\newline
+		\textbf{WHEN} a user speaks one of the keywords ( Entrance, Exit, Toilet, TBD)\newline
+		\textbf{THEN} the lighthouse app will enumerate points of interest in the area with that tag. \\ 
  \hline
- Classification of obstacles/Points Of Interest &  3D Directional Sound \\ 
+ R05 & 
+ 		\textbf{Achieve} [Screen interactions - listing]\newline\newline
+ 		\textbf{GIVEN} a user in a space with a list of points of interest\newline
+		\textbf{WHEN} a user selects a category of POI\newline
+		\textbf{THEN} he/she is presented with a list of POI based on that selection \\ 
  \hline
- Head Gestures &  IR and Ultrasound \\  
+ R06 & 
+ 		\textbf{Achieve} [Classification of obstacles/POI]\newline\newline
+ 		\textbf{GIVEN} a list of POI and obstacles\newline
+		\textbf{WHEN} the user is presented with a list of POI/Obstacles\newline
+		\textbf{THEN} the order of the items is based on some classification of threat/importance. \\ 
+ \hline
+ R07 & 
+ 		\textbf{Achieve} [Head Gestures]\newline\newline
+ 		\textbf{GIVEN} the user is wearing a motion tracking headset\newline
+		\textbf{WHEN} the user is prompted for a Yes/No answer\newline
+		\textbf{THEN} the user can shake or nod their head to respond to the prompt \\  
+ \hline
+ R08 & 
+ 		\textbf{Achieve} [IR and Ultrasound]\newline\newline
+ 		\textbf{GIVEN} the user is facing and approaching a head-height obstacle\newline
+		\textbf{WHEN} the user comes within 2m of the obstacle\newline
+		\textbf{THEN} the user should receive a warning\newline
+		AND the user is notified about the proximity of the obstacle \\  
  \hline
 
  \hline
 \end{tabularx}
 \label{tab:requirements}
 \end{center}
+
+
+\begin{center}
+\def\arraystretch{1.5}
+%\setlength{\tabcolsep}{1.2em}
+\begin{tabularx}{\textwidth}{| p{1.5em} | X |} 
+ \hline
+ %\rowcolor{lightgray}
+ 
+No & Requirements \\
+ %\multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
+ \hline
+ R09 & 
+ 		\textbf{Achieve} [Detecting obstacles]\newline\newline
+ 		\textbf{GIVEN} that there is a mapped obstacle close by (0m - 5m) and in the direction the user is facing\newline
+		\textbf{WHEN} the user gets close (0m - 5m) to the obstacle\newline
+		\textbf{THEN} the user is notified of its bearing and distance  \\  
+ \hline
+ R10 & 
+ 		\textbf{Achieve} [Manually identifying obstacles in a space]\newline\newline
+ 		\textbf{GIVEN} an area with a defined floorplan\newline
+		\textbf{WHEN} a user identifies an obstacle in the space\newline
+		\textbf{THEN} he is able to add it to the floorplan through the mobile app \\  
+ \hline
+ R11 & 
+ 		\textbf{Achieve} [Voice interactions - acceptance]\newline\newline
+ 		\textbf{GIVEN} a user in a space with a list of points of interest\newline
+		\textbf{WHEN} a user is prompted with a list of points of interest\newline
+		\textbf{AND} the user responds with a “YES” (TBD) to one of the listings\newline
+		\textbf{THEN} the user is given the distance and bearing to the point of interest selected \\  
+ \hline
+ R12 & 
+	 	\textbf{Achieve} [Screen interactions - acceptance]\newline\newline
+ 		\textbf{GIVEN} a user in a space with a list of points of interest\newline
+		\textbf{WHEN} a user is prompted with a list of points of interest\newline
+		\textbf{AND} the user responds by clicking the desired POI\newline
+		\textbf{THEN} the user is given the distance and bearing to the point of interest selected \\  
+ \hline
+ R13 & 
+ 		\textbf{Achieve} [3D Directional Sound]\newline\newline
+ 		\textbf{GIVEN} that there is an obstacle nearby ( 5m - 10m )\newline
+		\textbf{WHEN} the user gets close to it ( 0m - 5m )\newline
+		\textbf{THEN} the user will be notified with a sound that emanates from the bearing of the object. \\  
+ \hline
+ R14 & 
+ 		\textbf{Achieve} [Providing navigation for a user to a point of interest]\newline\newline
+ 		\textbf{GIVEN} a user in a space and a list of points of interest\newline
+		\textbf{WHEN} a user selects a point of interest\newline
+		\textbf{THEN} the lighthouse app will provide navigation instructions from that user’s position and the location of the point of interest\\  
+ \hline
+
+ \hline
+\end{tabularx}
+\label{tab:requirements}
+\end{center}
+
+
 \end{document}
