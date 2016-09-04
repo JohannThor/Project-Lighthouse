@@ -51,27 +51,45 @@ Shuang Zhang
 \maketitle
 
 \section{Project Context and Objectives}
-%The Lighthouse team which consists of 8 MSc students of UCL was Who is your client? What problem did you have to solve? Why is that problem interesting or important?The Lighthouse team collaborated with Microsoft and the Guide Dog Associations to produce applications which can improve the living experience for the visually impaired users. Since few environments and applications were designed for the huge amount of blind and partly sighted individuals, the project aimed to relief the lack of available guide dogs in the UK and help the visually impaired participate in the society without relying on others the same way as the non-visually impaired. Microsoft is both the sponsor and the client in this project. The particular field of study that the client wanted the team to explore was using wearable sensors which could be utilised by the visually impaired. Also, the client wanted low-cost, off-of-shelf hardware in this project. After analysing the requirements from the client, the Lighthouse team decided to find a way to improve the experience of visually impaired when entering an unfamiliar indoor environment.In this project, the magnetic sensor in the Android phones, the infrared sensor, the ultrasound sensor, camera were used with sensor fusion method, which is combining the data from all kinds of sensors and computing to get a better result than relying on the each type of sensor individually.
-Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping, which included an Obstacle API, a processing platform and an Android application to give user feedback. After testing, the quality of the project meet client's standards.
-
+%Who is your client? What problem did you have to solve? Why is that problem interesting or important?The Lighthouse team collaborated with Microsoft and the Guide Dog Associations to produce applications which can improve the living experience for the visually impaired users. Since few environments and applications were designed for the huge amount of blind and partly sighted individuals, it is difficult for them to moving around especially in an unfamiliar environment and without others’ assistance. Microsoft is both the sponsor and the client in this project. The particular field of study that the client wanted the team to explore was using wearable sensors which could be utilised by the visually impaired. Also, the client wanted low-cost, off-of-shelf hardware in this project. After analysing the requirements from the client, the Lighthouse team decided to find a way to improve the experience of visually impaired when entering an unfamiliar indoor environment.Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping, which included an Obstacle API, a processing platform and an Android application to give user feedback. After testing, the quality of the project meet client's standards.
 \section{Achievements}
 %What software and other artifacts have you delivered?
-\subsection{API}
-Obstacle API in this project provided communication between sensors and processing platform. 
+\subsection{Obstacle API}
+Obstacle API in this project provided communication between sensors and processing platform. It was written in Java and implemented by a server which listened on a UDP socket.
 \subsection{Processing platform}
-The processing platform is based on Spark, 
+The processing platform was based on Spark and it computed the data collected from sensors. It can not only compute the data but also reduce the error by filters.
 \subsection{Android application}
-An android application can show user's the details of the surroundings.
+An android application was created to show user the details of surroundings by querying the database. It showed the nearby obstacles on the map of the environment.
+\subsection{Others}
+The MSc CS students in this team worked on collecting data from environment and detecting obstacles by sensors. They had their Android applications which was supposed to send data to the Lighthouse platform.
 \section{Evaluation}
-%What evaluation have you done? What are the results of your evaluations?(Be specific; give numbers!)
+\subsection{Testing strategy}
+Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testings such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
+\subsection{Results}
+
 \section{Impact}
 Microsoft
+\begin{itemize}
+\item[.] The Lighthouse project help to enlarge the market of a large amount of visually impaired people.\\
+\item[.] Save funds by using cheap sensors and components since the sensors used in project are cheap and easy to get.
+\end{itemize}
+Visually impaired people
+\begin{itemize}
+\item[.] The Lighthouse project help them move around easily and avoid the barriers without assistance from others.\\
+\item[.] It also help them regain the confidence of exploring the world and become more independent.
+\end{itemize}
 
-For visually impaired users, this product helped to solve the problems they meet in an unfamiliar indoor environment. With this product, the blind people and partly-sighted people will no longer depend on others. This project not only help with the
 \section{Challenges}
 %Was your project subject to significant constraints and difficulties (technical, organisational, logistics, etc.)? How did you respond to these constraints and difficulties?
 \section{Lessons Learnt}
-%What can other software engineers learn from your experience in this project? (take away messages)
+\begin{itemize}
+\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons.\\
+\item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. This is a risk need to be managed.\\
+\item[.] Hardware requirements should be decided as early as possible.\\
+\item[.] Think Android feature first when create API. For instance, Android does not support data transfer via main thread.\\
+\item[.] New programming language maybe make coding easier, such as Scala for Spark.\\
+\item[.] Implementation of features should be right away done for the technology which is going to be used.\\
+\end{itemize}
 
 \end{document}
 
