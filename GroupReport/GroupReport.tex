@@ -262,9 +262,11 @@ Given the nature of the project the main success criteria is if the system can a
 \subsection{Load testing}
 
 \begin{center}
-\begin{tabularx}{\textwidth}{| X | X | X | X |} 
+\def\arraystretch{1.5}
+\begin{tabularx}{\textwidth}{| p{6em} | p{7em} | X | X |} 
+
 \hline
-\# Readings & Transmission time & \# Readings/Second & Packet Loss \% \\
+\textbf{\# Readings} & \textbf{Transmission time} & \textbf{\# Readings/Second} & \textbf{Packet Loss \%} \\
 \hline
 7400 & 2.220sec & 3332.783 & 1.135 \\
 \hline
@@ -283,11 +285,12 @@ The results shown in table~\ref{tab:performance} show that the pipeline handled 
 Results show that the sensor fusion performed on the input manages to mitigate the noise up to a limit and provides much better results than when the processing pipeline is run without fusion. Table~\ref{tab:integrationTest} shows the difference in location accuracy when processing obstacles with and without sensor fusion. The first column shows the accuracy when no noise is in the sensor readings and the next two compare the accuracy in a high noise situation, both with and without sensor fusion. 
 
 \begin{center}
+\def\arraystretch{1.5}
 \label{tab:integrationTest}
-\begin{tabularx}{\textwidth}{| X | X | X |} 
+\begin{tabularx}{\textwidth}{| p{6em} | X | X |}
+
 \hline
-No noise  & High noise  & High noise  \\
- & without fusion & with fusion \\
+\textbf{No noise} & \textbf{High noise without fusion}  & \textbf{High noise with fusion} \\
 \hline
 0.385m & 6.552m & 0.809m \\
 \hline
