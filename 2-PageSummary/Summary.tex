@@ -47,9 +47,27 @@ Veselin Pavlov
 Shuang Zhang
 \affil{University College London}
 }
-
 \maketitle
+<<<<<<< Updated upstream
 
+\section{Project Context and Objectives}
+%Who is your client? What problem did you have to solve? Why is that problem interesting or important?
+The Lighthouse team collaborated with Microsoft and the Guide Dog Associations to produce applications which can improve the experience of visually impaired users. Since few environments and applications were designed for the huge amount of blind and partly sighted individuals it is difficult for them to move around especially in an unfamiliar environment without assistance. 
+
+Microsoft is both the sponsor and the client in this project and particular field of study was to explore the use cases for wearable sensors in aiding the visually impaired in navigating an indoor environment. Also, the client wanted the team to use low-cost, off-of-shelf hardware in this project and to use a technique called sensor fusion to attain acceptable accuracy.
+
+Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping using wearable sensors. Deliverables included an Obstacle API which allowed for querying for obstacles in an area, an obstacle processing platform and an Android application that collects data and gives users feedback. After testing, the quality of the project meet the client's expecations.
+
+\section{Achievements}
+%What software and other artifacts have you delivered?
+\subsection{Obstacle API}
+Obstacle API in this project provided communication between sensors and processing platform. It was written in Java and implemented by a server which listened on a UDP socket.
+\subsection{Processing platform}
+The processing platform was based on Spark and it computed the data collected from sensors. It can not only compute the data but also reduce the error by filters.
+\subsection{Android application}
+An android application was created to show user the details of surroundings by querying the database. It showed the nearby obstacles on the map of the environment.
+\subsection{Others}
+=======
 \section{Project Context and Objectives}
 %Who is your client? What problem did you have to solve? Why is that problem interesting or important?The Lighthouse team collaborated with Microsoft and the Guide Dog Associations to produce applications which can improve the living experience for the visually impaired users. Since few environments and applications were designed for the huge amount of blind and partly sighted individuals, it is difficult for them to moving around especially in an unfamiliar environment and without others’ assistance. Microsoft is both the sponsor and the client in this project. The particular field of study that the client wanted the team to explore was using wearable sensors which could be utilised by the visually impaired. Also, the client wanted low-cost, off-of-shelf hardware in this project. After analysing the requirements from the client, the Lighthouse team decided to find a way to improve the experience of visually impaired when entering an unfamiliar indoor environment.Finally, Lighthouse team created a platform for dynamic indoor obstacles mapping, which included an Obstacle API, a processing platform and an Android application to give user feedback. After testing, the quality of the project meet client's standards.
 \section{Achievements}
@@ -61,34 +79,45 @@ The processing platform was based on Spark and it computed the data collected fr
 \subsection{Android application}
 An android application was created to show user the details of surroundings by querying the database. It showed the nearby obstacles on the map of the environment.
 \subsection{Others}
+>>>>>>> Stashed changes
 The MSc CS students in this team worked on collecting data from environment and detecting obstacles by sensors. They had their Android applications which was supposed to send data to the Lighthouse platform.
 \section{Evaluation}
 \subsection{Testing strategy}
 Unit testing, load testing and integration testing were performed on each component in the project. Besides that, other testings such as testing the response latency and the positioning accuracy were also used in this project to test the quality of the project.
 \subsection{Results}
-
+The results of testing prove the quality of the project. 
 \section{Impact}
 Microsoft
 \begin{itemize}
-\item[.] The Lighthouse project help to enlarge the market of a large amount of visually impaired people.\\
+\item[.] The Lighthouse project help to enlarge the market of a large amount of visually impaired people.
 \item[.] Save funds by using cheap sensors and components since the sensors used in project are cheap and easy to get.
 \end{itemize}
 Visually impaired people
 \begin{itemize}
-\item[.] The Lighthouse project help them move around easily and avoid the barriers without assistance from others.\\
+\item[.] The Lighthouse project help them move around easily and avoid the barriers without assistance from others.
 \item[.] It also help them regain the confidence of exploring the world and become more independent.
 \end{itemize}
 
 \section{Challenges}
 %Was your project subject to significant constraints and difficulties (technical, organisational, logistics, etc.)? How did you respond to these constraints and difficulties?
+\begin{itemize}
+\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons. We chose better sensors after research.
+\item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. We tested the project with a simulator.
+\item[.] The limited quality of server slowed down the progress. And we ungraded it timely.
+\item[.] The Obstacle API cannot work on Android, since Android does not support data transfer via main thread. So we modified the API by anding more methods.
+\item[.] Programming in Java for Spark took a long time, so we changed to write the code in Scala.
+\item[.] Spark cannot work with sensor data in different batches. Therefore, so we completely changed the processing approach.
+\end{itemize}
+
+
 \section{Lessons Learnt}
 \begin{itemize}
-\item[.] The initial plan of using device from Electrical Engineering students failed due to the poor quality of the beacons.\\
-\item[.] The testing was not performed with real data because the CS students didn't deliver expected data till the end of project. This is a risk need to be managed.\\
-\item[.] Hardware requirements should be decided as early as possible.\\
-\item[.] Think Android feature first when create API. For instance, Android does not support data transfer via main thread.\\
-\item[.] New programming language maybe make coding easier, such as Scala for Spark.\\
-\item[.] Implementation of features should be right away done for the technology which is going to be used.\\
+\item[.] Research is necessary in the beginning of the project.
+\item[.] Risk management plan is needed to avoid failure of the project.
+\item[.] Hardware requirements should be decided as early as possible.
+\item[.] Think of the feature of both side first when create API.
+\item[.] New programming language maybe make coding easier, such as Scala for Spark.
+\item[.] Implementation of features should be right away done for the technology which is going to be used.
 \end{itemize}
 
 \end{document}
