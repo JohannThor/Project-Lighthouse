@@ -377,7 +377,8 @@ As described in~\ref{sec:current}, all the data from the previously mentioned se
 %TODO: citations for Zookeeper
 
 \subsubsection{Sensor fusion}
-% The exploration of fusion models is large possibility of future work, the platform built in this project allows for interchangeable fusion model that could improve the detection accuracy achieved in this iteration of the project. The use of Kalman filters, neural networks and other models would be an interesting next step that is likely to give positive results.
+
+The exploration of fusion models is large possibility of future work, the platform built in this project allows for interchangeable fusion model that could improve the detection accuracy achieved in this iteration of the project. The use of Kalman filters, neural networks and other models would be an interesting next step that is likely to give positive results.
 
 \subsection{Maintenance and Scaling}
 % TODO: Enumerate limitation of the product
@@ -385,7 +386,7 @@ As described in~\ref{sec:current}, all the data from the previously mentioned se
 In the future, when the project needs to be expanded with other types of sensors, this platform can still provide the interface for communication between device and processing component. A system manual has been prepared for future developers that details how to set up the system in a deployment environment as well as a description of the development environment needed. This systems manual is in an accompanying document that is handed in with this report.
 Although this product can fulfil the client's requirements, it has huge performance disparity with a real industry product. Since budget and experience are limited, the capability of the project is not sufficient to support thousands of simultaneous user queries at the moment.
 
-This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analogue technologies. Please refer to Appendix~\cite{app:MigrationPlan} for a detailed description of a possible migration strategy.
+This project can be migrated to Azure which is a Microsoft product and can provide global coverage and high availability and stability. The components of the project need to be rewritten in C\# and Azure analogue technologies. A detailed description of a possible migration strategy is provided in a separate document accompanying the group report.
 
 
 \section{Conclusion}
@@ -399,14 +400,15 @@ Both Microsoft and the visually impaired people can benefit from the Lighthouse 
 % not in context of the project but rather in the context of the domain. 
 
 % Appendix
-\appendix
-\section*{APPENDIX} \label{Appendix}
-\setcounter{section}{1}
+%\appendix
+%\section*{APPENDIX} \label{Appendix}
+%\setcounter{section}{1}
 
-\appendixhead{ZHOU}
+%\appendixhead{ZHOU}
 
 % Acknowledgments
 \begin{acks}
+The authors would like to thank Dr. Jenks Krinke for his helpful comments and suggestions on our development process and group report. Moreover, the authors are grateful to Mr. Saheed Busari who supervised us during the whole research and development phases and guided us with useful ideas. In addition, we appreciate the amount of time and efforts Mr. Jarnail Chudge spent on communication with us and guidance.
 \end{acks}  
 
 % Bibliography
@@ -417,15 +419,16 @@ Both Microsoft and the visually impaired people can benefit from the Lighthouse 
 %\received{February 2007}{March 2009}{June 2009}
 
 % Electronic Appendix
-\elecappendix
+%\elecappendix
 
 \medskip
 
-\section{Migration plan}
-\label{app:MigrationPlan}
-\section{This is an example of Appendix section head}
-
 \pagebreak
+% Appendix
+\appendix
+\section*{APPENDIX} \label{Appendix}
+\setcounter{section}{0}
+
 \section{Spark Pipeline Figure}
 \label{app:SparkPipeline}
 \begin{figure}[!ht]
@@ -435,9 +438,7 @@ Both Microsoft and the visually impaired people can benefit from the Lighthouse 
 \caption{Spark processing pipeline}
 \end{figure}
 \clearpage
-\pagebreak
-\section{Architecture cost analysis}
-\label{ArchitectureCost}
+
 
 \section{Requirements}
 \begin{center}
