@@ -20,6 +20,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[table]{xcolor}
 \usepackage{natbib}
+\usepackage{pbox}
+
 \usepackage{subfigure}
 \usepackage{tabularx}
 
@@ -185,19 +187,10 @@ Mr. Jarnail Chudge represented Microsoft as the team's client for the duration o
 
 \subsubsection{Visually Impaired People}
 The Lighthouse team is working on solutions that can assist the visally impaired people in their daily life. The visually impaired people want to know where they are and what kind of objects are in their environment along with being informed of possible obstacles in their path. Given the fact that moving around independently is a desire of them, this project aims to improve the current experience when visually impaired people going into a unfamiliar indoor environment.
-%\subsubsection{Academic}
-%The academic administrators and supervisors of this project have a specific vision for how the team should apply their knowledge to the development process and client communication.The outcomes the academic stakeholders are interested in are having the team maintain rigorous documentation of the project, upholding the state of the art software engineering processes and maintaining good communication with the client throughout the process.
 
-% \subsubsection{Team members}
-% The team members have a different stake in the project since they want, not only, a good mark but also a rewarding learning experience.
-% They want to see the project fulfilling the requirements of the other stakeholders while also getting a chance to tackle interesting and challenging problems that will widen their knowledge base in the field of Software Engineering.
-% To ensure a passing mark for every member of the team, the SSE team aims to minimise the overall risk of the project and put in place contingencies in the event of possible non-acceptance of the project.
 
 \subsection{High level goals}
-%The team's initial contact with the client was a brainstorming session where he expressed the vision for the project. He expressed Microsoft's desire to have an end product which would feel natural to the user with very little work on the user's part regarding getting themselves familiar with the product. Then they raised the idea of using a sensor or combination of wearable sensors to achieve the ultimate goal. Ideas were then bounced around, and a subject area was found that was open for research and of value to our client.
-%Microsoft Research has done some investigation into using sensor fusion and wanted to see how that technology could be utilised in aiding the visually impaired~\cite{Gear2012}.
 
-%After the brainstorming session, the team met several times to brainstorm further and research possible applications around the sensor fusion concept and decided on a few possible project proposals.These were presented to the client, and he expressed interest in continuing with one of them.
 For the final project proposal, the client agreed on a research area that will help the visually impaired navigate an indoor environment.
 By using sensor fusion the team was to build a system that could collect data from various disparate sensors and identify the location of the user and obstacles in its environment.
 
@@ -210,48 +203,6 @@ A secondary objective that came up on the topic of obstacle detection was the us
 
 Two goals were identified to improve the users experience with the 3D soundscape headset. One was a game to train a user in identifying the bearing of a sound played through the headset. There a user would go through several stages of training where a sound would be played in the 3D soundscape headset and the user would turn to face the direction of the sound. The training application would then score the users accuracy in identifying the bearing and help the user improve it.
 Another application developed was a proof of concept application that included an algorithm that could detect minute gestures of the head. This was of immense importance to the client since hands free commands from a user give can greatly increase it's usefulness for the visually impaired.
-
-% Goal model diagram
-% \begin{figure}
-% \label{fig:GoalModel}
-% \centering
-% \includegraphics[width=\textwidth]{test640}
-% \caption{An awesome goal model}
-% \end{figure}
-
-% TODO: Link to appendix with formal goal definitions
-
-\subsection{Requirements}
-\textcolor{orange}{Section on the chopping block}
-Table \ref{table:1} shows a list of requirements our system will fulfill (please see section \ref{Appendix} for a full description of our requirement patterns).\\
-
-\renewcommand{\arraystretch}{1.5}
-
-\begin{center}
-\begin{tabularx}{\textwidth}{| X | X |} 
- \hline
- \rowcolor{lightgray}
- \multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
- \hline\hline
- Identifying points of interest in the environment. &  Detecting obstacles \\
- \hline
- Feeding back mapping information &  Manually identifying obstacles in a space \\
- \hline
- Manually removing an obstacle from the map &  Providing navigation for a user to a point of interest \\ 
- \hline
- Voice interactions - listing &  Voice interactions - acceptance \\ 
- \hline
- Screen interactions - listing &  Screen interactions - acceptance \\ 
- \hline
- Classification of obstacles/Points Of Interest &  3D Directional Sound \\ 
- \hline
- Head Gestures &  IR and Ultrasound \\  
- \hline
-
- \hline
-\end{tabularx}
-\label{tab:requirements}
-\end{center}
 
 \section{System Architecture and Implementation}
 \label{sec:architecture}
@@ -269,7 +220,7 @@ The architecture developed for this project was designed to be flexible and perf
 To facilitate communication between the server side and the client side the SSE team developed a portable library that handled the communication. It defines a clearly documented API for the use of the data collection and feedback applications. The library contains methods to synchronously or asynchronously send sensor readings to the data collection platform in addition to providing an API that allows the feedback applications to query the mapping platform for obstacles in an area. Each of the applications discussed in this section use these APIs to interact with the server side platform.
 
 \subsection{Data collection and feedback}
-The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components were the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture.
+The client side section of the project had two main jobs, one was to gather data from the sensors and relay them to the backend for further processing. The second is to give the user feedback on possible obstacles in the area and respond to commands from the user. Two of the sub components were the responsibility of the SSE team and each of the rest would be handled by a member of the CS team. This was done as a means to decouple the work of the CS students from the work of the SSE team and remove the SSE teams dependency on the work of the CS team. By having one data collection application and one feedback application developed by the SSE team and the rest by the CS team the risk to the SSE project was therefore reduced, in the event of the CS team not being able to finish their parts of the architecture.Most visually impaired people use IOS devices. However, for the data collection application we decided to use android application due to the fact that all members of the team are familiar with Java and have the required hardware to program on.
 
 \subsubsection{Indoor Atlas location and obstacle listing}
 The components developed by the SSE team were chosen so that a full slice of the system would be developed by the SSE team and any deliverables by the CS team would be additive. The app loads a map on to the screen of the mobile device and shows a point that represents the users location and heading.
@@ -298,7 +249,7 @@ The first point of contact in the data collection platform is the API mentioned 
 
 \subsubsection{Aggregation}
 \label{sec:aggregation}
-After being partially deserialised the messages are filtered and split into categories. This step is designed so that the initial aggregation layer recognises the types of sensors and can map them to types that are used in the calculation of obstacles further down the pipeline. This allows for specific handling of each type of sensor in the aggregation layer while providing structured data down the line for processing. In the initial iteration there are three main data types, location, heading and distance. These sensor values are a minimum set necessary to infer the location of an obstacle based on a users location, heading and the distance to the obstacle. By abstracting the sensor values into these types the final obstacle calculations can be decoupled from the complexity of processing raw sensor readings and can be made more flexible. Once a sensor reading has been categorised it is pushed into a single message queue that is a part of a producer-consumer pattern. The producer-consumer pattern is implemented by the Apache Kafka message broker system~\cite{ApacheKafka}. Kafka provides a distributed messaging systems that allows for separation of large volumes of data into categorised streams called \"topics\". This is used by the system to sort the deserialised data structures into topics which are then processed further.
+After being partially deserialised the messages are filtered and split into categories. This step is designed so that the initial aggregation layer recognises the types of sensors and can map them to types that are used in the calculation of obstacles further down the pipeline. This allows for specific handling of each type of sensor in the aggregation layer while providing structured data down the line for processing. In the initial iteration there are three main data types, location, heading and distance. These sensor values are a minimum set necessary to infer the location of an obstacle based on a users location, heading and the distance to the obstacle. By abstracting the sensor values into these types the final obstacle calculations can be decoupled from the complexity of processing raw sensor readings and can be made more flexible. Once a sensor reading has been categorised it is pushed into a single message queue that is a part of a producer-consumer pattern. The producer-consumer pattern is implemented by the Apache Kafka message broker system~\cite{ApacheKafka}. Kafka provides a distributed messaging systems that allows for separation of large volumes of data into categorised streams called ``topics". This is used by the system to sort the deserialised data structures into topics which are then processed further.
 
 \subsubsection{Processing and Mapping}
 The readings produced and pushed into the Kafka topic in the step described in section~\ref{sec:aggregation} are consumed by a consumer that is implemented in Apache Spark~\cite{ApacheSpark}. Spark is a high performance, in memory, cluster computing framework. It provides a scalable platform that is capable of efficiently computing the large amount of data that the data collection applications can output. Spark Streaming is then used on top of the Spark processing platform to process the streamed topics provided by Kafka~\cite{ApacheSparkStreaming}.
@@ -318,7 +269,6 @@ The feedback applications can then query Cassandra for obstacles by calling the 
 
 
 \subsection{Testing strategy}
-%TODO: Prioritise these subsections
 To test if the quality of the Lighthouse project meets the standard of the client, testing procedures were designed and implemented throughout the platform. Since different components of the architecture have different feature to test, unit, load and integration tests were implemented separately.
 
 \subsubsection{Tools and Data generation}
@@ -327,21 +277,31 @@ The data was generated through a simulation script written in Python. The simula
 \subsubsection{Unit testing}
 Unit testing was used for Obstacle API which had several logic components. Each piece of logic was tested with actual data independently to assure that the output was as expected. The unit tests were run after each push to the Git repostitory through the Jenkins continous integration platform.
 
-\textcolor{orange}{Add metrics}
 
 \subsubsection{Load testing}
 After implementing the processing pipeline the first performance test performed was to evaluate the throughput and packet loss. This was done by sending progressively larger numbers of simulated sensor readings to the pipeline and measure how it handled the load.
+
+\subsubsection{Integration testing}
+Since the dependency of the processing component on the Spark environment creates  problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform. Integration tests were performed by sending a simulated scenario of sensor readings through the processing pipeline to evaluate the obstacle detection accuracy. The simulated output was varied with respect to samling frequency, data rate and noise in the signal.
+
+\subsubsection{Detection accuracy}
+The detection accuracy was measured by running a simulated scenario against the processing pipeline and comparing the predicted obstacle location with the actual one. There were a few tests run with various levels of noise added to the sensor readings and one test was performed without any noise as a control.
+
+\section{Evaluation}
+Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by performing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
+
+\subsection{Load testing}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{| X | X | X | X |} 
 \hline
 \# Readings & Transmission time & \# Readings/Second & Packet Loss \% \\
 \hline
-7400 & 2.220366535 & 3332.783071 & 1.135135135 \\
+7400 & 2.220sec & 3332.783 & 1.135 \\
 \hline
-74000 & 15.81466027 & 4678.380612 & 0.7731087894 \\
+74000 & 15.816sec & 4678.381 & 0.773 \\
 \hline
-740000 & 119.9508543 & 5738.18339 & 5.847595525 \\
+740000 & 119.951sec & 5738.183 & 5.848 \\
 \hline
 \end{tabularx}
 \label{tab:performance}
@@ -350,154 +310,26 @@ After implementing the processing pipeline the first performance test performed 
 
 The results shown in table~\ref{tab:performance} show that the pipeline handled loads far beyond what was stipulated in the quality requirements, the packet loss is within acceptable limits (2\%) for over 100000 readings and the throughput was an order of magnitude higher than the goal. The quality requirements needed the pipeline to handle 100 readings per second but the load testing showed that the pipeline could handle over 5000 messages before it started to experience deteriorating performance.
 
-\subsubsection{Integration testing}
-Since the dependency of the processing component on the Spark environment creates  problems to unit testing, integration tests were found to be sufficient to assure the team that the processing is producing the correct results when the unit testing is hard to perform. Integration tests were performed by sending a simulated scenario of sensor readings through the processing pipeline to evaluate the obstacle detection accuracy. The simulated output was varied with respect to samling frequency, data rate and noise in the signal.
-\textcolor{orange}{Numbers here}
+\subsection{Integration testing}
 Results show that the sensor fusion performed on the input manages to mitigate the noise up to a limit and provides much better results than when the processing pipeline is run without fusion.
 
-\subsubsection{Other testing}
-The accuracy of the Indoor Atlas data collection application was done by comparing the location of an Android device given by the SDK with the actual measured location.
-\textcolor{orange}{Numbers here}
-
-% \begin{figure}
-% \centering
-% \subfigure[Figure 1] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \subfigure[Figure 2] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \subfigure[Figure 3] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \caption{A figure with two subfigures}
-% \label{fig:test}
-
-% \subfigure[Figure 4] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \subfigure[Figure 5] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \subfigure[Figure 6] {
-%   \label{fig:sub1}
-%   \includegraphics[width=.3\linewidth]{burndown-chart}
-% }
-% \caption{A figure with two subfigures}
-% \label{fig:test}
-% \end{figure}
-
-\subsubsection{Detection accuracy}
-Describe the testing scenario, the simulator and show diagrams that compare both.
-\textcolor{orange}{More to come}
-
-\subsection{Acceptance}
-\textcolor{orange}{More to come}
-
-
-
-% ======================================================================================================================================================
-% Given the goals the team and the client set for this project, there were several considerations to be made to make the architecture flexible and performant enough to satisfy the requirements. Having the requirement of being able to accept data from many kinds of sensors made it clear that the architecture had to be made up of a variety of strategies to homogenise the data so that it could be processed in a more abstract way. Subsequent processing can then be performed based on a fixed data model that would make it easier to develop rapidly and evaluate different processing strategies.
-
-% As described in section~\ref{architecture} the chosen architecture uses a variety of different technologies to achieve its goal. Each component therefore had a predefined best practice in implementation. The team aimed to follow best practices when working with each technology and align their work so that each member would be able to work on each component interchangeably.
-
-% The first concern the SSE team took on was the choice of programming language. Each of the Apache technologies supported Java, Scala and Python for development so those were the options evaluated. Java and Scala are the most common implementation languages for these technologies and provide the most comprehensive documentation and support. The team felt more comfortable with Java than Scala and the choice of using Android for the front end applications drove the decision towards using Java for the server side as well. This would help the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
-
-
-
-
-
-% \subsection{Data collection}
-% \label{sec:dataCollection}
-% The data collection aspect of the project was a major architectural concern since the data processing part of the pipeline is supposed to handle data coming from many different kinds of sensors. This part would have to be able to filter and make sense of a high volume of sensor readings and prepare them for further processing. Therefore the SSE team set up a simple, well documented, API for the data collection applications to communicate with. This decoupled the processing platform from the data collection by exposing an interface that clearly stated the data expected by the processing platform from the data collection applications.
-% The initial implementation plan for this part of the architecture was to have the CS students implement each of the data collection applications, and the SSE team would implement the processing platform.
-% Concern about this structure was raised by our academic stakeholders where they wanted the SSE team to decouple their work further from the CS students. This was done by having one of the data collection application implemented by the SSE team, thereby making the SSE team responsible for a full slice through the system. Any additional data collection by the CS students would therefore be additive and not essential to the success of the project.
-
-% \subsubsection{Visual obstacle detection}
-% One CS student was assigned the task of exploring the use of camera feeds to detect obstacles. The main aim of the task is to determine what specific method within the wide field of computer vision might fit best for obstacle detection. The two items that stood out were stereovision, which uses two cameras separated by a set distance, to detect the distance to each point in an image and use that to determine if there is an obstacle in the path. The second is to use colour detection to determine the floor area of a room and then mask out any parts of the image that are of a different colour, the masked out sections would then be identified as obstacles. The cameras were to be mounted on a headset and directed at an angle towards the ground in the direction the user was facing to detect obstacles in that area. The colour detection method provided the best results and was used to gather data for the mapping platform.
-
-% \subsection{Obstacle Query API}
-% To query the database an API was set up that was written in Java using the Jersey framework. The API is hosted on the same machine as Cassandra using the Tomcat web server. Upon processing by spark, a single obstacle location is stored in Cassandra with a confidence of 0 - 100. Confidence states how certain we are the obstacle would not move position with time. For example a pillar would have a higher confidence in comparison to a chair or trash can because it will hardly change its position.
-
-% \subsection{Ultrasound and Infrared}
-% Another CS student worked on an application that polled cheap off-the-shelf infrared and ultrasound range finding sensors. These sensors would, like the computer vision cameras, make measurements of the objects in front of the user and send the readings to the obstacle mapping platform.
-
-% \subsection{Feedback}
-% After Processing, the obstacle data will be stored in Cassandra database. Based on the Requirement mentioned in Section 3.4, we implement the feedback part to show the user the surroundings by querying the stored obstacle data. When to query the nearby obstacles in the database, we set the query based on the user‘s location data which consists of latitude, longitude and radius. In an actual situation where our platform is used for, we show the obstacles nearby instead of all the obstacles detected and stored. For this reason, we set radius which allows the platform give user feedback within an exact area. We show the obstacle both in a scrollable list and on a visual map.
-
-
-
-
-%\subsection{Processing}
-%With Apache Kafka working as a producer for the producer/consumer pattern and Apache Spark working as the consumer the team managed to handle the level of throughput needed for the purposes of the project.
-%Spark consumes streams of sensor readings coming from Kafka in the distributed way, performs the processing on the data and stores the result into database.
-
-
-
-
-% \subsection{Aggregation}  % TODO: find a good name for this
-% The API mentioned in Section~\ref{dataCollection} was the only contact point for the data collection applications. The component needed to be designed and implemented to handle large quantities of incoming readings, from many different sources, and efficiently buffer and pass them to the processing component. The aggregation component would group together readings and post them to the processing component in a producer/consumer pattern. To manage this the SSE team evaluated several message broker systems for the job, Apache Kafka, Azure EventHub and RabbitMQ. The criteria used was threefold, one was the applicability of the technology to the producer/consumer pattern, their cost and their ease of integration with the technology used in the processing component. Azure EventHub was considered as a robust and scalable possibility but was discarded because of the cost associated with running it for the duration of the project, see Appendix~\ref{ArchitectureCost}. RabbitMQ and Apache Kafka both fit well with the architecture and patterns the team had in mind but ultimately Apache Kafka was chosen because of it's ease of integration with Apache Spark.
-
-% Kafka is a distributed publish subscribe messaging service designed specifically to be fast and handle large volume of data inflow coming from various sources. Kafka is fault tolerant as it is inherently distributed over a cluster computers so if one broker fails, the other live brokers will complemenent the node. Kafka achieves fault tolerance with the help of zookeeper which is a seperate Apache tool for configuration and synchronisation of nodes in a distributed system. A leader in a kafka broker is resposnible for read/write operations in a partition and only one leader can exist for every partition. If a leader dies in the cluster, zookeeper is responisble for managing change in leadership to an existing slave broker. Furthermore Kafka seamlessly integrates with Spark for high speed data processing. 
-
-% \subsection{Kafka Producer Listener}
-% At the listening end we would essentially do a partial deserialisation of the data packet into a JSON object to obtain the topics from each packet. Afterwards the JSON object is published into the kafka cluster.
-
-% \subsubsection{Kafka}
-% The main quality requirement for the UDP socket server for the Kafka producer was the throughput. Therefore load tests were the main focus in the testing strategy for this component. Since the component uses UDP the metrics gathered were to measure number of packets processed, number of packets dropped and the processing speed of each packet from the socket and into the message queue. The team considered using unit testing and integration tests to evaluate this component but the work involved in mocking out dependencies was not the most efficient use of time. The Kafka producer should contain as little logic as possible and therefore unit tests would be of little value. Integration tests on this component would be run when testing the integration with the Spark processing component.
-
-
-
-
-
-
-% \subsection{Processing}
-% With Apacha Kafka working as a producer for the producer/consumer pattern and Apache Spark working as the consumer the team managed to handle the level of throughput needed for the purposes of the project.
-% Spark consumes streams of sensor readings coming from Kafka in the distributed way, performs the processing on the data and stores the result into database.
-% %Describe
-% \subsection{Spark}
-% After Kafka has indexed, filtered and sorted the sensor readings into topics, Spark takes over and pushes the sensors reading streams through several mappings, calculations and reductions to form a processing pipeline that results in the identification of the obstacles around. In the Figure \ref{fig:Spark pipeline} the processing pipeline is described. From the pipeline it can be seen that Spark consumes data from Kafka as stream of data. Afterwards, the stream is separated into location and distance stream. Then the streams are separately processed by using moving average algorithm. After that the streams are joined into one stream and then association of the distance and location data is performed. This is done in order to be able to make the calculation regarding the location of the identified obstacle. The last step in the processing is identifying the obstacles.
-
-% \subsection{Processes}
-% The SSE team managed their work by relying on the Scrum methodology. Work was organised into 2 week sprints and standup meetings were scheduled for communication and status updates. Mondays were set up as meeting days to synchronise with stakeholders, academic supervisors and our client. Standup meetings were held the following Tuesday which was used to re-organise and adapt the work schedule over the week to the most recent project vision of our client. Fridays were used to write reports and inform our stakeholders of the progress made. The team would hand in a weekly report and send demonstration material to the client to show progress and receive feedback.
-%\subsection{Android app and Jar file}
-% A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor. To simplify the development process for each application the SSE team decided to provide each application with a library that would perform the data sending and obstacle querying. Therefore, reducing the code duplication over the android applications.
-
-
-
-
-
-% \subsection{Storage and API}
-% The obstacles identified by the Spark stream processing are finally persisted in a database for further processing and use by the feedback applications. The database used for persistence needed to fulfil several requirements to fit the project, scalability with increased load, flexibility of schema and cost.
-% The scalability can be solved by most distributed databases but the flexibility of schema and cost are more difficult to work around.
-% The first step in the choice of database technology was to decide on a SQL or NoSQL database, where NoSQL provided the flexibility needed. After NoSQL was selected the next question was whether to go for a document storage or column storage database. Both provide a flexible schema data persistence but the data modelling needed for each is quite a bit different. After these deliberations there were 3 possibilities explored, Apache Cassandra, Azure DocumentDB and MongoDB.  Here again the cost of running an Azure product is prohibitive to an academic prototype project, in addition to that the documentation and troubleshooting resources of the open source technologies is far better than the ones available for Azure. Apache Cassandra and MongoDB both seemed to fit well with the needs of the architecture, both are easily integrated with Spark and both have more than adequate documentation. The deciding factor in choosing between the two was the fact that Cassandra is an Apache distributed system that inherently works with Zookeeper in the same way that Spark and Kafka do. This meant that the time and effort in setup and maintenance would be lessened since all these technologies run in the same managed distributed environment.
-
-% \subsection{Cassandra}
-% The data modelling for Cassandra was fairly simple, the number of data points needed to persist an obstacle were few and clear. After setting up the Cassandra server the data model was set up through CQL and drivers with Java set up for testing and querying.
-
-
-% % TODO: make a good argument for how we managed RISK
-
-
-
-% \section{Implementation}
-
-% \subsection{Android app and Jar file}
-% A socket on our VPS will be listening indefinitely on a particular port for incoming data from our various sensing hardware. Each sensor or combination of sensors will measure data, do some preprocessing before sending data across to our VPS over a UDP connection. For instance one of the CS students would send three distance estimates based on the measurements collected from 2 ultrasound and 1 infrared sensor.
-
-
-\section{Evaluation}
-Given the nature of the project the main success criteria is if the system can accurately determine the location of an obstacle in space based on the sensor data given. The evaluation of this fact was done by performing experiments with the actual sensor hardware, extracting the noise level, accuracy and other quality metrics and then generating sensor output based on those metrics. This generation of test data allowed us to evaluate the accuracy of our system in a controlled environment. We evaluated the robustness of our processing methods by increasing the noise in the generated sensor signal in addition to controlling the rate of data sent to the system. The throughput of the system was also evaluated by sending large amounts of sensor readings at a time and measuring response time, packet loss and transmission delay.
-
-\subsection{Android application}
-We decided to program in an android environment because the team is more familiar with programming in Java as opposed to C\# and Objective C/Swift for Windows phone and IOS respectively. Moreover the team decided to use Java in building the components of our overall architecture, so it will be a good fit for the team to keep everything Java. Additionally the team helped with dealing with bugs, syntax and programming logic because we all focused on leveraging one programming language. This helped the team work together in an environment everyone was comfortable with and limit the risk posed to the project that comes with the team learning a new environment during development.
+\begin{center}
+\begin{tabularx}{\textwidth}{| X | X | X | X |} 
+\hline
+No noise & No noise  & High noise  & High noise  \\
+without fusion & with fusion & without fusion & with fusion \\
+\hline
+0.385m & 0.395m & 6.552m & 0.809m \\
+\hline
+\end{tabularx}
+\label{tab:performance}
+\end{center}
 
 %TODO: Talk about the cs students evaluation?
+\subsection{Unit testing}
+
+
+
 
 \section{Challenges and Lessons Learnt}
 \subsection{Initially Proposed System}
@@ -563,7 +395,10 @@ This project can be migrated to Azure which is a Microsoft product and can provi
 
 
 \section{Conclusion}
-\textcolor{orange}{Need a short section that drives through the impact and client value}
+Moving around without others’ assistance in an unfamiliar environment is always a challenge for the visually impaired especially in a place where the obstacles are changing. To solve this problem, the Lighthouse team managed to deliver a product which consists of data collection component with sensors, data processing platform and feedback component build in Android. The sensors which include the magnetic sensor in Android phone, infrared sensor, ultrasound sensor and camera collected data of environment and sent them to processing platform via Kafka. After processing, the Android application showed the details of surroundings to users. In testing, each component in this project showed satisfied quality which met most of the requirements from stakeholders. 
+
+Both Microsoft and the visually impaired people can benefit from the Lighthouse project. First, it can help Microsoft enlarge the market for the visually impaired since there is an enormous amount of people living with sight loss. Second, the Lighthouse project provides a prototype which is both low-cost and easy to deploy to help Microsoft economise the funds. Also, for visually impaired users, the Lighthouse project not only assist them get details of surroundings but also enrich their confidence to explore the world on their own. 
+
 
 % TODO: identify the topic takeaway messages.
 % takeaway messages describe how we one could do things differently.
@@ -610,6 +445,32 @@ This project can be migrated to Azure which is a Microsoft product and can provi
 \section{Architecture cost analysis}
 \label{ArchitectureCost}
 
+\section{Requirements}
+\begin{center}
+\begin{tabularx}{\textwidth}{| X | X |} 
+ \hline
+ \rowcolor{lightgray}
+ \multicolumn{2}{|c|}{List of Requirements} \\ [0.5ex] 
+ \hline\hline
+ Identifying points of interest in the environment. &  Detecting obstacles \\
+ \hline
+ Feeding back mapping information &  Manually identifying obstacles in a space \\
+ \hline
+ Manually removing an obstacle from the map &  Providing navigation for a user to a point of interest \\ 
+ \hline
+ Voice interactions - listing &  Voice interactions - acceptance \\ 
+ \hline
+ Screen interactions - listing &  Screen interactions - acceptance \\ 
+ \hline
+ Classification of obstacles/Points Of Interest &  3D Directional Sound \\ 
+ \hline
+ Head Gestures &  IR and Ultrasound \\  
+ \hline
+
+ \hline
+\end{tabularx}
+\label{tab:requirements}
+\end{center}
 \end{document}
 
 

@@ -42,7 +42,7 @@ obstacles = [{"position":(51.52442309598996,-0.13319266849551986),"id":1}]
 initialPosition = (51.52443805519336,-0.13315006083652636)
 initialHeading = 250.584628955#70.65423956540306
 commands = [{"type":"displacement","value":4},{"type":"displacement","value":-4}] #,{"type":"heading","value":360}
-sensors = [{"name":"Distance","range":10,"arc":20,"file":open("Distance","w"),"noise":{"stdev":0.0}}]
+sensors = [{"name":"Distance","range":10,"arc":20,"file":open("Distance","w"),"noise":{"stdev":0.00001}}]
 
 locationFile = open("Location","w")
 
@@ -53,7 +53,7 @@ heading = initialHeading
 currentCommand = commands.pop()
 currentVelocity = currentCommand["value"]
 cumulativeTick = 0.0
-locationNoise = 0.00000000
+locationNoise = 0.00001
 
 while True:
 	cumulativeTick += tick

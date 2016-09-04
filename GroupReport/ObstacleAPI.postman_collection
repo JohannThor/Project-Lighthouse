@@ -1,0 +1,127 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ObstacleAPI",
+		"_postman_id": "dd7192d0-af9f-b8ba-501b-d89c5b8e09d6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Invalid latitude",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Invalid latitude\"] = responseCode.code === 500;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://bigboy.io:8083/ObstacleAPI/v0_1/Locations/Query?longitude=-0.1&latitude=92&radius=10",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "North pole check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"Empty test\"] = jsonData.Number === \"0\";\n\ntests[\"North pole check\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://bigboy.io:8083/ObstacleAPI/v0_1/Locations/Query?longitude=0&latitude=90&radius=10",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Sanity checks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"Size sanity check\"] = jsonData.Rows.length == parseInt(jsonData.Number)\ntests[\"Size check\"] = jsonData.Rows.length == 16;\n\nfor(var i = 0 ; i < jsonData.Rows.length ; i++ ) {\n    if(jsonData.Rows[i].ID == \"cf817601-5253-11e6-818b-f952759d92e3\") {\n        tests[\"Longitude test\"] = jsonData.Rows[i].Longitude == \"-0.13178047845890947\";\n        tests[\"Latitude test\"] = jsonData.Rows[i].Latitude == \"WROOOOONG\";\n    }\n}"
+					}
+				}
+			],
+			"request": {
+				"url": "http://bigboy.io:8083/ObstacleAPI/v0_1/Locations/Query?longitude=-0.131&latitude=51.522&radius=10",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Test test"
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid longitude",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Invalid latitude\"] = responseCode.code === 500;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://bigboy.io:8083/ObstacleAPI/v0_1/Locations/Query?longitude=-200&latitude=10&radius=10",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
